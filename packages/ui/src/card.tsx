@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 
-export function Card({
+function Card({
   title,
   children,
   href,
@@ -28,3 +28,5 @@ export function Card({
     </a>
   );
 }
+
+export { Card };

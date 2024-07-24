@@ -6,20 +6,28 @@
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:push": "turbo run db:push",
+    "db:generate": "turbo run db:generate",
+    "db:migrate:deploy": "turbo run db:migrate:deploy",
+    "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "^2.0.9"
+    "turbo": "^2.0.9",
+    "@dub/tailwind-config": "workspace:*",
+    "eslint": "^8.48.0",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "tsconfig": "workspace:*"
   },
   "engines": {
     "node": ">=18"
   },
   "name": "with-tailwind",
-  "packageManager": "npm@10.2.3",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "packageManager": "pnpm@9.5.0"
 }
