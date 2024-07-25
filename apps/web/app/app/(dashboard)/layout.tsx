@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from "react";
-import Profile from "@/ui/profile";
+import Profile from "@/ui/account/profile";
 import Nav from "@/ui/nav";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {

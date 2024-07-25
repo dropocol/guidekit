@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Sites from "@/ui/sites/sites";
 import OverviewStats from "@/ui/analytics/overview-stats";
-import Posts from "@/ui/posts";
+import Posts from "@/ui/posts/posts";
 import Link from "next/link";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
 import OverviewSitesCTA from "@/ui/sites/overview-sites-cta";

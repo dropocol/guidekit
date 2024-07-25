@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import CTA from "@/ui/cta";
-import ReportAbuse from "@/ui/report-abuse";
+import ReportAbuse from "@/ui/sites/report-abuse";
 import { notFound, redirect } from "next/navigation";
 import { getSiteData } from "@/lib/fetchers";
 import { fontMapper } from "@/styles/fonts";
