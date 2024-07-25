@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 // import Editor from "@/components/editor";
 import dynamic from "next/dynamic";
 
-const Editor = dynamic(() => import("@/components/editor"), {
+const Editor = dynamic(() => import("@/ui/editor/editor"), {
   ssr: false,
 });
 

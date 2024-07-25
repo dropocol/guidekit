@@ -1,4 +1,4 @@
-import { InlineSnippet } from "@/components/form/domain-configuration";
+import { InlineSnippet } from "@/ui/form/domain-configuration";
 import Image from "next/image";
 
 export default function HomePage() {

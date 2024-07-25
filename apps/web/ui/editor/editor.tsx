@@ -6,7 +6,7 @@ import { updatePost, updatePostMetadata } from "@/lib/actions";
 import { Editor as NovelEditor } from "novel";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
-import LoadingDots from "./icons/loading-dots";
+import LoadingDots from "../icons/loading-dots";
 import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { start } from "repl";

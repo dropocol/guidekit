@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
-import Form from "@/components/form";
+import Form from "@/ui/form";
 import { updateSite } from "@/lib/actions";
-import DeleteSiteForm from "@/components/form/delete-site-form";
+import DeleteSiteForm from "@/ui/form/delete-site-form";
 
 export default async function SiteSettingsIndex({
   params,

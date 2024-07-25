@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Form from "@/components/form";
+import Form from "@/ui/form";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions";

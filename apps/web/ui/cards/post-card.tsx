@@ -1,4 +1,4 @@
-import BlurImage from "@/components/blur-image";
+import BlurImage from "@/ui/cards/blur-image";
 import { placeholderBlurhash, random } from "@/lib/utils";
 import { Post, Site } from "@prisma/client";
 import { BarChart, ExternalLink } from "lucide-react";

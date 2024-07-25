@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { createPost } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
-import LoadingDots from "@/components/icons/loading-dots";
+import LoadingDots from "@/ui/icons/loading-dots";
 import va from "@vercel/analytics";
 
 export default function CreatePostButton() {
