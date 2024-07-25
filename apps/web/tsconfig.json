@@ -26,9 +26,6 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "@/app.guidekit.co/*": [
-        "apps/app/app.guidekit.co/*"
       ]
     }
   },
