@@ -39,15 +39,32 @@ export default async function middleware(req: NextRequest) {
   }`;
 
   // rewrites for app pages
+  // if (hostname == `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+  //   const session = await getToken({ req: req as any });
+  //   if (!session && path !== "/login") {
+  //     return NextResponse.redirect(new URL("/login", req.url));
+  //   } else if (session && path == "/login") {
+  //     return NextResponse.redirect(new URL("/", req.url));
+  //   }
+
+  //   return NextResponse.rewrite(
+  //     new URL(`/app.guidekit.co${path === "/" ? "" : path}`, req.url),
+  //   );
+  // }
+
   if (hostname == `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     const session = await getToken({ req: req as any });
-    if (!session && path !== "/login") {
+    // Check if there's no session and the path is not `/login` or `/register`
+    if (!session && path !== "/login" && path !== "/register") {
       return NextResponse.redirect(new URL("/login", req.url));
-    } else if (session && path == "/login") {
+    }
+    // If there is a session and the path is `/login` or `/register`, redirect to the home page
+    else if (session && (path == "/login" || path == "/register")) {
       return NextResponse.redirect(new URL("/", req.url));
     }
+
     return NextResponse.rewrite(
-      new URL(`/app${path === "/" ? "" : path}`, req.url),
+      new URL(`/app.guidekit.co${path === "/" ? "" : path}`, req.url),
     );
   }
 
@@ -69,6 +86,5 @@ export default async function middleware(req: NextRequest) {
   }
 
   // rewrite everything else to `/[domain]/[slug] dynamic route
-  // return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
-  return NextResponse.rewrite(new URL(`/app.guidekit.co${path}`, req.url));
+  return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }

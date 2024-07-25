@@ -16,9 +16,9 @@ model User {
   name          String?
   // if you are using Github OAuth, you can get rid of the username attribute (that is for Twitter OAuth)
   username      String?
+  password      String?
   gh_username   String?
   email         String?   @unique
-  sec_email     String?
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now())
