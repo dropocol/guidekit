@@ -69,5 +69,6 @@ export default async function middleware(req: NextRequest) {
   }
 
   // rewrite everything else to `/[domain]/[slug] dynamic route
-  return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
+  // return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
+  return NextResponse.rewrite(new URL(`/app.guidekit.co${path}`, req.url));
 }
