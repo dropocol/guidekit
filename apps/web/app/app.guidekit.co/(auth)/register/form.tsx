@@ -12,7 +12,7 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [clickedEmail, setClickedEmail] = useState(false);
 
-  const handleEmailSubmit = async (e: any) => {
+  const handleCredentialsSubmit = async (e: any) => {
     console.log("email submit");
     e.preventDefault();
     setClickedEmail(true);
@@ -65,7 +65,7 @@ export default function RegisterForm() {
         text="Sign Up"
         variant="primary"
         type="button"
-        onClick={handleEmailSubmit}
+        onClick={handleCredentialsSubmit}
         // loading={clickedEmail}
       />
       {/* <button

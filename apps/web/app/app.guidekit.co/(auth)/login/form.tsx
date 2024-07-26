@@ -3,41 +3,45 @@
 import { Button, Github, Google, InfoTooltip, useMediaQuery } from "@dub/ui";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [clickedGoogle, setClickedGoogle] = useState(false);
   const [clickedEmail, setClickedEmail] = useState(false);
-
   const { isMobile } = useMediaQuery();
+
+  const handleCredentialsSubmit = async (e: any) => {
+    e.preventDefault();
+    setClickedEmail(true);
+
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    setClickedEmail(false);
+
+    if (res?.ok) {
+      toast.success("Logged in successfully!");
+      // code for redirect to dashboard
+      router.push("/");
+    } else {
+      toast.error("Invalid email or password.");
+    }
+  };
 
   return (
     <>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setClickedEmail(true);
-          signIn("email", {
-            email,
-            password,
-            redirect: false,
-          }).then((res) => {
-            setClickedEmail(false);
-            if (res?.ok && !res?.error) {
-              setEmail("");
-              setPassword("");
-              toast.success("Logged in successfully!");
-            } else {
-              toast.error("Invalid email or password.");
-            }
-          });
-        }}
-        className="flex flex-col space-y-3"
-      >
+      <div className="flex flex-col space-y-3">
         <div>
           <div className="" />
           <input
@@ -67,13 +71,13 @@ export default function LoginForm() {
           />
         </div>
         <Button
-          text="Log In"
+          text={clickedEmail ? "Logging in..." : "Log In"}
           variant="primary"
-          type="submit"
-          loading={clickedEmail}
-          disabled={clickedGoogle}
+          type="button"
+          onClick={handleCredentialsSubmit}
+          // loading={clickedEmail}
         />
-      </form>
+      </div>
       {/* add forgot password and signup link */}
       <p className="text-center text-sm text-gray-500">
         <Link

@@ -4,43 +4,42 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import EmailProvider from "next-auth/providers/email";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
+import { decode, encode } from "next-auth/jwt";
+import { randomUUID } from "crypto";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
+const adapter = PrismaAdapter(prisma);
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "jsmith" },
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "jsmith@example.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // add postgress prisma adapter functionality here
+        // Validate user credentials
         const user = await prisma.user.findFirst({
-          where: {
-            email: credentials!.email,
-            password: credentials!.password,
-          },
+          where: { email: credentials!.email },
         });
 
-        console.log("user", user);
-        // Add logic here to look up the user from the credentials supplied
-        // const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
+        if (user && (await compare(credentials!.password, user.password!))) {
+          // If the user is found and the password matches, return the user object
+          return {
+            id: user.id.toString(),
+            name: user.name,
+            email: user.email,
+          };
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
+          // If the credentials are invalid, return null
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
@@ -58,13 +57,23 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  jwt: {
+    maxAge: 60 * 60 * 24 * 30,
+    async encode(arg) {
+      return (arg.token?.sessionId as string) ?? encode(arg);
+    },
+  },
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
     error: "/login", // Error code passed in query string as ?error=
   },
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt", // Use "database" for database sessions
+    //maxAge: 30 * 24 * 60 * 60, // Session max age in seconds (30 days)
+    //updateAge: 24 * 60 * 60, // How often the session is updated in seconds (24 hours)
+  },
   cookies: {
     sessionToken: {
       name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
@@ -80,14 +89,34 @@ export const authOptions: NextAuthOptions = {
       },
     },
   },
+
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
+      console.log("jwt callback", token, user);
       if (user) {
         token.user = user;
       }
       return token;
+      // if (account?.provider === "credentials") {
+      //   const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
+      //   const sessionToken = await encode({
+      //     token: { userId: user.id },
+      //     secret: process.env.NEXTAUTH_SECRET!,
+      //   });
+      //   const session = await adapter.createSession!({
+      //     userId: user.id!,
+      //     sessionToken,
+      //     expires,
+      //   });
+
+      //   token.user = user;
+      //   token.sessionId = session.sessionToken;
+      // }
+      // console.log("jwt callback", token);
+      // return token;
     },
     session: async ({ session, token }) => {
+      console.log("session callback", session, token);
       session.user = {
         ...session.user,
         // @ts-expect-error
@@ -96,6 +125,10 @@ export const authOptions: NextAuthOptions = {
         username: token?.user?.username || token?.user?.gh_username,
       };
       return session;
+    },
+    async signIn({ user }) {
+      console.log("signIn callback", user);
+      return true;
     },
   },
 };
