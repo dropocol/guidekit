@@ -12,9 +12,14 @@ import { toast } from "sonner";
 export default function LoginForm() {
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const next = searchParams?.get("next");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [clickedGoogle, setClickedGoogle] = useState(false);
+  const [clickedGithub, setClickedGithub] = useState(false);
+
   const [clickedEmail, setClickedEmail] = useState(false);
   const { isMobile } = useMediaQuery();
 
@@ -76,6 +81,17 @@ export default function LoginForm() {
           type="button"
           onClick={handleCredentialsSubmit}
           // loading={clickedEmail}
+        />
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setClickedGithub(true);
+            signIn("github", {
+              ...(next && next.length > 0 ? { callbackUrl: next } : {}),
+            });
+          }}
+          loading={clickedGithub}
+          icon={<Github className="h-5 w-5 text-black" />}
         />
       </div>
       {/* add forgot password and signup link */}

@@ -69,7 +69,6 @@ export default function Nav({ children }: { children: ReactNode }) {
   const [siteId, setSiteId] = useState<string | null>();
 
   useEffect(() => {
-    console.log("segments", segments);
     if (segments[0] === "post" && id) {
       getSiteFromPostId(id).then((id) => {
         setSiteId(id);

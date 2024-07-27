@@ -6,11 +6,10 @@ import prisma from "@/lib/prisma";
 // /api/register
 export async function POST(request: Request) {
   try {
-    console.log("register");
     const { email, password } = await request.json();
-    // YOU MAY WANT TO ADD SOME VALIDATION HERE
 
-    console.log({ email, password });
+    // TODO : add proper checks in this file for user creation
+    // YOU MAY WANT TO ADD SOME VALIDATION HERE
 
     const hashedPassword = await hash(password, 10);
 
@@ -20,6 +19,7 @@ export async function POST(request: Request) {
         password: hashedPassword,
       },
     });
+
     console.log({ user });
   } catch (e) {
     console.log({ e });
