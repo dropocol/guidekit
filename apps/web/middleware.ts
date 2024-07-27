@@ -17,14 +17,14 @@ export default auth(async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   let hostname = req.headers.get("host")!;
 
-  console.log("Original hostname:", hostname);
+  // console.log("Original hostname:", hostname);
 
   hostname = hostname.replace(
     ".localhost:3000",
     `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
   );
 
-  console.log("Adjusted hostname:", hostname);
+  // console.log("Adjusted hostname:", hostname);
 
   if (
     hostname.includes("---") &&
@@ -33,7 +33,7 @@ export default auth(async function middleware(req: NextRequest) {
     hostname = `${hostname.split("---")[0]}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   }
 
-  console.log("Final hostname after Vercel handling:", hostname);
+  // console.log("Final hostname after Vercel handling:", hostname);
 
   const searchParams = req.nextUrl.searchParams.toString();
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
@@ -45,7 +45,7 @@ export default auth(async function middleware(req: NextRequest) {
     hostname === "app.localhost"
   ) {
     const session = await auth(req as any);
-    console.log("Session:", session);
+    // console.log("Session:", session);
 
     if (!session && path !== "/login" && path !== "/register") {
       console.log("No session, redirecting to login");

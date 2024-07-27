@@ -1,5 +1,4 @@
-import { type NextAuthConfig } from "next-auth";
-
+import type { NextAuthConfig } from "next-auth"
 import NextAuth from "next-auth";
 import { auth } from "@/auth";
 import GitHubProvider from "next-auth/providers/github";
