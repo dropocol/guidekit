@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
+
+// import { hash } from "crypto";
 import { sql } from "@vercel/postgres";
 import prisma from "@/lib/prisma";
 

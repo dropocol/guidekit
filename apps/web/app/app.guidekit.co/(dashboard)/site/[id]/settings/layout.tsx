@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import SiteSettingsNav from "./nav";
@@ -21,7 +21,7 @@ export default async function SiteAnalyticsLayout({
     },
   });
 
-  if (!data || data.userId !== session.user.id) {
+  if (!data || !session.user || data.userId !== session.user.id) {
     notFound();
   }
 
@@ -30,7 +30,7 @@ export default async function SiteAnalyticsLayout({
   return (
     <>
       <div className="flex flex-col items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
-        <h1 className="font-cal text-xl font-bold dark:text-white sm:text-3xl">
+        <h1 className="font-cal text-xl font-bold sm:text-3xl dark:text-white">
           Settings for {data.name}
         </h1>
         <a

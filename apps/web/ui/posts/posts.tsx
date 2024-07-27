@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import PostCard from "../cards/post-card";

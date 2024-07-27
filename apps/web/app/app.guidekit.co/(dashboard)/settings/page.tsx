@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Form from "@/ui/form";
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions";
 
@@ -22,7 +22,7 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "name",
             type: "text",
-            defaultValue: session.user.name!,
+            defaultValue: session.user?.name ?? "",
             placeholder: "Brendon Urie",
             maxLength: 32,
           }}
@@ -35,7 +35,7 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "email",
             type: "email",
-            defaultValue: session.user.email!,
+            defaultValue: session.user?.email! ?? "",
             placeholder: "panic@thedis.co",
           }}
           handleSubmit={editUser}

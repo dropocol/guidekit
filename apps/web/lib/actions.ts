@@ -3,8 +3,8 @@
 import prisma from "@/lib/prisma";
 import { Post, Site } from "@prisma/client";
 import { revalidateTag } from "next/cache";
-import { withPostAuth, withSiteAuth } from "./auth";
-import { getSession } from "@/lib/auth";
+import { withPostAuth, withSiteAuth } from "@/auth";
+import { getSession } from "@/auth";
 import {
   addDomainToVercel,
   // getApexDomain,
@@ -23,7 +23,7 @@ const nanoid = customAlphabet(
 
 export const createSite = async (formData: FormData) => {
   const session = await getSession();
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     return {
       error: "Not authenticated",
     };
@@ -236,7 +236,7 @@ export const getSiteFromPostId = async (postId: string) => {
 
 export const createPost = withSiteAuth(async (_: FormData, site: Site) => {
   const session = await getSession();
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     return {
       error: "Not authenticated",
     };
@@ -259,7 +259,7 @@ export const createPost = withSiteAuth(async (_: FormData, site: Site) => {
 // creating a separate function for this because we're not using FormData
 export const updatePost = async (data: Post) => {
   const session = await getSession();
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     return {
       error: "Not authenticated",
     };
@@ -402,7 +402,7 @@ export const editUser = async (
   key: string,
 ) => {
   const session = await getSession();
-  if (!session?.user.id) {
+  if (!session?.user?.id) {
     return {
       error: "Not authenticated",
     };

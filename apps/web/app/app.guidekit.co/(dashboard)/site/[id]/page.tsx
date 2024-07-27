@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import Posts from "@/ui/posts/posts";
@@ -19,7 +19,7 @@ export default async function SitePosts({
     },
   });
 
-  if (!data || data.userId !== session.user.id) {
+  if (!data || !session || data.userId !== session.user?.id) {
     notFound();
   }
 

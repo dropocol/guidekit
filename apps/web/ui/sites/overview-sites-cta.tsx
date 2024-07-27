@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import CreateSiteButton from "./create-site-button";
 import CreateSiteModal from "../modal/create-site";
@@ -11,7 +11,7 @@ export default async function OverviewSitesCTA() {
   }
   const sites = await prisma.site.count({
     where: {
-      userId: session.user.id as string,
+      userId: session.user?.id as string,
     },
   });
 

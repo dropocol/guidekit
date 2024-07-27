@@ -6,7 +6,7 @@ import Link from "next/link";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
 import OverviewSitesCTA from "@/ui/sites/overview-sites-cta";
 // import { getServerSession } from "next-auth";
-// import { authOptions } from "@/lib/auth";
+// import { authOptions } from "@/auth";
 
 export default async function Overview() {
   return (

@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 // import Editor from "@/components/editor";
@@ -25,7 +25,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
       },
     },
   });
-  if (!data || data.userId !== session.user.id) {
+  if (!data || !session.user || data.userId !== session.user.id) {
     notFound();
   }
 

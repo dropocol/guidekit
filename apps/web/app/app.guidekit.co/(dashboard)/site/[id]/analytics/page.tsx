@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/auth";
+import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import AnalyticsMockup from "@/ui/analytics/analytics";
@@ -17,7 +17,7 @@ export default async function SiteAnalytics({
       id: decodeURIComponent(params.id),
     },
   });
-  if (!data || data.userId !== session.user.id) {
+  if (!data || data.userId !== session.user!.id) {
     notFound();
   }
 

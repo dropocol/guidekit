@@ -1,20 +1,24 @@
-import { getServerSession, type NextAuthOptions } from "next-auth";
+import { type NextAuthConfig } from "next-auth";
+
+import NextAuth from "next-auth";
+import { auth } from "@/auth";
 import GitHubProvider from "next-auth/providers/github";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import EmailProvider from "next-auth/providers/email";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcrypt";
+import Credentials from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
 import { decode, encode } from "next-auth/jwt";
 import { randomUUID } from "crypto";
+import { pbkdf2Sync, randomBytes } from "crypto";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 const adapter = PrismaAdapter(prisma);
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "Credentials",
       credentials: {
         email: {
@@ -27,10 +31,13 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Validate user credentials
         const user = await prisma.user.findFirst({
-          where: { email: credentials!.email },
+          where: { email: credentials!.email! },
         });
 
-        if (user && (await compare(credentials!.password, user.password!))) {
+        if (
+          user &&
+          (await compare(credentials!.password as string, user.password!))
+        ) {
           // If the user is found and the password matches, return the user object
           return {
             id: user.id.toString(),
@@ -57,12 +64,12 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  jwt: {
-    maxAge: 60 * 60 * 24 * 30,
-    async encode(arg) {
-      return (arg.token?.sessionId as string) ?? encode(arg);
-    },
-  },
+  // jwt: {
+  //   maxAge: 60 * 60 * 24 * 30,
+  //   async encode(arg) {
+  //     return (arg.token?.sessionId as string) ?? encode(arg);
+  //   },
+  // },
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
@@ -91,6 +98,12 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      console.log("authorized callback", auth);
+      // return !!auth;
+      return true;
+    },
     jwt: async ({ token, user, account }) => {
       console.log("jwt callback", token, user);
       if (user) {
@@ -116,7 +129,7 @@ export const authOptions: NextAuthOptions = {
       // return token;
     },
     session: async ({ session, token }) => {
-      console.log("session callback", session, token);
+      // console.log("session callback", session, token);
       session.user = {
         ...session.user,
         // @ts-expect-error
@@ -133,71 +146,71 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function getSession() {
-  return getServerSession(authOptions) as Promise<{
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      image: string;
-    };
-  } | null>;
-}
+// export function getSession() {
+//   return auth() as Promise<{
+//     user: {
+//       id: string;
+//       name: string;
+//       username: string;
+//       email: string;
+//       image: string;
+//     };
+//   } | null>;
+// }
 
-export function withSiteAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    siteId: string,
-    key: string | null,
-  ) => {
-    const session = await getSession();
-    if (!session) {
-      return {
-        error: "Not authenticated",
-      };
-    }
-    const site = await prisma.site.findUnique({
-      where: {
-        id: siteId,
-      },
-    });
-    if (!site || site.userId !== session.user.id) {
-      return {
-        error: "Not authorized",
-      };
-    }
+// export function withSiteAuth(action: any) {
+//   return async (
+//     formData: FormData | null,
+//     siteId: string,
+//     key: string | null,
+//   ) => {
+//     const session = await getSession();
+//     if (!session) {
+//       return {
+//         error: "Not authenticated",
+//       };
+//     }
+//     const site = await prisma.site.findUnique({
+//       where: {
+//         id: siteId,
+//       },
+//     });
+//     if (!site || site.userId !== session.user.id) {
+//       return {
+//         error: "Not authorized",
+//       };
+//     }
 
-    return action(formData, site, key);
-  };
-}
+//     return action(formData, site, key);
+//   };
+// }
 
-export function withPostAuth(action: any) {
-  return async (
-    formData: FormData | null,
-    postId: string,
-    key: string | null,
-  ) => {
-    const session = await getSession();
-    if (!session?.user.id) {
-      return {
-        error: "Not authenticated",
-      };
-    }
-    const post = await prisma.post.findUnique({
-      where: {
-        id: postId,
-      },
-      include: {
-        site: true,
-      },
-    });
-    if (!post || post.userId !== session.user.id) {
-      return {
-        error: "Post not found",
-      };
-    }
+// export function withPostAuth(action: any) {
+//   return async (
+//     formData: FormData | null,
+//     postId: string,
+//     key: string | null,
+//   ) => {
+//     const session = await getSession();
+//     if (!session?.user.id) {
+//       return {
+//         error: "Not authenticated",
+//       };
+//     }
+//     const post = await prisma.post.findUnique({
+//       where: {
+//         id: postId,
+//       },
+//       include: {
+//         site: true,
+//       },
+//     });
+//     if (!post || post.userId !== session.user.id) {
+//       return {
+//         error: "Post not found",
+//       };
+//     }
 
-    return action(formData, post, key);
-  };
-}
+//     return action(formData, post, key);
+//   };
+// }
