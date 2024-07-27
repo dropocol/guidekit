@@ -57,10 +57,12 @@ export default auth(async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
 
-    console.log("Rewriting URL to /app.guidekit.co");
-    return NextResponse.rewrite(
-      new URL(`/app.guidekit.co${path === "/" ? "" : path}`, req.url),
-    );
+    // Rewrite the URL to serve from app.guidekit.co while keeping the URL structure
+    const newPath =
+      path === "/" ? "/app.guidekit.co" : `/app.guidekit.co${path}`;
+    console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
+    console.log("Final URL:", new URL(newPath, req.url));
+    return NextResponse.rewrite(new URL(newPath, req.url));
   }
 
   if (hostname === "vercel.pub") {
