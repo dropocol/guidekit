@@ -1,20 +1,32 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import Form from "@/ui/form";
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions";
+import prisma from "@/lib/prisma";
+
+// import ClientFormWrapper from "./clientWrapper";
 
 export default async function SettingsPage() {
   const session = await getSession();
   if (!session) {
     redirect("/login");
+    return null;
   }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      id: session?.user?.id,
+    },
+  });
+
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
       <div className="flex flex-col space-y-6">
         <h1 className="font-cal text-3xl font-bold dark:text-white">
           Settings
         </h1>
+        {JSON.stringify(data, null)}
         <Form
           title="Name"
           description="Your name on this app."
@@ -22,7 +34,7 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "name",
             type: "text",
-            defaultValue: session.user?.name ?? "",
+            defaultValue: data?.name ?? session.user?.name ?? "",
             placeholder: "Brendon Urie",
             maxLength: 32,
           }}

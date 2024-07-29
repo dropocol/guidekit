@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth"
+import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import { auth } from "@/auth";
 import GitHubProvider from "next-auth/providers/github";
@@ -97,14 +97,14 @@ export const authOptions: NextAuthConfig = {
   },
 
   callbacks: {
-    authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
-      console.log("authorized callback", auth);
-      // return !!auth;
-      return true;
-    },
+    // authorized: async ({ auth }) => {
+    //   // Logged in users are authenticated, otherwise redirect to login page
+    //   // console.log("authorized callback", auth);
+    //   // return !!auth;
+    //   return true;
+    // },
     jwt: async ({ token, user, account }) => {
-      console.log("jwt callback", token, user);
+      // console.log("jwt callback", token, user);
       if (user) {
         token.user = user;
       }
@@ -128,7 +128,7 @@ export const authOptions: NextAuthConfig = {
       // return token;
     },
     session: async ({ session, token }) => {
-      // console.log("session callback", session, token);
+      console.log("session callback", session, token);
       session.user = {
         ...session.user,
         // @ts-expect-error
@@ -139,7 +139,7 @@ export const authOptions: NextAuthConfig = {
       return session;
     },
     async signIn({ user }) {
-      console.log("signIn callback", user);
+      // console.log("signIn callback", user);
       return true;
     },
   },

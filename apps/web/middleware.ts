@@ -13,18 +13,14 @@ export const config = {
   matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
 };
 
-export default auth(async function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   let hostname = req.headers.get("host")!;
-
-  // console.log("Original hostname:", hostname);
 
   hostname = hostname.replace(
     ".localhost:3000",
     `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
   );
-
-  // console.log("Adjusted hostname:", hostname);
 
   if (
     hostname.includes("---") &&
@@ -32,8 +28,6 @@ export default auth(async function middleware(req: NextRequest) {
   ) {
     hostname = `${hostname.split("---")[0]}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   }
-
-  // console.log("Final hostname after Vercel handling:", hostname);
 
   const searchParams = req.nextUrl.searchParams.toString();
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
@@ -45,23 +39,23 @@ export default auth(async function middleware(req: NextRequest) {
     hostname === "app.localhost"
   ) {
     const session = await auth(req as any);
-    // console.log("Session:", session);
 
     if (!session && path !== "/login" && path !== "/register") {
-      console.log("No session, redirecting to login");
+      // console.log("No session, redirecting to login");
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
     if (session && (path === "/login" || path === "/register")) {
-      console.log("Session present, redirecting to home");
-      return NextResponse.redirect(new URL("/", req.url));
+      // console.log("Session present, redirecting to home");
+      // return NextResponse.redirect(new URL("/", req.url));
+      const newPath = `/app.guidekit.co${path}`;
+      // console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
+      return NextResponse.rewrite(new URL(newPath, req.url));
     }
 
     // Rewrite the URL to serve from app.guidekit.co while keeping the URL structure
-    const newPath =
-      path === "/" ? "/app.guidekit.co" : `/app.guidekit.co${path}`;
-    console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
-    console.log("Final URL:", new URL(newPath, req.url));
+    const newPath = `/app.guidekit.co${path}`;
+    // console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
     return NextResponse.rewrite(new URL(newPath, req.url));
   }
 
@@ -76,7 +70,7 @@ export default auth(async function middleware(req: NextRequest) {
     hostname === "localhost:3000" ||
     hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
   ) {
-    console.log("Rewriting URL to /home");
+    // console.log("Rewriting URL to /home");
     return NextResponse.rewrite(
       new URL(`/home${path === "/" ? "" : path}`, req.url),
     );
@@ -84,4 +78,4 @@ export default auth(async function middleware(req: NextRequest) {
 
   console.log("Default rewrite for hostname:", hostname);
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
-});
+}

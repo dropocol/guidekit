@@ -7,20 +7,21 @@ import prisma from "@/lib/prisma";
 export const { auth, handlers, signIn, signOut } = NextAuth(authOptions);
 
 export async function getSession() {
-  return auth() as Promise<{
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      image: string;
-    };
-  } | null>;
-  //   const session = await auth();
-  //   console.log({ session });
-  //   return {
-  //     ...session,
+  // return auth() as Promise<{
+  //   user: {
+  //     id: string;
+  //     name: string;
+  //     username: string;
+  //     email: string;
+  //     image: string;
   //   };
+  // } | null>;
+  const session = await auth();
+  console.log({ session });
+  return {
+    ...session,
+    nameId: session?.user?.id,
+  };
 }
 
 export function withSiteAuth(action: any) {
