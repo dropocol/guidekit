@@ -17,7 +17,7 @@ export async function getSession() {
   //   };
   // } | null>;
   const session = await auth();
-  console.log({ session });
+  // console.log("GET SESSION : ", { session });
   return {
     ...session,
     nameId: session?.user?.id,

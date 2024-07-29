@@ -14,11 +14,11 @@ export default async function SettingsPage() {
     return null;
   }
 
-  const data = await prisma.user.findUnique({
-    where: {
-      id: session?.user?.id,
-    },
-  });
+  // const data = await prisma.user.findUnique({
+  //   where: {
+  //     id: session?.user!.id,
+  //   },
+  // });
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -26,7 +26,7 @@ export default async function SettingsPage() {
         <h1 className="font-cal text-3xl font-bold dark:text-white">
           Settings
         </h1>
-        {JSON.stringify(data, null)}
+        {/* {JSON.stringify(data, null)} */}
         <Form
           title="Name"
           description="Your name on this app."
@@ -34,7 +34,7 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "name",
             type: "text",
-            defaultValue: data?.name ?? session.user?.name ?? "",
+            defaultValue: session.user?.name ?? "",
             placeholder: "Brendon Urie",
             maxLength: 32,
           }}

@@ -1,6 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
-import NextAuth from "next-auth";
-import { auth } from "@/auth";
+import { JWT } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
@@ -8,8 +7,8 @@ import EmailProvider from "next-auth/providers/email";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { decode, encode } from "next-auth/jwt";
-import { randomUUID } from "crypto";
-import { pbkdf2Sync, randomBytes } from "crypto";
+import { User } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 const adapter = PrismaAdapter(prisma);
@@ -103,11 +102,36 @@ export const authOptions: NextAuthConfig = {
     //   // return !!auth;
     //   return true;
     // },
-    jwt: async ({ token, user, account }) => {
-      // console.log("jwt callback", token, user);
+    // jwt: async ({
+    //   token,
+    //   user,
+    //   trigger,
+    // }: {
+    //   token: JWT;
+    //   user: User | AdapterUser | any;
+    //   trigger?: "signIn" | "update" | "signUp";
+    //   // trigger: any;
+    // }) => {
+    jwt: async ({ token, user, trigger }) => {
+      // console.log("JWT CALLBACK : ", token);
       if (user) {
         token.user = user;
       }
+
+      console.log("JWT TRIGGET : ", trigger);
+
+      // refresh the user's data if they update their name / email
+      if (trigger === "update") {
+        const refreshedUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+        });
+        if (refreshedUser) {
+          token.user = refreshedUser;
+        } else {
+          return {};
+        }
+      }
+
       return token;
       // if (account?.provider === "credentials") {
       //   const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
@@ -128,13 +152,21 @@ export const authOptions: NextAuthConfig = {
       // return token;
     },
     session: async ({ session, token }) => {
-      console.log("session callback", session, token);
+      // console.log("SESSION CALLBACK : ", session, token);
+      // console.log("SESSION TRIGGET : ", trigger);
+      // session.user = {
+      //   ...session.user,
+      //   // @ts-expect-error
+      //   id: token.sub,
+      //   // @ts-expect-error
+      //   username: token?.user?.username || token?.user?.gh_username,
+      // };
+      // return session;
+
       session.user = {
-        ...session.user,
-        // @ts-expect-error
         id: token.sub,
-        // @ts-expect-error
-        username: token?.user?.username || token?.user?.gh_username,
+        // @ts-ignore
+        ...(token || session).user,
       };
       return session;
     },
@@ -144,72 +176,3 @@ export const authOptions: NextAuthConfig = {
     },
   },
 };
-
-// export function getSession() {
-//   return auth() as Promise<{
-//     user: {
-//       id: string;
-//       name: string;
-//       username: string;
-//       email: string;
-//       image: string;
-//     };
-//   } | null>;
-// }
-
-// export function withSiteAuth(action: any) {
-//   return async (
-//     formData: FormData | null,
-//     siteId: string,
-//     key: string | null,
-//   ) => {
-//     const session = await getSession();
-//     if (!session) {
-//       return {
-//         error: "Not authenticated",
-//       };
-//     }
-//     const site = await prisma.site.findUnique({
-//       where: {
-//         id: siteId,
-//       },
-//     });
-//     if (!site || site.userId !== session.user.id) {
-//       return {
-//         error: "Not authorized",
-//       };
-//     }
-
-//     return action(formData, site, key);
-//   };
-// }
-
-// export function withPostAuth(action: any) {
-//   return async (
-//     formData: FormData | null,
-//     postId: string,
-//     key: string | null,
-//   ) => {
-//     const session = await getSession();
-//     if (!session?.user.id) {
-//       return {
-//         error: "Not authenticated",
-//       };
-//     }
-//     const post = await prisma.post.findUnique({
-//       where: {
-//         id: postId,
-//       },
-//       include: {
-//         site: true,
-//       },
-//     });
-//     if (!post || post.userId !== session.user.id) {
-//       return {
-//         error: "Post not found",
-//       };
-//     }
-
-//     return action(formData, post, key);
-//   };
-// }

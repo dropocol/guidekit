@@ -51,6 +51,7 @@ export default function Form({
           } else {
             va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
             if (id) {
+              await update();
               router.refresh();
             } else {
               await update();

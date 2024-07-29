@@ -10,10 +10,18 @@ interface CustomNextRequest extends NextRequest {
 }
 
 export const config = {
+  // matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
   matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
 };
+async function interceptGetSessionRequest(request: NextRequest) {
+  const session = await auth();
+  return NextResponse.json(session);
+}
 
 export default async function middleware(req: NextRequest) {
+  console.log(
+    `Request received: ${req.nextUrl.pathname}, Method: ${req.method}`,
+  );
   const url = req.nextUrl;
   let hostname = req.headers.get("host")!;
 
@@ -32,7 +40,7 @@ export default async function middleware(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams.toString();
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
 
-  console.log("Path:", path);
+  // console.log("Path:", path);
 
   if (
     hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
@@ -60,7 +68,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (hostname === "vercel.pub") {
-    console.log("Redirecting to Vercel blog");
+    // console.log("Redirecting to Vercel blog");
     return NextResponse.redirect(
       "https://vercel.com/blog/platforms-starter-kit",
     );
@@ -76,6 +84,13 @@ export default async function middleware(req: NextRequest) {
     );
   }
 
-  console.log("Default rewrite for hostname:", hostname);
+  console.log(req.nextUrl.pathname);
+  if (req.nextUrl.pathname === "/api/auth/session" && req.method === "GET") {
+    // #This fixes the cookie race condition and prevents GET requests from overwriting the cookies with potentially outdated values
+    return await interceptGetSessionRequest(req);
+  }
+  // return NextResponse.next();
+
+  // console.log("Default rewrite for hostname:", hostname);
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }
