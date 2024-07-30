@@ -3,15 +3,17 @@ import { JWT } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
+// import edge from "@/lib/edge";
 import EmailProvider from "next-auth/providers/email";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { decode, encode } from "next-auth/jwt";
 import { User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
+import { getUserByEmail, getAllUsers } from "@/data/user";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
-const adapter = PrismaAdapter(prisma);
+// const adapter = PrismaAdapter(prisma);
 
 export const authOptions: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -26,26 +28,42 @@ export const authOptions: NextAuthConfig = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // Validate user credentials
-        const user = await prisma.user.findFirst({
-          where: { email: credentials!.email! },
-        });
-
-        if (
-          user &&
-          (await compare(credentials!.password as string, user.password!))
-        ) {
-          // If the user is found and the password matches, return the user object
-          return {
-            id: user.id.toString(),
-            name: user.name,
-            email: user.email,
-          };
-        } else {
-          // If the credentials are invalid, return null
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          // throw new Error("Missing credentials");
+          console.log("Missing credentials");
           return null;
         }
+
+        const user = await getUserByEmail(credentials.email as string);
+
+        // const users = await getAllUsers();
+
+        // const user = {
+        //   id: "clz1m73sr000018ujyrb1pv2c",
+        //   email: "zee.khan34@gmail.com",
+        //   name: "Zee Khan",
+        //   password:
+        //     "$2b$10$sGIztfPJ3wvTolPIik9GyOkWaHORla.Xt43emBxs7R1mmWmtzmefy",
+        // };
+
+        if (!user) {
+          // throw new Error("User not found");
+          console.log("User not found");
+          return null;
+        }
+
+        const isPasswordValid = await compare(
+          credentials.password as string,
+          user.password!,
+        );
+        if (!isPasswordValid) {
+          // throw new Error("Invalid password");
+          console.log("Invalid password");
+          return null;
+        }
+
+        return user;
       },
     }),
     GitHubProvider({
@@ -62,23 +80,13 @@ export const authOptions: NextAuthConfig = {
       },
     }),
   ],
-  // jwt: {
-  //   maxAge: 60 * 60 * 24 * 30,
-  //   async encode(arg) {
-  //     return (arg.token?.sessionId as string) ?? encode(arg);
-  //   },
-  // },
   pages: {
     signIn: `/login`,
     verifyRequest: `/login`,
     error: "/login", // Error code passed in query string as ?error=
   },
   adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt", // Use "database" for database sessions
-    //maxAge: 30 * 24 * 60 * 60, // Session max age in seconds (30 days)
-    //updateAge: 24 * 60 * 60, // How often the session is updated in seconds (24 hours)
-  },
+  session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
       name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
@@ -112,67 +120,57 @@ export const authOptions: NextAuthConfig = {
     //   trigger?: "signIn" | "update" | "signUp";
     //   // trigger: any;
     // }) => {
-    jwt: async ({ token, user, trigger }) => {
-      // console.log("JWT CALLBACK : ", token);
+    signIn: async ({ user, account, profile }) => {
+      // console.log("SIGN IN CALLBACK : ", user, account, profile);
+      return true;
+    },
+    jwt: async ({
+      token,
+      user,
+      trigger,
+    }: {
+      token: JWT;
+      user: User | AdapterUser | any;
+      trigger?: "signIn" | "update" | "signUp";
+      // trigger: any;
+    }) => {
+      console.log("JWT CALLBACK : ", token);
       if (user) {
         token.user = user;
       }
+      // console.log("JWT TRIGGET : ", trigger);
+      const refreshedUser = await getUserByEmail(token.email as string);
+      console.log("REFRESHED USER : ", refreshedUser?.name!);
 
-      console.log("JWT TRIGGET : ", trigger);
-
-      // refresh the user's data if they update their name / email
-      if (trigger === "update") {
-        const refreshedUser = await prisma.user.findUnique({
-          where: { id: token.sub },
-        });
-        if (refreshedUser) {
-          token.user = refreshedUser;
-        } else {
-          return {};
-        }
+      if (refreshedUser) {
+        token.user = refreshedUser;
+        token.name = refreshedUser.name;
       }
-
-      return token;
-      // if (account?.provider === "credentials") {
-      //   const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
-      //   const sessionToken = await encode({
-      //     token: { userId: user.id },
-      //     secret: process.env.NEXTAUTH_SECRET!,
+      // try {
+      //   const refreshedUser = await await prisma.user.findFirst({
+      //     where: { email: token.email as string },
       //   });
-      //   const session = await adapter.createSession!({
-      //     userId: user.id!,
-      //     sessionToken,
-      //     expires,
-      //   });
-
-      //   token.user = user;
-      //   token.sessionId = session.sessionToken;
+      // } catch (error) {
+      //   console.log("ERROR : ", error);
       // }
-      // console.log("jwt callback", token);
-      // return token;
+
+      // console.log("REFRESHED USER : ", refreshedUser);
+      return token;
     },
     session: async ({ session, token }) => {
       // console.log("SESSION CALLBACK : ", session, token);
-      // console.log("SESSION TRIGGET : ", trigger);
-      // session.user = {
-      //   ...session.user,
-      //   // @ts-expect-error
-      //   id: token.sub,
-      //   // @ts-expect-error
-      //   username: token?.user?.username || token?.user?.gh_username,
-      // };
-      // return session;
+
+      // const user = await prisma.user.findFirst({
+      //   where: { email: token.email },
+      // });
+      const refreshedUser = await getUserByEmail(token.email as string);
+      // console.log("REFRESHED USER : ", refreshedUser);
 
       session.user = {
-        id: token.sub,
-        // @ts-ignore
-        ...(token || session).user,
+        ...session.user,
+        id: token.sub as string,
       };
       return session;
-    },
-    async signIn({ user }) {
-      // console.log("signIn callback", user);
-      return true;
     },
   },
 };

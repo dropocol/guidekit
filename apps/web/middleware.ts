@@ -84,11 +84,10 @@ export default async function middleware(req: NextRequest) {
     );
   }
 
-  console.log(req.nextUrl.pathname);
-  if (req.nextUrl.pathname === "/api/auth/session" && req.method === "GET") {
-    // #This fixes the cookie race condition and prevents GET requests from overwriting the cookies with potentially outdated values
-    return await interceptGetSessionRequest(req);
-  }
+  // if (req.nextUrl.pathname === "/api/auth/session" && req.method === "GET") {
+  //   // #This fixes the cookie race condition and prevents GET requests from overwriting the cookies with potentially outdated values
+  //   return await interceptGetSessionRequest(req);
+  // }
   // return NextResponse.next();
 
   // console.log("Default rewrite for hostname:", hostname);

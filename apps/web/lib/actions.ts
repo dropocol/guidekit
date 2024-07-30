@@ -748,7 +748,7 @@
 import prisma from "@/lib/prisma";
 import { Post, Site } from "@prisma/client";
 import { revalidateTag } from "next/cache";
-import { getSession } from "@/auth";
+import { getSession, withPostAuth, withSiteAuth } from "@/auth";
 import {
   addDomainToVercel,
   removeDomainFromVercelProject,
@@ -889,45 +889,92 @@ export async function updateSite(
   }
 }
 
-export async function deleteSite(siteId: string) {
-  const session = await getSession();
-  if (!session) {
-    return { error: "Not authenticated" };
-  }
-  const site = await prisma.site.findUnique({ where: { id: siteId } });
-  if (!site || !session.user || site.userId !== session.user.id) {
-    return { error: "Not authorized" };
-  }
-  try {
-    const response = await prisma.site.delete({ where: { id: site.id } });
-    await revalidateTag(
-      `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-    );
-    site.customDomain && (await revalidateTag(`${site.customDomain}-metadata`));
-    return response;
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
+// export async function deleteSite(siteId: string) {
+//   const session = await getSession();
+//   if (!session) {
+//     return { error: "Not authenticated" };
+//   }
+//   const site = await prisma.site.findUnique({ where: { id: siteId } });
+//   if (!site || !session.user || site.userId !== session.user.id) {
+//     return { error: "Not authorized" };
+//   }
+//   try {
+//     const response = await prisma.site.delete({ where: { id: site.id } });
+//     await revalidateTag(
+//       `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
+//     );
+//     site.customDomain && (await revalidateTag(`${site.customDomain}-metadata`));
+//     return response;
+//   } catch (error: any) {
+//     return { error: error.message };
+//   }
+// }
 
-export async function createPost(siteId: string) {
+export const deletePost = withSiteAuth(async function deletePost(
+  _: FormData,
+  post: Post,
+) {
   const session = await getSession();
   if (!session?.user?.id) {
     return { error: "Not authenticated" };
   }
-  const site = await prisma.site.findUnique({ where: { id: siteId } });
-  if (!site || site.userId !== session.user.id) {
+  const foundPost = await prisma.post.findUnique({
+    where: { id: post.id },
+    include: { site: true },
+  });
+  if (!foundPost || foundPost.userId !== session.user.id) {
     return { error: "Not authorized" };
   }
+  try {
+    const response = await prisma.post.delete({ where: { id: post.id } });
+    return response;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+});
+
+export const createPost = withSiteAuth(async function createPost(
+  _: FormData,
+  site: Site,
+) {
+  const session = await getSession();
+  if (!session?.user?.id) {
+    return {
+      error: "Not authenticated",
+    };
+  }
   const response = await prisma.post.create({
-    data: { siteId: site.id, userId: session.user.id },
+    data: {
+      siteId: site.id,
+      userId: session.user.id,
+    },
   });
+
   await revalidateTag(
     `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
   );
   site.customDomain && (await revalidateTag(`${site.customDomain}-posts`));
+
   return response;
-}
+});
+// export async function createPost(siteId: string) {
+//   const session = await getSession();
+//   if (!session?.user?.id) {
+//     return { error: "Not authenticated" };
+//   }
+//   const site = await prisma.site.findUnique({ where: { id: siteId } });
+//   if (!site || site.userId !== session.user.id) {
+//     return { error: "Not authorized" };
+//   }
+//   const response = await prisma.post.create({
+//     data: { siteId: site.id, userId: session.user.id },
+//   });
+//   await revalidateTag(
+//     `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
+//   );
+//   site.customDomain && (await revalidateTag(`${site.customDomain}-posts`));
+//   return response;
+// }
 
 export async function updatePost(data: Post) {
   const session = await getSession();
@@ -1018,25 +1065,43 @@ export async function updatePostMetadata(
   }
 }
 
-export async function deletePost(postId: string) {
-  const session = await getSession();
-  if (!session?.user?.id) {
-    return { error: "Not authenticated" };
-  }
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-    include: { site: true },
-  });
-  if (!post || post.userId !== session.user.id) {
-    return { error: "Not authorized" };
-  }
-  try {
-    const response = await prisma.post.delete({ where: { id: post.id } });
-    return response;
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
+// export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
+//   const session = await getSession();
+//   if (!session?.user?.id) {
+//     return { error: "Not authenticated" };
+//   }
+//   const foundPost = await prisma.post.findUnique({
+//     where: { id: post.id },
+//     include: { site: true },
+//   });
+//   if (!foundPost || foundPost.userId !== session.user.id) {
+//     return { error: "Not authorized" };
+//   }
+//   try {
+//     const response = await prisma.post.delete({ where: { id: post.id } });
+//     return response;
+//   } catch (error: any) {
+//     return { error: error.message };
+//   }
+// });
+
+// export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
+//   try {
+//     const response = await prisma.post.delete({
+//       where: {
+//         id: post.id,
+//       },
+//       select: {
+//         siteId: true,
+//       },
+//     });
+//     return response;
+//   } catch (error: any) {
+//     return {
+//       error: error.message,
+//     };
+//   }
+// });
 
 export async function getSiteFromPostId(postId: string) {
   const post = await prisma.post.findUnique({
@@ -1049,5 +1114,28 @@ export async function getSiteFromPostId(postId: string) {
   });
   return post?.siteId;
 }
+
+export const deleteSite = withSiteAuth(async function deleteSite(
+  _: FormData,
+  site: Site,
+) {
+  try {
+    const response = await prisma.site.delete({
+      where: {
+        id: site.id,
+      },
+    });
+    await revalidateTag(
+      `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
+    );
+    response.customDomain &&
+      (await revalidateTag(`${site.customDomain}-metadata`));
+    return response;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+});
 
 // Include any other missing functions in a similar manner

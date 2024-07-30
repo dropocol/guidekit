@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Github, Google, InfoTooltip, useMediaQuery } from "@dub/ui";
+import { AuthError } from "next-auth";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { redirect, useSearchParams } from "next/navigation";
@@ -27,20 +28,35 @@ export default function LoginForm() {
     e.preventDefault();
     setClickedEmail(true);
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+        callbackUrl: "http://app.localhost:3000/register",
+      });
 
-    setClickedEmail(false);
+      setClickedEmail(false);
 
-    if (res?.ok) {
-      toast.success("Logged in successfully!");
-      // code for redirect to dashboard
-      router.push("/");
-    } else {
-      toast.error("Invalid email or password.");
+      if (res?.ok) {
+        toast.success("Logged in successfully!");
+        // code for redirect to dashboard
+        router.push("/");
+      } else {
+        toast.error("Invalid email or password.");
+      }
+    } catch (error) {
+      // this is what seems to be returning the error message "CallbackRouteError"
+      console.log(error);
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case "CallbackRouteError" || "CredentialsSignin":
+            return { error: "Invalid credentials!" };
+          default:
+            return { error: "Something went wrong!" };
+        }
+      }
+      throw error;
     }
   };
 
