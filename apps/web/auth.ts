@@ -4,7 +4,8 @@ import NextAuth from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-export const { auth, handlers, signIn, signOut } = NextAuth(authOptions);
+export const { auth, handlers, signIn, signOut, unstable_update } =
+  NextAuth(authOptions);
 
 export async function getSession() {
   // return auth() as Promise<{

@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import prismaEdge from "@/lib/edge";
 import prisma from "@/lib/prisma";
 // import edge from "@/lib/edge";
 import EmailProvider from "next-auth/providers/email";
@@ -10,7 +11,7 @@ import { compare } from "bcryptjs";
 import { decode, encode } from "next-auth/jwt";
 import { User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
-import { getUserByEmail, getAllUsers } from "@/data/user";
+import { getUserByEmail, getAllUsers, getUserById } from "@/data/user";
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 // const adapter = PrismaAdapter(prisma);
@@ -124,28 +125,35 @@ export const authOptions: NextAuthConfig = {
       // console.log("SIGN IN CALLBACK : ", user, account, profile);
       return true;
     },
-    jwt: async ({
-      token,
-      user,
-      trigger,
-    }: {
-      token: JWT;
-      user: User | AdapterUser | any;
-      trigger?: "signIn" | "update" | "signUp";
-      // trigger: any;
-    }) => {
-      console.log("JWT CALLBACK : ", token);
+    jwt: async ({ token, user, trigger }) => {
+      // console.log("JWT CALLBACK : ", token);
       if (user) {
         token.user = user;
       }
-      // console.log("JWT TRIGGET : ", trigger);
-      const refreshedUser = await getUserByEmail(token.email as string);
-      console.log("REFRESHED USER : ", refreshedUser?.name!);
+      console.log("JWT TRIGGET : ", trigger);
+      // refresh the user's data if they update their name / email
+      if (trigger === "update") {
+        const refreshedUser = await getUserById(token.sub as string);
+        if (refreshedUser) {
+          const updateToken = {
+            ...token,
+            ...refreshedUser,
+            user: refreshedUser,
+          };
 
-      if (refreshedUser) {
-        token.user = refreshedUser;
-        token.name = refreshedUser.name;
+          token = updateToken;
+          console.log("REFRESHED USER : ", token);
+        } else {
+          return {};
+        }
       }
+      // const refreshedUser = await getUserByEmail(token.email as string);
+      // console.log("REFRESHED USER : ", refreshedUser?.name!);
+
+      // if (refreshedUser) {
+      //   token.user = refreshedUser;
+      //   token.name = refreshedUser.name;
+      // }
       // try {
       //   const refreshedUser = await await prisma.user.findFirst({
       //     where: { email: token.email as string },
@@ -160,10 +168,14 @@ export const authOptions: NextAuthConfig = {
     session: async ({ session, token }) => {
       // console.log("SESSION CALLBACK : ", session, token);
 
-      // const user = await prisma.user.findFirst({
+      // const user = await prismaEdge.user.findFirst({
       //   where: { email: token.email },
       // });
       const refreshedUser = await getUserByEmail(token.email as string);
+
+      // const refreshedUser = await prismaEdge.user.findFirst({
+      //   where: { email: token.email as string },
+      // });
       // console.log("REFRESHED USER : ", refreshedUser);
 
       session.user = {

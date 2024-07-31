@@ -1,11 +1,18 @@
 import prisma from "@/lib/prisma";
+import prismaEdge from "@/lib/edge";
+
 // import edge from "@/lib/edge";
 
 export const getUserByEmail = async (email: string) => {
   try {
     // console.log("FINDING USER----------------");
     const user = await prisma.user.findFirst({ where: { email: email } });
-    // console.log("USER ------ : ", user);
+
+    // const userCheck = await prismaEdge.user.findFirst({
+    //   where: { email: email },
+    // });
+    // console.log("USER ------ : ", userCheck);
+
     return user;
   } catch {
     return null;

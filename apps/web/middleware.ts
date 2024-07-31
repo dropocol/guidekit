@@ -19,9 +19,6 @@ async function interceptGetSessionRequest(request: NextRequest) {
 }
 
 export default async function middleware(req: NextRequest) {
-  console.log(
-    `Request received: ${req.nextUrl.pathname}, Method: ${req.method}`,
-  );
   const url = req.nextUrl;
   let hostname = req.headers.get("host")!;
 

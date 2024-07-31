@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Client } from "@planetscale/database";
-import { PrismaPlanetScale } from "@prisma/adapter-planetscale";
+
 declare global {
   var prisma: PrismaClient | undefined;
 }

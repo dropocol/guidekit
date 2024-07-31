@@ -748,7 +748,12 @@
 import prisma from "@/lib/prisma";
 import { Post, Site } from "@prisma/client";
 import { revalidateTag } from "next/cache";
-import { getSession, withPostAuth, withSiteAuth } from "@/auth";
+import {
+  getSession,
+  withPostAuth,
+  withSiteAuth,
+  unstable_update,
+} from "@/auth";
 import {
   addDomainToVercel,
   removeDomainFromVercelProject,
@@ -806,7 +811,6 @@ export async function editUser(formData: FormData, _id: unknown, key: string) {
       where: { id: session.user.id },
       data: { [key]: value },
     });
-
     return response;
   } catch (error: any) {
     if (error.code === "P2002") {
