@@ -82,8 +82,8 @@ export const authOptions: NextAuthConfig = {
     }),
   ],
   pages: {
-    signIn: `/login`,
-    verifyRequest: `/login`,
+    // signIn: `/login`,
+    // verifyRequest: `/login`,
     error: "/login", // Error code passed in query string as ?error=
   },
   adapter: PrismaAdapter(prisma),
@@ -105,27 +105,19 @@ export const authOptions: NextAuthConfig = {
   },
 
   callbacks: {
-    // authorized: async ({ auth }) => {
-    //   // Logged in users are authenticated, otherwise redirect to login page
-    //   // console.log("authorized callback", auth);
-    //   // return !!auth;
-    //   return true;
-    // },
-    // jwt: async ({
-    //   token,
-    //   user,
-    //   trigger,
-    // }: {
-    //   token: JWT;
-    //   user: User | AdapterUser | any;
-    //   trigger?: "signIn" | "update" | "signUp";
-    //   // trigger: any;
-    // }) => {
     signIn: async ({ user, account, profile }) => {
       // console.log("SIGN IN CALLBACK : ", user, account, profile);
       return true;
     },
-    jwt: async ({ token, user, trigger }) => {
+    jwt: async ({
+      token,
+      user,
+      trigger,
+    }: {
+      token: JWT;
+      user: User | AdapterUser;
+      trigger?: "signIn" | "update" | "signUp";
+    }) => {
       // console.log("JWT CALLBACK : ", token);
       if (user) {
         token.user = user;
@@ -147,41 +139,15 @@ export const authOptions: NextAuthConfig = {
           return {};
         }
       }
-      // const refreshedUser = await getUserByEmail(token.email as string);
-      // console.log("REFRESHED USER : ", refreshedUser?.name!);
-
-      // if (refreshedUser) {
-      //   token.user = refreshedUser;
-      //   token.name = refreshedUser.name;
-      // }
-      // try {
-      //   const refreshedUser = await await prisma.user.findFirst({
-      //     where: { email: token.email as string },
-      //   });
-      // } catch (error) {
-      //   console.log("ERROR : ", error);
-      // }
-
-      // console.log("REFRESHED USER : ", refreshedUser);
       return token;
     },
-    session: async ({ session, token }) => {
-      // console.log("SESSION CALLBACK : ", session, token);
-
-      // const user = await prismaEdge.user.findFirst({
-      //   where: { email: token.email },
-      // });
-      const refreshedUser = await getUserByEmail(token.email as string);
-
-      // const refreshedUser = await prismaEdge.user.findFirst({
-      //   where: { email: token.email as string },
-      // });
-      // console.log("REFRESHED USER : ", refreshedUser);
-
+    session: async ({ session, token, trigger }) => {
       session.user = {
-        ...session.user,
-        id: token.sub as string,
+        id: token.sub,
+        // @ts-ignore
+        ...(token || session).user,
       };
+
       return session;
     },
   },
