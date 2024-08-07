@@ -1,0 +1,2675 @@
+{
+  "block": {
+    "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e": {
+      "value": {
+        "id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "version": 12,
+        "type": "page",
+        "properties": {
+          "title": [
+            [
+              "HelpKit Knowledge Base [Template: Blank]"
+            ]
+          ]
+        },
+        "content": [
+          "22ee82fb-55e6-4c0a-9336-fdae68cfd542",
+          "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+          "16a41654-3acd-4ced-9624-78e88d64d1f2",
+          "406fa709-7e0e-46b4-98a0-0dfbdde4cd3c",
+          "2b507905-82fb-4d8e-8fb4-424cbfdcff08"
+        ],
+        "format": {
+          "site_id": "5a5c4f27-bc57-4f1f-893a-47355da012b5",
+          "page_icon": "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/209cb524-df1c-452b-9516-3f8087e917da/helpkit_logo_full_dark_cropped.png",
+          "copied_from_pointer": {
+            "id": "5f5f6dd9-19f9-48bd-92d4-d710182b4af9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "page_cover_position": 1
+        },
+        "permissions": [
+          {
+            "role": "editor",
+            "type": "user_permission",
+            "user_id": "45896c59-c70a-425a-8917-19ec655d4150"
+          },
+          {
+            "role": "reader",
+            "type": "public_permission",
+            "added_timestamp": 1721689844669
+          }
+        ],
+        "created_time": 1721689802825,
+        "last_edited_time": 1721689843729,
+        "parent_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6",
+        "parent_table": "space",
+        "alive": true,
+        "copied_from": "5f5f6dd9-19f9-48bd-92d4-d710182b4af9",
+        "file_ids": [
+          "209cb524-df1c-452b-9516-3f8087e917da"
+        ],
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "22ee82fb-55e6-4c0a-9336-fdae68cfd542": {
+      "value": {
+        "id": "22ee82fb-55e6-4c0a-9336-fdae68cfd542",
+        "version": 1,
+        "type": "callout",
+        "properties": {
+          "title": [
+            [
+              "HelpKit.so",
+              [
+                [
+                  "a",
+                  "https://www.helpkit.so"
+                ],
+                [
+                  "b"
+                ],
+                [
+                  "h",
+                  "purple"
+                ]
+              ]
+            ],
+            [
+              " ",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              "is a software that turns your Notion site into a professional help center or documentation site. You manage all your content in Notion using databases and pages."
+            ]
+          ]
+        },
+        "format": {
+          "page_icon": "/icons/info-alternate_purple.svg",
+          "block_color": "purple_background",
+          "copied_from_pointer": {
+            "id": "ef82127a-175e-468a-b268-c14585832dba",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "ef82127a-175e-468a-b268-c14585832dba",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "4f127b1b-3853-4812-8be7-7442c5ceff9f": {
+      "value": {
+        "id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "version": 1,
+        "type": "toggle",
+        "properties": {
+          "title": [
+            [
+              "📖 Read the instructions",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "h",
+                  "orange_background"
+                ]
+              ]
+            ]
+          ]
+        },
+        "content": [
+          "d76c7b6b-0700-40c6-a503-3b08a1e0128b",
+          "f968396a-f940-48fd-bdb8-96a7e8eec327",
+          "c4b6e9ec-2fdc-4625-b31e-cb035259adf1",
+          "d7031b6c-5284-4e86-a523-5b1dec8713c1",
+          "21687774-390a-4615-8f74-d77be18dd2b1",
+          "b1445f57-e703-46f3-ae1c-1318b9e95acb",
+          "88068954-29b5-4f9d-afae-46cf21d3bd30",
+          "152102e5-34bc-4363-8c97-720a5abd4e68",
+          "4edf592b-16d3-4dc7-9826-02eb1a112e70",
+          "a077eaf4-e8a1-47a6-a85e-c95ab15e9aa6",
+          "a6d5435b-f840-45e4-a9b8-8b90d88b1f8a",
+          "05d45704-df0b-4b7b-b79f-0685dff8d428"
+        ],
+        "format": {
+          "copied_from_pointer": {
+            "id": "bf42eef8-39c3-4a68-8907-b64eee79d365",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "bf42eef8-39c3-4a68-8907-b64eee79d365",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "16a41654-3acd-4ced-9624-78e88d64d1f2": {
+      "value": {
+        "id": "16a41654-3acd-4ced-9624-78e88d64d1f2",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "a1385116-5a33-46a0-8dfe-7e991edc7c3a"
+        ],
+        "collection_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "format": {
+          "collection_pointer": {
+            "id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "335f557d-7936-4a0d-abe8-fd823f65e9a6",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802813,
+        "last_edited_time": 1721689802813,
+        "parent_id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "335f557d-7936-4a0d-abe8-fd823f65e9a6",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "406fa709-7e0e-46b4-98a0-0dfbdde4cd3c": {
+      "value": {
+        "id": "406fa709-7e0e-46b4-98a0-0dfbdde4cd3c",
+        "version": 2,
+        "type": "callout",
+        "properties": {
+          "title": [
+            [
+              "HelpKit Template • "
+            ],
+            [
+              "HelpKit.so",
+              [
+                [
+                  "a",
+                  "https://www.helpkit.so"
+                ]
+              ]
+            ],
+            [
+              " • "
+            ],
+            [
+              "Twitter",
+              [
+                [
+                  "a",
+                  "https://twitter.com/helpkithq"
+                ]
+              ]
+            ],
+            [
+              " • "
+            ],
+            [
+              "LinkedIn",
+              [
+                [
+                  "a",
+                  "https://www.linkedin.com/company/helpkit-knowledge-base"
+                ]
+              ]
+            ],
+            [
+              "\n\n"
+            ],
+            [
+              "🛟 Get Help",
+              [
+                [
+                  "a",
+                  "https://support.helpkit.so"
+                ]
+              ]
+            ],
+            [
+              " • "
+            ],
+            [
+              "🔁 Common Sync Issues",
+              [
+                [
+                  "a",
+                  "https://support.helpkit.so/getting-started/1j4YCz4dwuBqHKe8pYAGVd/common-issues-when-syncing-your-knowledge-base/fhY6pL5KWRnvzZJXD4KPfE"
+                ]
+              ]
+            ],
+            [
+              " • "
+            ],
+            [
+              "💆‍♂️ How to Reduce Support Tickets ",
+              [
+                [
+                  "a",
+                  "https://www.youtube.com/watch?v=mlI0AGEs1vg"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "page_icon": "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/4dbc79fb-0d95-4184-be1e-b2dd05a616ed/helpkit_logo_full_dark_cropped.png",
+          "block_color": "purple_background",
+          "copied_from_pointer": {
+            "id": "f942065a-54be-47c4-a48d-a01e4c2ab84b",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "f942065a-54be-47c4-a48d-a01e4c2ab84b",
+        "file_ids": [
+          "4dbc79fb-0d95-4184-be1e-b2dd05a616ed"
+        ],
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "2b507905-82fb-4d8e-8fb4-424cbfdcff08": {
+      "value": {
+        "id": "2b507905-82fb-4d8e-8fb4-424cbfdcff08",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "02d6dd0b-7570-4645-80e4-e6abebbf36f2",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802813,
+        "last_edited_time": 1721689802813,
+        "parent_id": "a1fd1e3b-4f4c-4643-ade0-ffa7fbcb8e3e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "02d6dd0b-7570-4645-80e4-e6abebbf36f2",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "d76c7b6b-0700-40c6-a503-3b08a1e0128b": {
+      "value": {
+        "id": "d76c7b6b-0700-40c6-a503-3b08a1e0128b",
+        "version": 1,
+        "type": "transclusion_container",
+        "content": [
+          "30b28cc9-56d2-4a54-917d-3d8ec4a5cd93",
+          "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c"
+        ],
+        "format": {
+          "copied_from_pointer": {
+            "id": "88b4d33c-7468-47ab-b496-986bf6ac45f7",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "88b4d33c-7468-47ab-b496-986bf6ac45f7",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "f968396a-f940-48fd-bdb8-96a7e8eec327": {
+      "value": {
+        "id": "f968396a-f940-48fd-bdb8-96a7e8eec327",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "You are currently on the"
+            ],
+            [
+              " root page",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              " of your HelpKit knowledge base. This is also the only page you have to connect with HelpKit during your "
+            ],
+            [
+              "onboarding",
+              [
+                [
+                  "a",
+                  "https://support.helpkit.so/Getting-Started/1j4YCz4dwuBqHKe8pYAGVd/Three-easy-steps-to-setup-HelpKit/mg8xRqHqFDYcfVW8K7SKEn"
+                ]
+              ]
+            ],
+            [
+              ". Simply click on "
+            ],
+            [
+              "Duplicate",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " in the top right, select "
+            ],
+            [
+              "Publish to Web",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " and then "
+            ],
+            [
+              "copy/paste",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " the Notion URL into the HelpKit onboarding flow."
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "b1f87066-2244-483d-99eb-af444dac7262",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "b1f87066-2244-483d-99eb-af444dac7262",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "c4b6e9ec-2fdc-4625-b31e-cb035259adf1": {
+      "value": {
+        "id": "c4b6e9ec-2fdc-4625-b31e-cb035259adf1",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "8bfa87ab-e072-4400-ae02-befb9741a570",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "8bfa87ab-e072-4400-ae02-befb9741a570",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "d7031b6c-5284-4e86-a523-5b1dec8713c1": {
+      "value": {
+        "id": "d7031b6c-5284-4e86-a523-5b1dec8713c1",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "The "
+            ],
+            [
+              "Collections Table",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " ",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              "below stores all of your knowledge base collections. The idea is that you use these to categorize your help articles into separate collections so that your customers can easily find the article they are looking for."
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "608fb63f-0533-4357-be65-dbd252c6de1c",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "608fb63f-0533-4357-be65-dbd252c6de1c",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "21687774-390a-4615-8f74-d77be18dd2b1": {
+      "value": {
+        "id": "21687774-390a-4615-8f74-d77be18dd2b1",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "Feel free to "
+            ],
+            [
+              "override",
+              [
+                [
+                  "_"
+                ]
+              ]
+            ],
+            [
+              " the preexisting collection title and descriptions with your own content. You can also add and remove collections if you wish."
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "b86e98c9-69a5-4cbf-87a6-924106efc17c",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "b86e98c9-69a5-4cbf-87a6-924106efc17c",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "b1445f57-e703-46f3-ae1c-1318b9e95acb": {
+      "value": {
+        "id": "b1445f57-e703-46f3-ae1c-1318b9e95acb",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "4909f3c9-8c34-4752-bafc-c0ee7c6a0f83",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "4909f3c9-8c34-4752-bafc-c0ee7c6a0f83",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "88068954-29b5-4f9d-afae-46cf21d3bd30": {
+      "value": {
+        "id": "88068954-29b5-4f9d-afae-46cf21d3bd30",
+        "version": 1,
+        "type": "toggle",
+        "properties": {
+          "title": [
+            [
+              "➕"
+            ],
+            [
+              " Adding a new collection:",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "content": [
+          "725f4cf8-0604-44f4-940f-f89472f23ce0",
+          "2d1cf832-1f8f-492f-b919-f5aa20402e09",
+          "669c7d21-e104-4726-a6ef-4980e0b1bd64",
+          "357ecf1e-6977-4b69-b8e8-9c2e03b72592"
+        ],
+        "format": {
+          "block_color": "blue_background",
+          "copied_from_pointer": {
+            "id": "d0716167-25bf-499b-ba20-77042f20851e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "d0716167-25bf-499b-ba20-77042f20851e",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "152102e5-34bc-4363-8c97-720a5abd4e68": {
+      "value": {
+        "id": "152102e5-34bc-4363-8c97-720a5abd4e68",
+        "version": 1,
+        "type": "toggle",
+        "properties": {
+          "title": [
+            [
+              "👋 Adding emojis or custom icons to your collection:",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "content": [
+          "a4958f42-f9bb-4435-9700-8c4a1fdd6544",
+          "1b53f091-89b4-4cf6-a49c-505468181223",
+          "1c4dbe3a-d202-4d90-96a9-b0e18ad15628"
+        ],
+        "format": {
+          "block_color": "blue_background",
+          "copied_from_pointer": {
+            "id": "fe1e8925-91cb-4800-b0a1-b7a2538ecb3d",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "fe1e8925-91cb-4800-b0a1-b7a2538ecb3d",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "4edf592b-16d3-4dc7-9826-02eb1a112e70": {
+      "value": {
+        "id": "4edf592b-16d3-4dc7-9826-02eb1a112e70",
+        "version": 1,
+        "type": "callout",
+        "properties": {
+          "title": [
+            [
+              "DON'T FORGET TO SYNC\n",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "content": [
+          "dd37f40d-c961-401d-baaa-fcba31c49401",
+          "4dca18fd-66c6-4b8e-9623-68a7805ed764"
+        ],
+        "format": {
+          "page_icon": "❗",
+          "block_color": "teal_background",
+          "copied_from_pointer": {
+            "id": "7203bf91-f0fb-4ea3-af15-e39d3cf81841",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "7203bf91-f0fb-4ea3-af15-e39d3cf81841",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a077eaf4-e8a1-47a6-a85e-c95ab15e9aa6": {
+      "value": {
+        "id": "a077eaf4-e8a1-47a6-a85e-c95ab15e9aa6",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "Need help? Check out our ",
+              [
+                [
+                  "h",
+                  "gray"
+                ]
+              ]
+            ],
+            [
+              "Help Center",
+              [
+                [
+                  "a",
+                  "https://support.helpkit.so"
+                ],
+                [
+                  "h",
+                  "gray"
+                ]
+              ]
+            ],
+            [
+              " or reach out to ",
+              [
+                [
+                  "h",
+                  "gray"
+                ]
+              ]
+            ],
+            [
+              "dominik@helpkit.so",
+              [
+                [
+                  "a",
+                  "mailto:dominik@helpkit.so"
+                ],
+                [
+                  "h",
+                  "gray"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "922c884f-2170-4ab0-9f02-d555c330c036",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "922c884f-2170-4ab0-9f02-d555c330c036",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a6d5435b-f840-45e4-a9b8-8b90d88b1f8a": {
+      "value": {
+        "id": "a6d5435b-f840-45e4-a9b8-8b90d88b1f8a",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "You can close this instruction window by clicking on the toggle button on the top again. You can also delete the “What is this template about” paragraph”  ",
+              [
+                [
+                  "h",
+                  "gray"
+                ],
+                [
+                  "i"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "1436871d-1ae7-4332-b860-0b52aabd4a9e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "1436871d-1ae7-4332-b860-0b52aabd4a9e",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "05d45704-df0b-4b7b-b79f-0685dff8d428": {
+      "value": {
+        "id": "05d45704-df0b-4b7b-b79f-0685dff8d428",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "74fe8102-db99-419a-8dc2-3a4c800bd99a",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802814,
+        "last_edited_time": 1721689802814,
+        "parent_id": "4f127b1b-3853-4812-8be7-7442c5ceff9f",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "74fe8102-db99-419a-8dc2-3a4c800bd99a",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "30b28cc9-56d2-4a54-917d-3d8ec4a5cd93": {
+      "value": {
+        "id": "30b28cc9-56d2-4a54-917d-3d8ec4a5cd93",
+        "version": 1,
+        "type": "callout",
+        "properties": {
+          "title": [
+            [
+              "Do "
+            ],
+            [
+              "NOT",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              " remove, add or change any of the properties in any of the databases ("
+            ],
+            [
+              "the tables with your content",
+              [
+                [
+                  "i"
+                ]
+              ]
+            ],
+            [
+              ") in your template. HelpKit won't properly work otherwise."
+            ]
+          ]
+        },
+        "format": {
+          "page_icon": "⚠️",
+          "block_color": "yellow_background",
+          "copied_from_pointer": {
+            "id": "ce1f77b0-9680-471f-bc30-b3a31437dbb4",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "d76c7b6b-0700-40c6-a503-3b08a1e0128b",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "ce1f77b0-9680-471f-bc30-b3a31437dbb4",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c": {
+      "value": {
+        "id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "version": 1,
+        "type": "toggle",
+        "properties": {
+          "title": [
+            [
+              "TOGGLE ME: HOW TO GET STARTED ",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              "🚀"
+            ]
+          ]
+        },
+        "content": [
+          "4506f65a-a72a-45d9-bf75-44086eeeb925",
+          "5ad9d455-7c5b-438c-a138-78a897ef0ab9",
+          "49148f74-de36-4f88-b800-ad28aa2f435d",
+          "a41183b9-6173-4d20-bfb6-d9f813837041",
+          "c9f95b8a-9080-4e8b-ba46-b5c9e83a3922",
+          "839c3db3-ef4f-4ce4-87a6-650c97257468",
+          "e1334f31-eefd-4991-b23b-f140096278b3",
+          "c21df5a1-5bd6-4174-a841-08f25a158ddc",
+          "ca10d4cd-ec49-4e09-b279-d7b0e076416f"
+        ],
+        "format": {
+          "block_color": "teal_background",
+          "copied_from_pointer": {
+            "id": "558c1ab3-65b5-49bf-aee1-85a156f451b9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "d76c7b6b-0700-40c6-a503-3b08a1e0128b",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "558c1ab3-65b5-49bf-aee1-85a156f451b9",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "725f4cf8-0604-44f4-940f-f89472f23ce0": {
+      "value": {
+        "id": "725f4cf8-0604-44f4-940f-f89472f23ce0",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Hover with your mouse over the collection table"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "964f1e06-f47d-4845-b359-b2d0e0f7b418",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "88068954-29b5-4f9d-afae-46cf21d3bd30",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "964f1e06-f47d-4845-b359-b2d0e0f7b418",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "2d1cf832-1f8f-492f-b919-f5aa20402e09": {
+      "value": {
+        "id": "2d1cf832-1f8f-492f-b919-f5aa20402e09",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Click on the  "
+            ],
+            [
+              "🔽",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              "  button next to "
+            ],
+            [
+              "New",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " ",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "306cc4bd-e76b-4fd1-bb00-b3ec57588fd3",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "88068954-29b5-4f9d-afae-46cf21d3bd30",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "306cc4bd-e76b-4fd1-bb00-b3ec57588fd3",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "669c7d21-e104-4726-a6ef-4980e0b1bd64": {
+      "value": {
+        "id": "669c7d21-e104-4726-a6ef-4980e0b1bd64",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Click on the "
+            ],
+            [
+              "👋 New Collection",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " ",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              "template button"
+            ]
+          ]
+        },
+        "content": [
+          "b4e68efc-889d-4edc-9126-9a2b40ad580c"
+        ],
+        "format": {
+          "copied_from_pointer": {
+            "id": "de0d14d7-155b-4455-babb-91172ce811e9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "88068954-29b5-4f9d-afae-46cf21d3bd30",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "de0d14d7-155b-4455-babb-91172ce811e9",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "357ecf1e-6977-4b69-b8e8-9c2e03b72592": {
+      "value": {
+        "id": "357ecf1e-6977-4b69-b8e8-9c2e03b72592",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Edit your new collection"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "67f5b53d-39ec-4bf1-b80c-db6eaf10d17e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "88068954-29b5-4f9d-afae-46cf21d3bd30",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "67f5b53d-39ec-4bf1-b80c-db6eaf10d17e",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a4958f42-f9bb-4435-9700-8c4a1fdd6544": {
+      "value": {
+        "id": "a4958f42-f9bb-4435-9700-8c4a1fdd6544",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Hover with your mouse over your desired collection"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "39bf6a99-728d-4c3b-a67e-3f7973807c2a",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "152102e5-34bc-4363-8c97-720a5abd4e68",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "39bf6a99-728d-4c3b-a67e-3f7973807c2a",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "1b53f091-89b4-4cf6-a49c-505468181223": {
+      "value": {
+        "id": "1b53f091-89b4-4cf6-a49c-505468181223",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Click on the "
+            ],
+            [
+              "OPEN",
+              [
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " ("
+            ],
+            [
+              "Open as a page",
+              [
+                [
+                  "i"
+                ]
+              ]
+            ],
+            [
+              ") button"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "d884b6c2-2176-4a62-89be-47f678562a8e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "152102e5-34bc-4363-8c97-720a5abd4e68",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "d884b6c2-2176-4a62-89be-47f678562a8e",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "1c4dbe3a-d202-4d90-96a9-b0e18ad15628": {
+      "value": {
+        "id": "1c4dbe3a-d202-4d90-96a9-b0e18ad15628",
+        "version": 1,
+        "type": "numbered_list",
+        "properties": {
+          "title": [
+            [
+              "Click on the icon on the very top of your page and either select a emoji or upload your own icon"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "a448bd32-46e3-4120-bc10-31104f96d183",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "152102e5-34bc-4363-8c97-720a5abd4e68",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "a448bd32-46e3-4120-bc10-31104f96d183",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "dd37f40d-c961-401d-baaa-fcba31c49401": {
+      "value": {
+        "id": "dd37f40d-c961-401d-baaa-fcba31c49401",
+        "version": 2,
+        "type": "image",
+        "properties": {
+          "size": [
+            [
+              "129.2KB"
+            ]
+          ],
+          "title": [
+            [
+              "Screenshot 2021-09-06 at 14.20.00.png"
+            ]
+          ],
+          "source": [
+            [
+              "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/5de83617-3304-4857-97ad-650adb490e66/Screenshot_2021-09-06_at_14.20.00.png"
+            ]
+          ]
+        },
+        "format": {
+          "block_width": 288,
+          "display_source": "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/5de83617-3304-4857-97ad-650adb490e66/Screenshot_2021-09-06_at_14.20.00.png",
+          "block_full_width": false,
+          "block_page_width": false,
+          "block_aspect_ratio": 0.5758513931888545,
+          "copied_from_pointer": {
+            "id": "2b3a2169-dc91-4ea8-a976-1b5d35698276",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "block_preserve_scale": true
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4edf592b-16d3-4dc7-9826-02eb1a112e70",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "2b3a2169-dc91-4ea8-a976-1b5d35698276",
+        "file_ids": [
+          "5de83617-3304-4857-97ad-650adb490e66"
+        ],
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "4dca18fd-66c6-4b8e-9623-68a7805ed764": {
+      "value": {
+        "id": "4dca18fd-66c6-4b8e-9623-68a7805ed764",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "In order to serve your customers the fastest knowledge base on earth 🌍 we cache your site’s data. This means that you have to press the "
+            ],
+            [
+              "🔁 Sync now",
+              [
+                [
+                  "b"
+                ],
+                [
+                  "c"
+                ]
+              ]
+            ],
+            [
+              " button in your admin dashboard whenever you change the structure of your knowledge base i.e collection/article title and description, article properties such as "
+            ],
+            [
+              "published",
+              [
+                [
+                  "i"
+                ]
+              ]
+            ],
+            [
+              " or the article itself.\n\nYou can also "
+            ],
+            [
+              "resync",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              " each article individually to quickly get an update published."
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "d563d3e6-9eb6-497b-a558-1a0b55c35028",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802815,
+        "last_edited_time": 1721689802815,
+        "parent_id": "4edf592b-16d3-4dc7-9826-02eb1a112e70",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "d563d3e6-9eb6-497b-a558-1a0b55c35028",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "4506f65a-a72a-45d9-bf75-44086eeeb925": {
+      "value": {
+        "id": "4506f65a-a72a-45d9-bf75-44086eeeb925",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "📽 Watch this 60 seconds clip on "
+            ],
+            [
+              "how to get started:",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "6b57a1a3-bd7a-4184-b116-b3fabe1fcbdd",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "6b57a1a3-bd7a-4184-b116-b3fabe1fcbdd",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "5ad9d455-7c5b-438c-a138-78a897ef0ab9": {
+      "value": {
+        "id": "5ad9d455-7c5b-438c-a138-78a897ef0ab9",
+        "version": 1,
+        "type": "video",
+        "properties": {
+          "source": [
+            [
+              "https://youtu.be/-Xf6HkrAFNA"
+            ]
+          ]
+        },
+        "format": {
+          "block_width": 854,
+          "display_source": "https://www.youtube.com/embed/-Xf6HkrAFNA?feature=oembed",
+          "block_full_width": false,
+          "block_page_width": true,
+          "block_aspect_ratio": 0.5620608899297423,
+          "copied_from_pointer": {
+            "id": "3c0ad110-6da9-4c43-b0a8-a7a7c78990c4",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "block_preserve_scale": true
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "3c0ad110-6da9-4c43-b0a8-a7a7c78990c4",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "49148f74-de36-4f88-b800-ad28aa2f435d": {
+      "value": {
+        "id": "49148f74-de36-4f88-b800-ad28aa2f435d",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "e5f49044-2bac-4c94-8fd2-5484ae2d188b",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "e5f49044-2bac-4c94-8fd2-5484ae2d188b",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a41183b9-6173-4d20-bfb6-d9f813837041": {
+      "value": {
+        "id": "a41183b9-6173-4d20-bfb6-d9f813837041",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "...or this "
+            ],
+            [
+              "full walkthrough of HelpKit:",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "423b0c92-6048-4482-8795-bc4a73c3217e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "423b0c92-6048-4482-8795-bc4a73c3217e",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "c9f95b8a-9080-4e8b-ba46-b5c9e83a3922": {
+      "value": {
+        "id": "c9f95b8a-9080-4e8b-ba46-b5c9e83a3922",
+        "version": 1,
+        "type": "video",
+        "properties": {
+          "source": [
+            [
+              "https://www.youtube.com/watch?v=iN0OXuiORSE"
+            ]
+          ]
+        },
+        "format": {
+          "block_width": 1280,
+          "display_source": "https://www.youtube.com/embed/iN0OXuiORSE?rel=0",
+          "block_full_width": false,
+          "block_page_width": true,
+          "block_aspect_ratio": 0.5625,
+          "copied_from_pointer": {
+            "id": "572ca6c5-8e75-46bd-82b8-ec893431f0d5",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "block_preserve_scale": true
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "572ca6c5-8e75-46bd-82b8-ec893431f0d5",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "839c3db3-ef4f-4ce4-87a6-650c97257468": {
+      "value": {
+        "id": "839c3db3-ef4f-4ce4-87a6-650c97257468",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "84c5e8af-d893-425c-acbf-0ef16da26388",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "84c5e8af-d893-425c-acbf-0ef16da26388",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "e1334f31-eefd-4991-b23b-f140096278b3": {
+      "value": {
+        "id": "e1334f31-eefd-4991-b23b-f140096278b3",
+        "version": 1,
+        "type": "text",
+        "properties": {
+          "title": [
+            [
+              "...or",
+              [
+                [
+                  "b"
+                ]
+              ]
+            ],
+            [
+              " check out our help article if you need help setting up your knowledge base 📖"
+            ]
+          ]
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "8daad030-a44f-4186-9cb7-e26af7ab3476",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "8daad030-a44f-4186-9cb7-e26af7ab3476",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "c21df5a1-5bd6-4174-a841-08f25a158ddc": {
+      "value": {
+        "id": "c21df5a1-5bd6-4174-a841-08f25a158ddc",
+        "version": 1,
+        "type": "bookmark",
+        "properties": {
+          "link": [
+            [
+              "https://support.helpkit.so/Getting-Started/1j4YCz4dwuBqHKe8pYAGVd/Three-easy-steps-to-setup-HelpKit/mg8xRqHqFDYcfVW8K7SKEn"
+            ]
+          ],
+          "title": [
+            [
+              "Three easy steps to setup HelpKit"
+            ]
+          ],
+          "description": [
+            [
+              "Getting started with HelpKit is super simple and intuitive. It only takes the following three steps to get started: 📽 Video Instruction: To fast track your onboarding we suggest you to duplicate our 👉 predefined Notion template into your own Notion workspace and give it a cool name."
+            ]
+          ]
+        },
+        "format": {
+          "bookmark_icon": "https://res.cloudinary.com/helpkit/image/upload/v1631015627/support_favicon_Image_Url_89284da4d3.png",
+          "bookmark_cover": "https://res.cloudinary.com/helpkit/image/upload/v1631015623/support_meta_OG_Image_Url_abf6d55ad3.png",
+          "copied_from_pointer": {
+            "id": "0c21dfe9-0b8f-4fe2-b130-272b69bb47cb",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "0c21dfe9-0b8f-4fe2-b130-272b69bb47cb",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "ca10d4cd-ec49-4e09-b279-d7b0e076416f": {
+      "value": {
+        "id": "ca10d4cd-ec49-4e09-b279-d7b0e076416f",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "3857296b-7fa0-4ab7-9aa7-a24fe742d4e9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "c5348028-3bdd-4f45-843b-d9e9ecd1cd2c",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "3857296b-7fa0-4ab7-9aa7-a24fe742d4e9",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "b4e68efc-889d-4edc-9126-9a2b40ad580c": {
+      "value": {
+        "id": "b4e68efc-889d-4edc-9126-9a2b40ad580c",
+        "version": 2,
+        "type": "image",
+        "properties": {
+          "size": [
+            [
+              "40.5KB"
+            ]
+          ],
+          "title": [
+            [
+              "Screenshot 2021-09-06 at 15.09.42.png"
+            ]
+          ],
+          "source": [
+            [
+              "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/6a1d912f-7ac8-41d4-870c-78dfedba31a4/Screenshot_2021-09-06_at_15.09.42.png"
+            ]
+          ]
+        },
+        "format": {
+          "block_width": 240,
+          "block_height": 350,
+          "display_source": "https://prod-files-secure.s3.us-west-2.amazonaws.com/19ec9bd7-e5d4-4099-bd3a-70e6733eeac6/6a1d912f-7ac8-41d4-870c-78dfedba31a4/Screenshot_2021-09-06_at_15.09.42.png",
+          "block_full_width": false,
+          "block_page_width": false,
+          "block_aspect_ratio": 0.5131964809384164,
+          "copied_from_pointer": {
+            "id": "b0c1688f-4329-4ef2-b1dd-49ddb7543664",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "block_preserve_scale": true
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "669c7d21-e104-4726-a6ef-4980e0b1bd64",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "b0c1688f-4329-4ef2-b1dd-49ddb7543664",
+        "file_ids": [
+          "6a1d912f-7ac8-41d4-870c-78dfedba31a4"
+        ],
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "05e5deb9-d38d-442a-9052-8467f15bb15e": {
+      "value": {
+        "id": "05e5deb9-d38d-442a-9052-8467f15bb15e",
+        "version": 1,
+        "type": "page",
+        "properties": {
+          "A^D`": [
+            [
+              "The description for your second collection"
+            ]
+          ],
+          "title": [
+            [
+              "Second Collection"
+            ]
+          ]
+        },
+        "content": [
+          "b1cfee29-acbd-4bf7-a2fe-ca4317db971c",
+          "b38ebc24-1e2d-4169-90ae-20d8c7805a1a",
+          "5e8f8349-06d4-42e7-aceb-0605b4a3c56b",
+          "d43cc806-960c-411e-9742-32382ae7c1f0"
+        ],
+        "format": {
+          "page_icon": "🔍",
+          "block_locked": false,
+          "block_locked_by": "45338420-73ea-4091-a96c-9d16dfec064c",
+          "copied_from_pointer": {
+            "id": "0d7cdd92-cf94-48a6-b6c8-840d6024fe3e",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "parent_table": "collection",
+        "alive": true,
+        "copied_from": "0d7cdd92-cf94-48a6-b6c8-840d6024fe3e",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "2e25370f-601f-4593-bcc0-47889abe25cd": {
+      "value": {
+        "id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "version": 1,
+        "type": "page",
+        "properties": {
+          "A^D`": [
+            [
+              "Learn everything about how to get started with HelpKit"
+            ]
+          ],
+          "title": [
+            [
+              "Getting Started"
+            ]
+          ]
+        },
+        "content": [
+          "bb21771d-2620-4405-b54f-d469afacb269",
+          "aad9bdfb-4d3f-4880-979c-8d9b1accb5be",
+          "e95860b6-fc5a-4126-b8ae-bed09c45af6f",
+          "1aa4ae31-77a4-4306-b041-2973709f69fa",
+          "0f769195-0595-44d6-a6f2-45c7fa72de1a",
+          "949ddfb1-5b24-4b44-96ef-d74bafe2cc86"
+        ],
+        "format": {
+          "page_icon": "👋",
+          "copied_from_pointer": {
+            "id": "7c7d5c13-14f6-4fea-84ac-747e4d8d23e9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "parent_table": "collection",
+        "alive": true,
+        "copied_from": "7c7d5c13-14f6-4fea-84ac-747e4d8d23e9",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "3172fcba-fe9a-42b1-9b77-bfd906e7ea12": {
+      "value": {
+        "id": "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+        "version": 1,
+        "type": "page",
+        "properties": {
+          "A^D`": [
+            [
+              "Give your customer a hint about which articles they can expect"
+            ]
+          ],
+          "title": [
+            [
+              "Another Collection"
+            ]
+          ]
+        },
+        "content": [
+          "a513964d-9ca7-4ae8-99c8-4896afa16521",
+          "8f8acb93-94f1-4aa8-807b-7c2771667383",
+          "3b2bc1b5-bbdf-4ae8-b442-6f0d3648f515",
+          "8983382c-c98f-4453-b4a4-4ce3641b3b6b"
+        ],
+        "format": {
+          "page_icon": "🔗",
+          "block_locked": false,
+          "block_locked_by": "45338420-73ea-4091-a96c-9d16dfec064c",
+          "copied_from_pointer": {
+            "id": "8bfa58f0-e9ed-4fb1-be16-faafdc330444",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "parent_table": "collection",
+        "alive": true,
+        "copied_from": "8bfa58f0-e9ed-4fb1-be16-faafdc330444",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "4de834eb-0b5b-4327-90a6-3a9326286eb9": {
+      "value": {
+        "id": "4de834eb-0b5b-4327-90a6-3a9326286eb9",
+        "version": 1,
+        "type": "page",
+        "properties": {
+          "A^D`": [
+            [
+              "A concise description for your new collection"
+            ]
+          ],
+          "title": [
+            [
+              "New Collection"
+            ]
+          ]
+        },
+        "content": [
+          "7d5f21fb-fab0-4711-a616-02f0d35a136b",
+          "bf0fe840-6536-4952-bb93-9b13bca4ea8f",
+          "07c9ecd4-62ee-4dc2-bcda-a275183f58c2",
+          "41f4001e-23a0-4bc6-bc39-d900feebe098"
+        ],
+        "format": {
+          "page_icon": "👋",
+          "copied_from_pointer": {
+            "id": "41be17f1-3133-4ef4-b0b3-af82af389caf",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "parent_table": "collection",
+        "alive": true,
+        "copied_from": "41be17f1-3133-4ef4-b0b3-af82af389caf",
+        "is_template": true,
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "fb9cc8e2-4762-4e4b-8bd7-8fb250790338": {
+      "value": {
+        "id": "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+        "version": 1,
+        "type": "page",
+        "properties": {
+          "A^D`": [
+            [
+              "Make your descriptions short and to the point"
+            ]
+          ],
+          "title": [
+            [
+              "Third Collection"
+            ]
+          ]
+        },
+        "content": [
+          "ea1aa45c-5ba5-4220-a716-8e4bff5c9f68",
+          "052a2028-5c73-4c61-b9f3-10487dee8d52",
+          "a97883dc-3528-493f-92bf-83c75385f244",
+          "c42a06db-dc74-486b-a962-0039a2f132fc"
+        ],
+        "format": {
+          "page_icon": "⚡",
+          "block_locked": false,
+          "block_locked_by": "45338420-73ea-4091-a96c-9d16dfec064c",
+          "copied_from_pointer": {
+            "id": "81499f1c-1347-456f-8621-0d56245d2282",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "parent_table": "collection",
+        "alive": true,
+        "copied_from": "81499f1c-1347-456f-8621-0d56245d2282",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "b1cfee29-acbd-4bf7-a2fe-ca4317db971c": {
+      "value": {
+        "id": "b1cfee29-acbd-4bf7-a2fe-ca4317db971c",
+        "version": 1,
+        "type": "transclusion_reference",
+        "format": {
+          "copied_from_pointer": {
+            "id": "97091442-4179-4c95-bde0-d597c6d9edf9",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "transclusion_reference_pointer": {
+            "id": "b75ccccf-45b0-4077-945f-ab1a669c2589",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "05e5deb9-d38d-442a-9052-8467f15bb15e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "97091442-4179-4c95-bde0-d597c6d9edf9",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "b38ebc24-1e2d-4169-90ae-20d8c7805a1a": {
+      "value": {
+        "id": "b38ebc24-1e2d-4169-90ae-20d8c7805a1a",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "25789913-600d-421c-af68-84380c157e57",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "05e5deb9-d38d-442a-9052-8467f15bb15e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "25789913-600d-421c-af68-84380c157e57",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "5e8f8349-06d4-42e7-aceb-0605b4a3c56b": {
+      "value": {
+        "id": "5e8f8349-06d4-42e7-aceb-0605b4a3c56b",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "d33379de-675f-4fd1-aa4c-a17aa0841b1a"
+        ],
+        "collection_id": "a13eccc4-581f-40ff-a890-c65fbde60bfd",
+        "format": {
+          "collection_pointer": {
+            "id": "a13eccc4-581f-40ff-a890-c65fbde60bfd",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "479d699c-1e3e-4325-9e79-1552ad250822",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "05e5deb9-d38d-442a-9052-8467f15bb15e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "479d699c-1e3e-4325-9e79-1552ad250822",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "d43cc806-960c-411e-9742-32382ae7c1f0": {
+      "value": {
+        "id": "d43cc806-960c-411e-9742-32382ae7c1f0",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "19a2b70d-8cb7-448c-8344-862fac1bda27",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802816,
+        "last_edited_time": 1721689802816,
+        "parent_id": "05e5deb9-d38d-442a-9052-8467f15bb15e",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "19a2b70d-8cb7-448c-8344-862fac1bda27",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "bb21771d-2620-4405-b54f-d469afacb269": {
+      "value": {
+        "id": "bb21771d-2620-4405-b54f-d469afacb269",
+        "version": 1,
+        "type": "transclusion_reference",
+        "format": {
+          "copied_from_pointer": {
+            "id": "9cab87cf-b61c-43dd-8cba-5564dbb7f95d",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "transclusion_reference_pointer": {
+            "id": "b75ccccf-45b0-4077-945f-ab1a669c2589",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "9cab87cf-b61c-43dd-8cba-5564dbb7f95d",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "aad9bdfb-4d3f-4880-979c-8d9b1accb5be": {
+      "value": {
+        "id": "aad9bdfb-4d3f-4880-979c-8d9b1accb5be",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "7b761c77-403d-49c5-a7fd-5e5a657b12b1",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "7b761c77-403d-49c5-a7fd-5e5a657b12b1",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "e95860b6-fc5a-4126-b8ae-bed09c45af6f": {
+      "value": {
+        "id": "e95860b6-fc5a-4126-b8ae-bed09c45af6f",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "9344e5df-b906-483d-a711-fb41bbecf5ef"
+        ],
+        "collection_id": "844f3226-fbe1-4222-aa8d-f00beb51df43",
+        "format": {
+          "collection_pointer": {
+            "id": "844f3226-fbe1-4222-aa8d-f00beb51df43",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "adcd8464-ef38-43a9-ac9b-8b4218e940d0",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "adcd8464-ef38-43a9-ac9b-8b4218e940d0",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "1aa4ae31-77a4-4306-b041-2973709f69fa": {
+      "value": {
+        "id": "1aa4ae31-77a4-4306-b041-2973709f69fa",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "4bf4dfd7-0959-4ebd-8444-59f024b74103"
+        ],
+        "collection_id": "d0b31d76-aec7-471a-82ad-030b2f0ac449",
+        "format": {
+          "collection_pointer": {
+            "id": "d0b31d76-aec7-471a-82ad-030b2f0ac449",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "2825ee1a-3a4d-4db4-aaf8-b5cc72e31a50",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "2825ee1a-3a4d-4db4-aaf8-b5cc72e31a50",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "0f769195-0595-44d6-a6f2-45c7fa72de1a": {
+      "value": {
+        "id": "0f769195-0595-44d6-a6f2-45c7fa72de1a",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "b225edf0-3e16-4a36-b97a-426e9bf638fa",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "b225edf0-3e16-4a36-b97a-426e9bf638fa",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "949ddfb1-5b24-4b44-96ef-d74bafe2cc86": {
+      "value": {
+        "id": "949ddfb1-5b24-4b44-96ef-d74bafe2cc86",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "0dfaf14a-626b-4a8b-96dd-658412c9c112",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "2e25370f-601f-4593-bcc0-47889abe25cd",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "0dfaf14a-626b-4a8b-96dd-658412c9c112",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a513964d-9ca7-4ae8-99c8-4896afa16521": {
+      "value": {
+        "id": "a513964d-9ca7-4ae8-99c8-4896afa16521",
+        "version": 1,
+        "type": "transclusion_reference",
+        "format": {
+          "copied_from_pointer": {
+            "id": "334d4c41-5b1a-473f-8510-4dbf8f86cdbc",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "transclusion_reference_pointer": {
+            "id": "b75ccccf-45b0-4077-945f-ab1a669c2589",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "334d4c41-5b1a-473f-8510-4dbf8f86cdbc",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "8f8acb93-94f1-4aa8-807b-7c2771667383": {
+      "value": {
+        "id": "8f8acb93-94f1-4aa8-807b-7c2771667383",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "8111a08e-1506-4d32-8c46-65fc0926b086",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "8111a08e-1506-4d32-8c46-65fc0926b086",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "3b2bc1b5-bbdf-4ae8-b442-6f0d3648f515": {
+      "value": {
+        "id": "3b2bc1b5-bbdf-4ae8-b442-6f0d3648f515",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "3bcf7ef8-ca5b-48b4-aa7c-923bfaea49c0"
+        ],
+        "collection_id": "f97b1035-6259-4e48-b7b2-297c7a356fb5",
+        "format": {
+          "collection_pointer": {
+            "id": "f97b1035-6259-4e48-b7b2-297c7a356fb5",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "8140cf7f-6c66-44cf-be41-8c2951b8619a",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "8140cf7f-6c66-44cf-be41-8c2951b8619a",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "8983382c-c98f-4453-b4a4-4ce3641b3b6b": {
+      "value": {
+        "id": "8983382c-c98f-4453-b4a4-4ce3641b3b6b",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "b1518f2d-5771-4a38-97ef-831fc6d3532b",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "b1518f2d-5771-4a38-97ef-831fc6d3532b",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "7d5f21fb-fab0-4711-a616-02f0d35a136b": {
+      "value": {
+        "id": "7d5f21fb-fab0-4711-a616-02f0d35a136b",
+        "version": 1,
+        "type": "transclusion_reference",
+        "format": {
+          "copied_from_pointer": {
+            "id": "69fe5c7e-a816-4617-9161-d32030758f38",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "transclusion_reference_pointer": {
+            "id": "b75ccccf-45b0-4077-945f-ab1a669c2589",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "4de834eb-0b5b-4327-90a6-3a9326286eb9",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "69fe5c7e-a816-4617-9161-d32030758f38",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "bf0fe840-6536-4952-bb93-9b13bca4ea8f": {
+      "value": {
+        "id": "bf0fe840-6536-4952-bb93-9b13bca4ea8f",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "441f133e-1692-4e92-926c-58fa625ec0d0",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "4de834eb-0b5b-4327-90a6-3a9326286eb9",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "441f133e-1692-4e92-926c-58fa625ec0d0",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "07c9ecd4-62ee-4dc2-bcda-a275183f58c2": {
+      "value": {
+        "id": "07c9ecd4-62ee-4dc2-bcda-a275183f58c2",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "ae1dd4aa-db14-481f-a201-cc4a9f32e545"
+        ],
+        "collection_id": "90e5da0b-495e-4f70-9ab7-1103d4d8533e",
+        "format": {
+          "collection_pointer": {
+            "id": "90e5da0b-495e-4f70-9ab7-1103d4d8533e",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "715f1267-d910-45d1-a80d-fc909983cef7",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "4de834eb-0b5b-4327-90a6-3a9326286eb9",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "715f1267-d910-45d1-a80d-fc909983cef7",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "41f4001e-23a0-4bc6-bc39-d900feebe098": {
+      "value": {
+        "id": "41f4001e-23a0-4bc6-bc39-d900feebe098",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "40da0063-dcd6-4d18-bd07-1bcf281e1de7",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802817,
+        "last_edited_time": 1721689802817,
+        "parent_id": "4de834eb-0b5b-4327-90a6-3a9326286eb9",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "40da0063-dcd6-4d18-bd07-1bcf281e1de7",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "ea1aa45c-5ba5-4220-a716-8e4bff5c9f68": {
+      "value": {
+        "id": "ea1aa45c-5ba5-4220-a716-8e4bff5c9f68",
+        "version": 1,
+        "type": "transclusion_reference",
+        "format": {
+          "copied_from_pointer": {
+            "id": "ba93ad7f-9c51-4db1-b9dd-8c3e5df227d1",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "transclusion_reference_pointer": {
+            "id": "b75ccccf-45b0-4077-945f-ab1a669c2589",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "ba93ad7f-9c51-4db1-b9dd-8c3e5df227d1",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "052a2028-5c73-4c61-b9f3-10487dee8d52": {
+      "value": {
+        "id": "052a2028-5c73-4c61-b9f3-10487dee8d52",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "cdade18e-4584-46ee-bf11-80e80be3aa7a",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "cdade18e-4584-46ee-bf11-80e80be3aa7a",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "a97883dc-3528-493f-92bf-83c75385f244": {
+      "value": {
+        "id": "a97883dc-3528-493f-92bf-83c75385f244",
+        "version": 1,
+        "type": "collection_view",
+        "view_ids": [
+          "460193e3-e66b-43e6-bf65-fd48f75cbb3c"
+        ],
+        "collection_id": "c2542e0d-302f-40a0-94d4-e53eec639378",
+        "format": {
+          "collection_pointer": {
+            "id": "c2542e0d-302f-40a0-94d4-e53eec639378",
+            "table": "collection",
+            "spaceId": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+          },
+          "copied_from_pointer": {
+            "id": "a39cd97b-9adf-4d45-946c-906843ede4ac",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "a39cd97b-9adf-4d45-946c-906843ede4ac",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    },
+    "c42a06db-dc74-486b-a962-0039a2f132fc": {
+      "value": {
+        "id": "c42a06db-dc74-486b-a962-0039a2f132fc",
+        "version": 1,
+        "type": "text",
+        "format": {
+          "copied_from_pointer": {
+            "id": "88a2587b-8ea0-4bf4-9b05-980920ac65bc",
+            "table": "block",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          }
+        },
+        "created_time": 1721689802818,
+        "last_edited_time": 1721689802818,
+        "parent_id": "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "88a2587b-8ea0-4bf4-9b05-980920ac65bc",
+        "created_by_table": "notion_user",
+        "created_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "last_edited_by_table": "notion_user",
+        "last_edited_by_id": "45896c59-c70a-425a-8917-19ec655d4150",
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    }
+  },
+  "space": {},
+  "collection_view": {
+    "a1385116-5a33-46a0-8dfe-7e991edc7c3a": {
+      "value": {
+        "id": "a1385116-5a33-46a0-8dfe-7e991edc7c3a",
+        "version": 1,
+        "type": "table",
+        "name": "Default view",
+        "format": {
+          "table_wrap": true,
+          "table_properties": [
+            {
+              "width": 276,
+              "visible": true,
+              "property": "title"
+            },
+            {
+              "width": 200,
+              "visible": true,
+              "property": "A^D`"
+            },
+            {
+              "visible": true,
+              "property": "is<p"
+            }
+          ]
+        },
+        "parent_id": "16a41654-3acd-4ced-9624-78e88d64d1f2",
+        "parent_table": "block",
+        "alive": true,
+        "page_sort": [
+          "6d72a1e1-7de6-415b-951b-ec2c79619473",
+          "aa361e9d-6b6a-42d8-b06c-81db246b77ea",
+          "2e25370f-601f-4593-bcc0-47889abe25cd",
+          "05e5deb9-d38d-442a-9052-8467f15bb15e",
+          "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+          "3172fcba-fe9a-42b1-9b77-bfd906e7ea12",
+          "406988ab-1929-4ce9-8e0a-af46f476f380",
+          "2145cf93-8ea4-4ddd-9aec-7c19e8218a87"
+        ],
+        "query2": {
+          "aggregations": [
+            {
+              "property": "title",
+              "aggregator": "count"
+            }
+          ]
+        },
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    }
+  },
+  "collection": {
+    "a375d064-e33e-4a59-aae7-ab9a2b2ca84f": {
+      "value": {
+        "id": "a375d064-e33e-4a59-aae7-ab9a2b2ca84f",
+        "version": 1,
+        "name": [
+          [
+            "Collections"
+          ]
+        ],
+        "schema": {
+          "A^D`": {
+            "name": "Collection Description",
+            "type": "text"
+          },
+          "title": {
+            "name": "Collection Title",
+            "type": "title"
+          }
+        },
+        "format": {
+          "copied_from_pointer": {
+            "id": "6eebadb6-12d7-473f-929a-5c301bc7dfcb",
+            "table": "collection",
+            "spaceId": "e9794696-010d-4dc1-a889-ef6d0da899ab"
+          },
+          "collection_page_properties": [
+            {
+              "visible": true,
+              "property": "A^D`"
+            }
+          ]
+        },
+        "parent_id": "16a41654-3acd-4ced-9624-78e88d64d1f2",
+        "parent_table": "block",
+        "alive": true,
+        "copied_from": "6eebadb6-12d7-473f-929a-5c301bc7dfcb",
+        "template_pages": [
+          "4de834eb-0b5b-4327-90a6-3a9326286eb9"
+        ],
+        "migrated": true,
+        "space_id": "19ec9bd7-e5d4-4099-bd3a-70e6733eeac6"
+      },
+      "role": "reader"
+    }
+  },
+  "notion_user": {},
+  "collection_query": {
+    "a375d064-e33e-4a59-aae7-ab9a2b2ca84f": {
+      "a1385116-5a33-46a0-8dfe-7e991edc7c3a": {
+        "collection_group_results": {
+          "type": "results",
+          "blockIds": [
+            "2e25370f-601f-4593-bcc0-47889abe25cd",
+            "05e5deb9-d38d-442a-9052-8467f15bb15e",
+            "fb9cc8e2-4762-4e4b-8bd7-8fb250790338",
+            "3172fcba-fe9a-42b1-9b77-bfd906e7ea12"
+          ],
+          "hasMore": false
+        }
+      }
+    }
+  },
+  "signed_urls": {}
+}

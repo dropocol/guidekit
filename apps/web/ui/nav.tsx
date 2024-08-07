@@ -14,6 +14,7 @@ import {
   Settings,
   FileCode,
   Github,
+  Book,
 } from "lucide-react";
 import {
   useParams,
@@ -139,6 +140,11 @@ export default function Nav({ children }: { children: ReactNode }) {
         href: "/",
         isActive: segments.length === 0,
         icon: <LayoutDashboard width={18} />,
+      },
+      {
+        name: "Knowledge Bases",
+        href: "/knowledgebases",
+        icon: <Book width={18} />,
       },
       {
         name: "Sites",

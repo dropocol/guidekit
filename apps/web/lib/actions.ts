@@ -762,6 +762,7 @@ import {
 import { put } from "@vercel/blob";
 import { customAlphabet } from "nanoid";
 import { getBlurDataURL } from "@/lib/utils";
+import { getNotionData } from "@/lib/notion";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -1142,4 +1143,29 @@ export const deleteSite = withSiteAuth(async function deleteSite(
   }
 });
 
-// Include any other missing functions in a similar manner
+export async function createKnowledgebase(formData: FormData) {
+  const session = await getSession();
+  if (!session?.user?.id) {
+    return { error: "Not authenticated" };
+  }
+
+  const name = formData.get("name") as string;
+  const notionLink = formData.get("notionLink") as string;
+
+  try {
+    const pageId = notionLink.split("-").pop();
+    const notionData = await getNotionData(notionLink!);
+
+    const knowledgebase = await prisma.knowledgebase.create({
+      data: {
+        name,
+        notionLink,
+        userId: session.user.id,
+      },
+    });
+
+    return true;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}

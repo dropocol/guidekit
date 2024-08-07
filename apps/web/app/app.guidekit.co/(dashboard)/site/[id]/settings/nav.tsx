@@ -24,6 +24,7 @@ export default function SiteSettingsNav() {
       href: `/site/${id}/settings/appearance`,
       segment: "appearance",
     },
+    
   ];
 
   return (
