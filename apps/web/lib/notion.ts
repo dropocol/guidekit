@@ -1,5 +1,5 @@
 import { NotionAPI } from "notion-client";
-import { ExtendedRecordMap } from "notion-types";
+import { Block, ExtendedRecordMap, Role } from "notion-types";
 import fs from "fs";
 
 const notion = new NotionAPI();
@@ -19,143 +19,138 @@ interface PageInfo {
   properties: Record<string, any>;
 }
 
-async function getCollectionInfo(
-  collectionId: string,
-  viewId: string,
-  recordMap: ExtendedRecordMap,
-): Promise<CollectionInfo | null> {
-  const collection = recordMap.collection[collectionId].value;
+type GKRole = "reader";
 
-  //   console.log("collectionId", collectionId);
-  //   const collectionView = Object.values(recordMap.collection_view).find(
-  //     (view) => {
-  //       console.log("Parent ID", view.value.parent_id);
-  //       console.log("Collec ID", collectionId);
-  //       console.log("View", view);
-  //       return view.value.id === collectionId;
-  //     },
-  //   );
+type ResultArrayItem = {
+  role: Role;
+  value: GKBlock;
+};
 
-  //   console.log("collectionView", collectionView);
-
-  //   if (!collectionView) {
-  //     // throw new Error(`Collection view not found for collection ${collectionId}`);
-
-  //     return null;
-  //   }
-
-  const collectionData = await notion.getCollectionData(
-    collectionId,
-    viewId,
-    {},
-  );
-
-  //   console.log("collectionData", collectionData);
-
-  //write in json file
-  //   await fs.writeFileSync("collectionData.json", JSON.stringify(collectionData));
-
-  const items: PageInfo[] = [];
-  const subCollections: CollectionInfo[] = []; // Declare subCollections here
-  for (const pageId of Object.keys(collectionData.recordMap.block)) {
-    // if type is page
-    if (collectionData.recordMap.block[pageId].value.type === "page") {
-      const pageBlock = collectionData.recordMap.block[pageId].value;
-      const pageInfo: PageInfo = {
-        id: pageId,
-        title: (pageBlock.properties?.title?.[0]?.[0] as string) || "",
-        description:
-          (pageBlock.properties as Record<string, any>)["A^D`"] || "",
-        properties: pageBlock.properties || {},
-      };
-
-      console.log("pageInfo", pageInfo);
-      items.push(pageInfo);
-    }
-
-    //write in json file
-    await fs.writeFileSync("pageInfo.json", JSON.stringify(items));
-
-    // Check for sub-collections
-    //   if (pageBlock.content) {
-    //     for (const blockId of pageBlock.content) {
-    //       if (
-    //         recordMap.block[blockId] &&
-    //         recordMap.block[blockId].value.type === "collection_view"
-    //       ) {
-    //         const collectionId = recordMap.block[blockId].value.collection_id;
-    //         const viewId = recordMap.block[blockId].value.id;
-    //         if (collectionId) {
-    //           const subCollection = await getCollectionInfo(
-    //             collectionId,
-    //             viewId,
-    //             recordMap,
-    //           );
-
-    //           if (subCollection) {
-    //             subCollections.push(subCollection);
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-  }
-
-  return {
-    id: collectionId,
-    title: collection.name[0][0],
-    description: "", // Set to an empty string or a valid property
-    // items,
-    // subCollections,
-    items: [],
-    subCollections: [],
-  };
-}
+type GKBlock = Block & {
+  subCollections?: ResultArrayItem[];
+  collection_id?: string;
+  view_ids?: string[];
+};
 
 export async function getNotionData(notionLink: string) {
   try {
     const pageId = new URL(notionLink).pathname.split("-").pop();
     if (!pageId) throw new Error("No page ID found in the URL");
 
+    // get the main page of knowledgebase
     const recordMap: ExtendedRecordMap = await notion.getPage(pageId);
 
-    // const collectionsBlock = Object.values(recordMap.block).find(
-    //   (block) => block.value.type === "collection_view",
-    //   // && // Check if collection_id is defined
-    //   // recordMap.collection[block.value.collection_id]?.value.name[0][0] ===
-    //   //   "Collections",
+    // write in json file
+    // await fs.writeFileSync("json/recordMap.json", JSON.stringify(recordMap));
+
+    // Get the main collection id from the first page named "Collections"
+    const collectionBlockId = Object.keys(recordMap.collection)[0];
+
+    // Get the first collection view id
+    const collectionViewId = Object.keys(recordMap.collection_view)[0];
+
+    const collectionPage = await notion.getCollectionData(
+      collectionBlockId,
+      collectionViewId,
+      {},
+    );
+
+    // await fs.writeFileSync(
+    //   "json/collectionPage.json",
+    //   JSON.stringify(collectionPage),
     // );
 
-    const collectionsBlock = Object.values(recordMap.block).find((block) => {
-      const isCollectionView = block.value.type === "collection_view";
-      console.log("Checking block:", block.value.type); // Log the block being checked
-      return isCollectionView;
-    });
+    const collectionPageData: any = JSON.stringify(collectionPage);
+    const blockIds =
+      JSON.parse(collectionPageData).result.reducerResults
+        .collection_group_results.blockIds;
 
-    console.log("collectionsBlock", collectionsBlock);
+    const blocks = collectionPage.recordMap.block;
+    const resultArray: ResultArrayItem[] = [];
+    for (const blockId in blocks) {
+      const block = blocks[blockId];
+      if (block.value.type === "page") {
+        const subCollections = [];
+        for (const subBlockId in blocks) {
+          const subBlock = blocks[subBlockId];
+          if (
+            subBlock.value.type === "collection_view" &&
+            subBlock.value.parent_id === blockId
+          ) {
+            subCollections.push(subBlock);
+          }
+        }
 
-    if (!collectionsBlock) {
-      throw new Error("Collections block not found");
-    }
-
-    let collectionInfo; // Declare collectionInfo here
-    if (collectionsBlock.value.type === "collection_view") {
-      const collectionId = collectionsBlock.value.collection_id;
-      if (collectionId) {
-        // Check if collectionId is defined
-        collectionInfo = await getCollectionInfo(
-          collectionId,
-          collectionsBlock.value.view_ids[0],
-          recordMap,
-        ); // Assign value to collectionInfo
+        const blockCopy: GKBlock = { ...block.value, subCollections };
+        if (blockIds.includes(blockId)) {
+          resultArray.push({ role: block.role, value: blockCopy });
+        }
       }
     }
 
-    console.log("collectionInfo", collectionInfo);
+    // Reorder resultArray to match the order of blockIds
+    const orderedResultArray = blockIds
+      .map((blockId: string) => {
+        return resultArray.find((block) => block.value.id === blockId);
+      })
+      .filter(Boolean);
 
-    return collectionInfo; // Now accessible here
+    // Replace resultArray with orderedResultArray
+    resultArray.length = 0;
+    resultArray.push(...orderedResultArray);
+
+    // write in json file
+    // await fs.writeFileSync(
+    //   "json/resultArray.json",
+    //   JSON.stringify(orderedResultArray),
+    // );
+
+    // console.log("resultArray", resultArray);
+    const subCollectionDataArray = [];
+
+    const firstItem = resultArray[0];
+    if (firstItem && firstItem.value.subCollections) {
+      // const subCollection = firstItem.value;
+      const { id, subCollections } = firstItem.value;
+
+      for (const subCollection of subCollections) {
+        const subCollectionId = subCollection.value.collection_id;
+        const subCollectionViewId = subCollection.value.view_ids?.[0];
+
+        if (!subCollectionViewId) {
+          console.error(
+            `No view_ids found for sub-collection ${subCollectionId}`,
+          );
+          continue;
+        }
+
+        try {
+          const subCollectionData = await notion.getCollectionData(
+            subCollectionId!,
+            subCollectionViewId,
+            {},
+          );
+          console.log(
+            `Data for sub-collection ${subCollectionId}:`,
+            JSON.stringify(subCollectionData, null, 2),
+          );
+
+          subCollectionDataArray.push(subCollectionData);
+        } catch (error) {
+          console.error(
+            `Failed to fetch data for sub-collection ${subCollectionId}:`,
+            error,
+          );
+        }
+      }
+    }
+
+    await fs.writeFileSync(
+      "json/subCollectionDataArray.json",
+      JSON.stringify(subCollectionDataArray),
+    );
   } catch (error: any) {
-    console.error("Error fetching Notion data:", error);
+    console.error("Error fetching Notion data:", error.message);
     return null;
   }
 }
