@@ -9,10 +9,10 @@ import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
-type Collection = {
-  role: Role;
-  value: Block;
-};
+// type Collection = {
+//   role: Role;
+//   value: Block;
+// };
 
 interface ArticleInfo {
   id: string;
@@ -92,7 +92,7 @@ async function fetchCollectionPage(recordMap: ExtendedRecordMap) {
   );
 }
 
-function processBlocks(collectionPage: any): Collection[] {
+function processBlocks(collectionPage: any): Block[] {
   const blocks = collectionPage.recordMap.block;
   const blockIds = JSON.parse(JSON.stringify(collectionPage)).result
     .reducerResults.collection_group_results.blockIds;
@@ -120,22 +120,20 @@ function processBlocks(collectionPage: any): Collection[] {
         page_icon: block.value.format?.page_icon,
         subCollections,
       };
-      return { role: block.role, value: blockCopy };
+      return blockCopy;
     })
-    .filter((block) => blockIds.includes(block.value.id));
+    .filter((block) => blockIds.includes(block.id));
 
   return blockIds
-    .map((blockId: string) =>
-      resultArray.find((block) => block.value.id === blockId),
-    )
+    .map((blockId: string) => resultArray.find((block) => block.id === blockId))
     .filter(Boolean);
 }
 
-async function fetchSubCollections(resultArray: Collection[]) {
+async function fetchSubCollections(resultArray: Block[]) {
   const subCollectionDataArray = [];
   for (const item of resultArray) {
-    if (item.value.subCollections) {
-      for (const subCollection of item.value.subCollections) {
+    if (item.subCollections) {
+      for (const subCollection of item.subCollections) {
         const subCollectionId = subCollection.collection_id;
         const subCollectionViewId = subCollection.view_ids?.[0];
 
