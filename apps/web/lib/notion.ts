@@ -43,12 +43,13 @@ export async function getNotionData(notionLink: string) {
     // write in json file
     // await fs.writeFileSync("json/recordMap.json", JSON.stringify(recordMap));
 
-    // Get the main collection id from the first page named "Collections"
+    // Get the parent collection id from the first page named "Collections"
     const collectionBlockId = Object.keys(recordMap.collection)[0];
 
-    // Get the first collection view id
+    // Get the parent collection view id
     const collectionViewId = Object.keys(recordMap.collection_view)[0];
 
+    // Parent Collection data from the main page
     const collectionPage = await notion.getCollectionData(
       collectionBlockId,
       collectionViewId,
@@ -60,11 +61,13 @@ export async function getNotionData(notionLink: string) {
     //   JSON.stringify(collectionPage),
     // );
 
+    // Get the block ids from the collection page
     const collectionPageData: any = JSON.stringify(collectionPage);
     const blockIds =
       JSON.parse(collectionPageData).result.reducerResults
         .collection_group_results.blockIds;
 
+    // get the page data from the parent collection and find it's sub-collections and save it in the array
     const blocks = collectionPage.recordMap.block;
     const resultArray: ResultArrayItem[] = [];
     for (const blockId in blocks) {
@@ -89,6 +92,7 @@ export async function getNotionData(notionLink: string) {
     }
 
     // Reorder resultArray to match the order of blockIds
+    // it also removes the extra blocks that are not in the blockIds array
     const orderedResultArray = blockIds
       .map((blockId: string) => {
         return resultArray.find((block) => block.value.id === blockId);
@@ -105,7 +109,7 @@ export async function getNotionData(notionLink: string) {
     //   JSON.stringify(orderedResultArray),
     // );
 
-    // console.log("resultArray", resultArray);
+    // get the sub-collection data that shows the sub-collection names, data and the actual articles it contains.
     const subCollectionDataArray = [];
 
     const firstItem = resultArray[0];
