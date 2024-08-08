@@ -7,16 +7,17 @@ const notion = new NotionAPI();
 interface CollectionInfo {
   id: string;
   title: string;
-  description: string;
-  items: PageInfo[];
+  // description: string;
+  articles: PageInfo[];
   // subCollections: CollectionInfo[];
 }
 
 interface PageInfo {
   id: string;
   title: string;
-  description: string;
   properties: Record<string, any>;
+  schema?: Record<string, any>;
+  description: string;
 }
 
 type ResultArrayItem = {
@@ -24,29 +25,36 @@ type ResultArrayItem = {
   value: GKBlock;
 };
 
-type GKBlock = Block & {
-  subCollections?: ResultArrayItem[];
-  collection_id?: string;
-  view_ids?: string[];
+type GKBlock = {
+  id: string;
+  type: string;
+  properties: Record<string, any>;
+  page_icon?: string;
+  subCollections?: {
+    id: string;
+    type: string;
+    view_ids: string[];
+    collection_id: string;
+  }[];
 };
 
 export async function getNotionData(notionLink: string) {
   try {
     const pageId = extractPageId(notionLink);
     const parentPage = await fetchPage(pageId);
-    // await saveToFile("json/parentPage.json", parentPage);
+    await saveToFile("json/parentPage.json", parentPage);
 
     const parentCollection = await fetchCollectionPage(parentPage);
-    // await saveToFile("json/parentCollection.json", parentCollection);
+    await saveToFile("json/parentCollection.json", parentCollection);
 
     const parentCollectionProcessed = processBlocks(parentCollection);
-    // await saveToFile(
-    //   "json/parentCollectionProcessed.json",
-    //   parentCollectionProcessed,
-    // );
+    await saveToFile(
+      "json/parentCollectionProcessed.json",
+      parentCollectionProcessed,
+    );
 
     const subCollections = await fetchSubCollections(parentCollectionProcessed);
-    // await saveToFile("json/subCollections.json", subCollections);
+    await saveToFile("json/subCollections.json", subCollections);
 
     const subCollectionsProcessed = await processSubCollections(subCollections);
 
@@ -89,13 +97,26 @@ function processBlocks(collectionPage: any): ResultArrayItem[] {
   const resultArray = Object.entries(blocks)
     .filter(([_, block]: [string, any]) => block.value.type === "page")
     .map(([blockId, block]: [string, any]) => {
-      const subCollections = Object.values(blocks).filter(
-        (subBlock: any) =>
-          subBlock.value.type === "collection_view" &&
-          subBlock.value.parent_id === blockId,
-      );
+      const subCollections = Object.values(blocks)
+        .filter(
+          (subBlock: any) =>
+            subBlock.value.type === "collection_view" &&
+            subBlock.value.parent_id === blockId,
+        )
+        .map((subBlock: any) => ({
+          id: subBlock.value.id,
+          type: subBlock.value.type,
+          view_ids: subBlock.value.view_ids,
+          collection_id: subBlock.value.collection_id,
+        }));
 
-      const blockCopy: GKBlock = { ...block.value, subCollections };
+      const blockCopy: GKBlock = {
+        id: block.value.id,
+        type: block.value.type,
+        properties: block.value.properties,
+        page_icon: block.value.format?.page_icon,
+        subCollections,
+      };
       return { role: block.role, value: blockCopy };
     })
     .filter((block) => blockIds.includes(block.value.id));
@@ -113,8 +134,8 @@ async function fetchSubCollections(resultArray: ResultArrayItem[]) {
 
   if (firstItem?.value.subCollections) {
     for (const subCollection of firstItem.value.subCollections) {
-      const subCollectionId = subCollection.value.collection_id;
-      const subCollectionViewId = subCollection.value.view_ids?.[0];
+      const subCollectionId = subCollection.collection_id;
+      const subCollectionViewId = subCollection.view_ids?.[0];
 
       if (!subCollectionViewId) {
         console.error(
@@ -162,26 +183,26 @@ async function processSubCollections(
     const collectionInfo: CollectionInfo = {
       id: collectionId,
       title: collection.name[0][0] || "Untitled",
-      description: "",
-      items: [],
+      articles: [],
     };
 
     for (const block of matchingBlocks) {
       if (block.value.type === "page") {
+        console.log(block.value);
         const pageInfo: PageInfo = {
           id: block.value.id,
           title: block.value.properties?.title?.[0]?.[0] || "Untitled",
           description: block.value.properties?.["b<py"]?.[0]?.[0] || "",
           properties: block.value.properties || {},
+          // schema: block.value.schema,
         };
-        collectionInfo.items.push(pageInfo);
+        collectionInfo.articles.push(pageInfo);
       }
     }
 
     processedCollections.push(collectionInfo);
   }
 
-  console.log(processedCollections);
   return processedCollections;
 }
 
