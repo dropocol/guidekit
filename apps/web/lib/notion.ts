@@ -1,6 +1,6 @@
 import { NotionAPI } from "notion-client";
 import { Block, ExtendedRecordMap, Role } from "notion-types";
-import fs from "fs";
+import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
@@ -9,7 +9,7 @@ interface CollectionInfo {
   title: string;
   description: string;
   items: PageInfo[];
-  subCollections: CollectionInfo[];
+  // subCollections: CollectionInfo[];
 }
 
 interface PageInfo {
@@ -18,8 +18,6 @@ interface PageInfo {
   description: string;
   properties: Record<string, any>;
 }
-
-type GKRole = "reader";
 
 type ResultArrayItem = {
   role: Role;
@@ -34,127 +32,163 @@ type GKBlock = Block & {
 
 export async function getNotionData(notionLink: string) {
   try {
-    const pageId = new URL(notionLink).pathname.split("-").pop();
-    if (!pageId) throw new Error("No page ID found in the URL");
+    const pageId = extractPageId(notionLink);
+    const parentPage = await fetchPage(pageId);
+    // await saveToFile("json/parentPage.json", parentPage);
 
-    // get the main page of knowledgebase
-    const recordMap: ExtendedRecordMap = await notion.getPage(pageId);
+    const parentCollection = await fetchCollectionPage(parentPage);
+    // await saveToFile("json/parentCollection.json", parentCollection);
 
-    // write in json file
-    // await fs.writeFileSync("json/recordMap.json", JSON.stringify(recordMap));
-
-    // Get the parent collection id from the first page named "Collections"
-    const collectionBlockId = Object.keys(recordMap.collection)[0];
-
-    // Get the parent collection view id
-    const collectionViewId = Object.keys(recordMap.collection_view)[0];
-
-    // Parent Collection data from the main page
-    const collectionPage = await notion.getCollectionData(
-      collectionBlockId,
-      collectionViewId,
-      {},
-    );
-
-    // await fs.writeFileSync(
-    //   "json/collectionPage.json",
-    //   JSON.stringify(collectionPage),
+    const parentCollectionProcessed = processBlocks(parentCollection);
+    // await saveToFile(
+    //   "json/parentCollectionProcessed.json",
+    //   parentCollectionProcessed,
     // );
 
-    // Get the block ids from the collection page
-    const collectionPageData: any = JSON.stringify(collectionPage);
-    const blockIds =
-      JSON.parse(collectionPageData).result.reducerResults
-        .collection_group_results.blockIds;
+    const subCollections = await fetchSubCollections(parentCollectionProcessed);
+    // await saveToFile("json/subCollections.json", subCollections);
 
-    // get the page data from the parent collection and find it's sub-collections and save it in the array
-    const blocks = collectionPage.recordMap.block;
-    const resultArray: ResultArrayItem[] = [];
-    for (const blockId in blocks) {
-      const block = blocks[blockId];
-      if (block.value.type === "page") {
-        const subCollections = [];
-        for (const subBlockId in blocks) {
-          const subBlock = blocks[subBlockId];
-          if (
-            subBlock.value.type === "collection_view" &&
-            subBlock.value.parent_id === blockId
-          ) {
-            subCollections.push(subBlock);
-          }
-        }
+    const subCollectionsProcessed = await processSubCollections(subCollections);
 
-        const blockCopy: GKBlock = { ...block.value, subCollections };
-        if (blockIds.includes(blockId)) {
-          resultArray.push({ role: block.role, value: blockCopy });
-        }
-      }
-    }
-
-    // Reorder resultArray to match the order of blockIds
-    // it also removes the extra blocks that are not in the blockIds array
-    const orderedResultArray = blockIds
-      .map((blockId: string) => {
-        return resultArray.find((block) => block.value.id === blockId);
-      })
-      .filter(Boolean);
-
-    // Replace resultArray with orderedResultArray
-    resultArray.length = 0;
-    resultArray.push(...orderedResultArray);
-
-    // write in json file
-    // await fs.writeFileSync(
-    //   "json/resultArray.json",
-    //   JSON.stringify(orderedResultArray),
-    // );
-
-    // get the sub-collection data that shows the sub-collection names, data and the actual articles it contains.
-    const subCollectionDataArray = [];
-
-    const firstItem = resultArray[0];
-    if (firstItem && firstItem.value.subCollections) {
-      // const subCollection = firstItem.value;
-      const { id, subCollections } = firstItem.value;
-
-      for (const subCollection of subCollections) {
-        const subCollectionId = subCollection.value.collection_id;
-        const subCollectionViewId = subCollection.value.view_ids?.[0];
-
-        if (!subCollectionViewId) {
-          console.error(
-            `No view_ids found for sub-collection ${subCollectionId}`,
-          );
-          continue;
-        }
-
-        try {
-          const subCollectionData = await notion.getCollectionData(
-            subCollectionId!,
-            subCollectionViewId,
-            {},
-          );
-          console.log(
-            `Data for sub-collection ${subCollectionId}:`,
-            JSON.stringify(subCollectionData, null, 2),
-          );
-
-          subCollectionDataArray.push(subCollectionData);
-        } catch (error) {
-          console.error(
-            `Failed to fetch data for sub-collection ${subCollectionId}:`,
-            error,
-          );
-        }
-      }
-    }
-
-    await fs.writeFileSync(
-      "json/subCollectionDataArray.json",
-      JSON.stringify(subCollectionDataArray),
+    await saveToFile(
+      "json/subCollectionsProcessed.json",
+      subCollectionsProcessed,
     );
+
+    const article = await fetchPage("fdcbe228-9ca5-4cb2-be32-4697637c21ae");
+    await saveToFile("json/article.json", article);
+
+    return true;
   } catch (error: any) {
     console.error("Error fetching Notion data:", error.message);
     return null;
   }
+}
+
+function extractPageId(notionLink: string): string {
+  const pageId = new URL(notionLink).pathname.split("-").pop();
+  if (!pageId) throw new Error("No page ID found in the URL");
+  return pageId;
+}
+
+async function fetchCollectionPage(recordMap: ExtendedRecordMap) {
+  const collectionBlockId = Object.keys(recordMap.collection)[0];
+  const collectionViewId = Object.keys(recordMap.collection_view)[0];
+  return await notion.getCollectionData(
+    collectionBlockId,
+    collectionViewId,
+    {},
+  );
+}
+
+function processBlocks(collectionPage: any): ResultArrayItem[] {
+  const blocks = collectionPage.recordMap.block;
+  const blockIds = JSON.parse(JSON.stringify(collectionPage)).result
+    .reducerResults.collection_group_results.blockIds;
+
+  const resultArray = Object.entries(blocks)
+    .filter(([_, block]: [string, any]) => block.value.type === "page")
+    .map(([blockId, block]: [string, any]) => {
+      const subCollections = Object.values(blocks).filter(
+        (subBlock: any) =>
+          subBlock.value.type === "collection_view" &&
+          subBlock.value.parent_id === blockId,
+      );
+
+      const blockCopy: GKBlock = { ...block.value, subCollections };
+      return { role: block.role, value: blockCopy };
+    })
+    .filter((block) => blockIds.includes(block.value.id));
+
+  return blockIds
+    .map((blockId: string) =>
+      resultArray.find((block) => block.value.id === blockId),
+    )
+    .filter(Boolean);
+}
+
+async function fetchSubCollections(resultArray: ResultArrayItem[]) {
+  const subCollectionDataArray = [];
+  const firstItem = resultArray[0];
+
+  if (firstItem?.value.subCollections) {
+    for (const subCollection of firstItem.value.subCollections) {
+      const subCollectionId = subCollection.value.collection_id;
+      const subCollectionViewId = subCollection.value.view_ids?.[0];
+
+      if (!subCollectionViewId) {
+        console.error(
+          `No view_ids found for sub-collection ${subCollectionId}`,
+        );
+        continue;
+      }
+
+      try {
+        const subCollectionData = await notion.getCollectionData(
+          subCollectionId!,
+          subCollectionViewId,
+          {},
+        );
+        subCollectionDataArray.push(subCollectionData);
+      } catch (error) {
+        console.error(
+          `Failed to fetch data for sub-collection ${subCollectionId}:`,
+          error,
+        );
+      }
+    }
+  }
+
+  return subCollectionDataArray;
+}
+
+async function processSubCollections(
+  subCollections: any[],
+): Promise<CollectionInfo[]> {
+  const processedCollections: CollectionInfo[] = [];
+
+  for (const subCollection of subCollections) {
+    const blockIds =
+      subCollection.result.reducerResults.collection_group_results.blockIds;
+    const blocks = subCollection.recordMap.block;
+
+    const matchingBlocks = blockIds
+      .map((blockId: string | number) => blocks[blockId])
+      .filter(Boolean);
+
+    const collectionId = Object.keys(subCollection.recordMap.collection)[0];
+    const collection = subCollection.recordMap.collection[collectionId].value;
+
+    const collectionInfo: CollectionInfo = {
+      id: collectionId,
+      title: collection.name[0][0] || "Untitled",
+      description: "",
+      items: [],
+    };
+
+    for (const block of matchingBlocks) {
+      if (block.value.type === "page") {
+        const pageInfo: PageInfo = {
+          id: block.value.id,
+          title: block.value.properties?.title?.[0]?.[0] || "Untitled",
+          description: block.value.properties?.["b<py"]?.[0]?.[0] || "",
+          properties: block.value.properties || {},
+        };
+        collectionInfo.items.push(pageInfo);
+      }
+    }
+
+    processedCollections.push(collectionInfo);
+  }
+
+  console.log(processedCollections);
+  return processedCollections;
+}
+
+async function saveToFile(filePath: string, data: any) {
+  await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
+async function fetchPage(pageId: string): Promise<ExtendedRecordMap> {
+  return await notion.getPage(pageId);
 }
