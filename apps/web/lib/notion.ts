@@ -1,18 +1,20 @@
 import { NotionAPI } from "notion-client";
-import { Block, ExtendedRecordMap, Role } from "notion-types";
+import {
+  // Block,
+  CollectionInstance,
+  ExtendedRecordMap,
+  Role,
+} from "notion-types";
 import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
-interface CollectionInfo {
-  id: string;
-  title: string;
-  // description: string;
-  articles: PageInfo[];
-  // subCollections: CollectionInfo[];
-}
+type Collection = {
+  role: Role;
+  value: Block;
+};
 
-interface PageInfo {
+interface ArticleInfo {
   id: string;
   title: string;
   properties: Record<string, any>;
@@ -20,12 +22,13 @@ interface PageInfo {
   description: string;
 }
 
-type ResultArrayItem = {
-  role: Role;
-  value: GKBlock;
-};
+interface CollectionArticleList {
+  id: string;
+  title: string;
+  articles: ArticleInfo[];
+}
 
-type GKBlock = {
+type Block = {
   id: string;
   type: string;
   properties: Record<string, any>;
@@ -89,7 +92,7 @@ async function fetchCollectionPage(recordMap: ExtendedRecordMap) {
   );
 }
 
-function processBlocks(collectionPage: any): ResultArrayItem[] {
+function processBlocks(collectionPage: any): Collection[] {
   const blocks = collectionPage.recordMap.block;
   const blockIds = JSON.parse(JSON.stringify(collectionPage)).result
     .reducerResults.collection_group_results.blockIds;
@@ -110,7 +113,7 @@ function processBlocks(collectionPage: any): ResultArrayItem[] {
           collection_id: subBlock.value.collection_id,
         }));
 
-      const blockCopy: GKBlock = {
+      const blockCopy: Block = {
         id: block.value.id,
         type: block.value.type,
         properties: block.value.properties,
@@ -128,34 +131,34 @@ function processBlocks(collectionPage: any): ResultArrayItem[] {
     .filter(Boolean);
 }
 
-async function fetchSubCollections(resultArray: ResultArrayItem[]) {
+async function fetchSubCollections(resultArray: Collection[]) {
   const subCollectionDataArray = [];
-  const firstItem = resultArray[0];
+  for (const item of resultArray) {
+    if (item.value.subCollections) {
+      for (const subCollection of item.value.subCollections) {
+        const subCollectionId = subCollection.collection_id;
+        const subCollectionViewId = subCollection.view_ids?.[0];
 
-  if (firstItem?.value.subCollections) {
-    for (const subCollection of firstItem.value.subCollections) {
-      const subCollectionId = subCollection.collection_id;
-      const subCollectionViewId = subCollection.view_ids?.[0];
+        if (!subCollectionViewId) {
+          console.error(
+            `No view_ids found for sub-collection ${subCollectionId}`,
+          );
+          continue;
+        }
 
-      if (!subCollectionViewId) {
-        console.error(
-          `No view_ids found for sub-collection ${subCollectionId}`,
-        );
-        continue;
-      }
-
-      try {
-        const subCollectionData = await notion.getCollectionData(
-          subCollectionId!,
-          subCollectionViewId,
-          {},
-        );
-        subCollectionDataArray.push(subCollectionData);
-      } catch (error) {
-        console.error(
-          `Failed to fetch data for sub-collection ${subCollectionId}:`,
-          error,
-        );
+        try {
+          const subCollectionData = await notion.getCollectionData(
+            subCollectionId!,
+            subCollectionViewId,
+            {},
+          );
+          subCollectionDataArray.push(subCollectionData);
+        } catch (error) {
+          console.error(
+            `Failed to fetch data for sub-collection ${subCollectionId}:`,
+            error,
+          );
+        }
       }
     }
   }
@@ -165,8 +168,8 @@ async function fetchSubCollections(resultArray: ResultArrayItem[]) {
 
 async function processSubCollections(
   subCollections: any[],
-): Promise<CollectionInfo[]> {
-  const processedCollections: CollectionInfo[] = [];
+): Promise<CollectionArticleList[]> {
+  const processedCollections: CollectionArticleList[] = [];
 
   for (const subCollection of subCollections) {
     const blockIds =
@@ -180,7 +183,7 @@ async function processSubCollections(
     const collectionId = Object.keys(subCollection.recordMap.collection)[0];
     const collection = subCollection.recordMap.collection[collectionId].value;
 
-    const collectionInfo: CollectionInfo = {
+    const collectionInfo: CollectionArticleList = {
       id: collectionId,
       title: collection.name[0][0] || "Untitled",
       articles: [],
@@ -189,7 +192,7 @@ async function processSubCollections(
     for (const block of matchingBlocks) {
       if (block.value.type === "page") {
         console.log(block.value);
-        const pageInfo: PageInfo = {
+        const pageInfo: ArticleInfo = {
           id: block.value.id,
           title: block.value.properties?.title?.[0]?.[0] || "Untitled",
           description: block.value.properties?.["b<py"]?.[0]?.[0] || "",
