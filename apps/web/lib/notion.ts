@@ -9,11 +9,6 @@ import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
-// type Collection = {
-//   role: Role;
-//   value: Block;
-// };
-
 interface ArticleInfo {
   id: string;
   title: string;
@@ -25,20 +20,23 @@ interface ArticleInfo {
 interface CollectionArticleList {
   id: string;
   title: string;
-  articles: ArticleInfo[];
+  articles?: ArticleInfo[];
 }
 
-type Block = {
+type SubCollection = {
+  id: string;
+  type: string;
+  view_ids: string[];
+  collection_id: string;
+};
+
+type Collection = {
   id: string;
   type: string;
   properties: Record<string, any>;
   page_icon?: string;
-  subCollections?: {
-    id: string;
-    type: string;
-    view_ids: string[];
-    collection_id: string;
-  }[];
+  subCollections?: SubCollection[];
+  articles?: CollectionArticleList[];
 };
 
 export async function getNotionData(notionLink: string) {
@@ -92,7 +90,7 @@ async function fetchCollectionPage(recordMap: ExtendedRecordMap) {
   );
 }
 
-function processBlocks(collectionPage: any): Block[] {
+function processBlocks(collectionPage: any): Collection[] {
   const blocks = collectionPage.recordMap.block;
   const blockIds = JSON.parse(JSON.stringify(collectionPage)).result
     .reducerResults.collection_group_results.blockIds;
@@ -100,7 +98,7 @@ function processBlocks(collectionPage: any): Block[] {
   const resultArray = Object.entries(blocks)
     .filter(([_, block]: [string, any]) => block.value.type === "page")
     .map(([blockId, block]: [string, any]) => {
-      const subCollections = Object.values(blocks)
+      const subCollections: SubCollection[] = Object.values(blocks)
         .filter(
           (subBlock: any) =>
             subBlock.value.type === "collection_view" &&
@@ -113,7 +111,7 @@ function processBlocks(collectionPage: any): Block[] {
           collection_id: subBlock.value.collection_id,
         }));
 
-      const blockCopy: Block = {
+      const blockCopy: Collection = {
         id: block.value.id,
         type: block.value.type,
         properties: block.value.properties,
@@ -129,7 +127,7 @@ function processBlocks(collectionPage: any): Block[] {
     .filter(Boolean);
 }
 
-async function fetchSubCollections(resultArray: Block[]) {
+async function fetchSubCollections(resultArray: Collection[]) {
   const subCollectionDataArray = [];
   for (const item of resultArray) {
     if (item.subCollections) {
@@ -197,7 +195,7 @@ async function processSubCollections(
           properties: block.value.properties || {},
           // schema: block.value.schema,
         };
-        collectionInfo.articles.push(pageInfo);
+        collectionInfo.articles?.push(pageInfo);
       }
     }
 
