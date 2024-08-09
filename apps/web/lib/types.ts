@@ -56,3 +56,26 @@ export interface DomainVerificationResponse {
     reason: string;
   }[];
 }
+
+export type Collection = {
+  id: string;
+  type: string;
+  properties: Record<string, any>;
+  page_icon?: string;
+  subCollections?: SubCollection[];
+};
+export type SubCollection = {
+  id: string;
+  type: string;
+  view_ids: string[];
+  collection_id: string;
+  articles?: ArticleInfo[];
+};
+
+export interface ArticleInfo {
+  id: string;
+  title: string;
+  properties: Record<string, any>;
+  recordMap?: Record<string, any>;
+  description: string;
+}
