@@ -6,7 +6,7 @@ import {
   Role,
 } from "notion-types";
 
-import { Collection, SubCollection, ArticleInfo } from "./types";
+import { Knowledgebase, Collection, SubCollection, ArticleInfo } from "./types";
 
 import fs, { writeFile } from "fs";
 
@@ -16,7 +16,9 @@ const notion = new NotionAPI();
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 
-export async function getNotionData(notionLink: string) {
+export async function getNotionData(
+  notionLink: string,
+): Promise<Knowledgebase | Error> {
   try {
     const pageId = extractPageId(notionLink);
     const parentPage = await fetchPage(pageId);
@@ -44,10 +46,28 @@ export async function getNotionData(notionLink: string) {
       }
     }
 
-    return parentCollectionProcessed;
+    console.log(JSON.stringify(parentPage, null, 2));
+    saveToFile("json/parentPage.json", parentPage);
+
+    const updatedId = pageId.replace(
+      /(.{8})(.{4})(.{4})(.{4})(.{12})/,
+      "$1-$2-$3-$4-$5",
+    );
+    const knowledgebase: Knowledgebase = {
+      id: updatedId,
+      name: parentPage.block[updatedId].value.properties.title[0][0],
+      notionLink,
+      userId: "", // This should be set appropriately based on your application logic
+      collections: parentCollectionProcessed,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    return knowledgebase;
+
+    // return {};
   } catch (error: any) {
     console.error("Error fetching Notion data:", error.message);
-    return null;
+    return error;
   }
 }
 
@@ -133,7 +153,6 @@ async function processSubCollectionArticles(
 
   for (const block of matchingBlocks) {
     if (block.value.type === "page") {
-      console.log(block.value);
       const pageInfo: ArticleInfo = {
         id: block.value.id,
         title: block.value.properties?.title?.[0]?.[0] || "Untitled",

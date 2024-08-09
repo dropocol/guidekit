@@ -57,6 +57,20 @@ export interface DomainVerificationResponse {
   }[];
 }
 
+// ----------------
+// Prisma Types
+// ----------------
+
+export type Knowledgebase = {
+  id: string;
+  name: string;
+  notionLink: string;
+  userId: string;
+  collections: Collection[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type Collection = {
   id: string;
   type: string;

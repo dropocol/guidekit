@@ -144,7 +144,7 @@
 //         if (!process.env.BLOB_READ_WRITE_TOKEN) {
 //           return {
 //             error:
-//               "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
+//               "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
 //           };
 //         }
 
@@ -559,7 +559,7 @@
 //       if (!process.env.BLOB_READ_WRITE_TOKEN) {
 //         return {
 //           error:
-//             "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
+//             "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
 //         };
 //       }
 //       const file = formData.get(key) as File;
@@ -863,7 +863,7 @@ export async function updateSite(
       if (!process.env.BLOB_READ_WRITE_TOKEN) {
         return {
           error:
-            "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
+            "Missing BLOB_READ_WRITE_TOKEN token. Note: Vercel Blob is currently in beta – please fill out this form for access: https://tally.so/r/nPDMNd",
         };
       }
       const file = formData.get(key) as File;
@@ -1154,17 +1154,30 @@ export async function createKnowledgebase(formData: FormData) {
 
   try {
     const pageId = notionLink.split("-").pop();
-    const notionData = await getNotionData(notionLink!);
+    const knowledgebase = await getNotionData(notionLink!);
 
-    const knowledgebase = await prisma.knowledgebase.create({
-      data: {
-        name,
-        notionLink,
-        userId: session.user.id,
-      },
-    });
+    if (knowledgebase && !(knowledgebase instanceof Error)) {
+      knowledgebase.userId = session.user.id;
 
-    return true;
+      // const createKnowledgebase = await prisma.knowledgebase.create({
+      //   data: {
+      //     name,
+      //     notionLink,
+      //     userId: session.user.id,
+      //     collections: {
+      //       create: knowledgebase.collections.map(collection => ({
+      //         ...collection,
+      //         name: collection.name || "Default Name", // Ensure 'name' is provided
+      //         // Add other required properties if necessary
+      //       })),
+      //     },
+      //   },
+      // });
+
+      return true;
+    } else {
+      return { error: "Failed to fetch knowledgebase data" };
+    }
   } catch (error: any) {
     return { error: error.message };
   }
