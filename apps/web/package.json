@@ -56,6 +56,7 @@
     "puppeteer": "^22.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-notion-x": "^6.16.0",
     "react-textarea-autosize": "^8.5.3",
     "react-tweet": "^3.1.1",
     "remark": "^14.0.3",
