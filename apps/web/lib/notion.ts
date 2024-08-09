@@ -9,13 +9,20 @@ import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
-interface ArticleInfo {
+type Collection = {
   id: string;
-  title: string;
+  type: string;
   properties: Record<string, any>;
-  schema?: Record<string, any>;
-  description: string;
-}
+  page_icon?: string;
+  subCollections?: SubCollection[];
+};
+type SubCollection = {
+  id: string;
+  type: string;
+  view_ids: string[];
+  collection_id: string;
+  articles?: CollectionArticleList;
+};
 
 interface CollectionArticleList {
   id: string;
@@ -23,21 +30,13 @@ interface CollectionArticleList {
   articles?: ArticleInfo[];
 }
 
-type SubCollection = {
+interface ArticleInfo {
   id: string;
-  type: string;
-  view_ids: string[];
-  collection_id: string;
-};
-
-type Collection = {
-  id: string;
-  type: string;
+  title: string;
   properties: Record<string, any>;
-  page_icon?: string;
-  subCollections?: SubCollection[];
-  articles?: CollectionArticleList[];
-};
+  schema?: Record<string, any>;
+  description: string;
+}
 
 export async function getNotionData(notionLink: string) {
   try {
