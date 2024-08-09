@@ -73,6 +73,8 @@ export type Knowledgebase = {
 
 export type Collection = {
   id: string;
+  name: string;
+  description: string;
   type: string;
   properties: Record<string, any>;
   page_icon?: string;
@@ -80,6 +82,8 @@ export type Collection = {
 };
 export type SubCollection = {
   id: string;
+  name: string;
+  description: string;
   type: string;
   view_ids: string[];
   collection_id: string;

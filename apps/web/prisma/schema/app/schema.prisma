@@ -121,48 +121,52 @@ model Example {
 }
 
 // ------------------------------------------------------
-
 model Knowledgebase {
   id          String       @id @default(cuid())
   name        String
   notionLink  String
   userId      String
-  user        User         @relation(fields: [userId], references: [id])
   collections Collection[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId])
 }
 
 model Collection {
-  id              String        @id @default(cuid())
+  id              String          @id @default(cuid())
   name            String
   description     String?
+  knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id])
   knowledgebaseId String
-  knowledgebase   Knowledgebase @relation(fields: [knowledgebaseId], references: [id])
-  categories      Category[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  type            String
+  properties      Json
+  subCollections  SubCollection[] @relation("SubCollection")
 }
 
-model Category {
-  id           String     @id @default(cuid())
-  name         String
-  collectionId String
-  collection   Collection @relation(fields: [collectionId], references: [id])
-  articles     Article[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+model SubCollection {
+  id            String     @id @default(cuid())
+  name          String
+  description   String
+  type          String
+  view_ids      String[]
+  collection_id String
+  articles      Article[]
+  collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
+  collectionId  String
+
+  @@index([collectionId])
 }
 
 model Article {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  content     String   @db.Text
-  published   Boolean  @default(false)
-  suggested   Boolean  @default(false)
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String        @id @default(cuid())
+  title           String
+  properties      Json
+  recordMap       Json?
+  description     String
+  subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  subCollectionId String
+
+  @@index([subCollectionId])
 }

@@ -26,6 +26,11 @@ export async function getNotionData(
 
     const parentCollectionProcessed = processBlocks(parentCollection);
 
+    saveToFile(
+      "json/parentCollectionProcessed.json",
+      parentCollectionProcessed,
+    );
+
     for (const collection of parentCollectionProcessed) {
       if (collection.subCollections) {
         collection.subCollections = await Promise.all(
@@ -46,8 +51,7 @@ export async function getNotionData(
       }
     }
 
-    console.log(JSON.stringify(parentPage, null, 2));
-    saveToFile("json/parentPage.json", parentPage);
+    // saveToFile("json/parentPage.json", parentPage);
 
     const updatedId = pageId.replace(
       /(.{8})(.{4})(.{4})(.{4})(.{12})/,
@@ -114,6 +118,8 @@ function processBlocks(collectionPage: any): Collection[] {
         .map((subBlock: any) => ({
           id: subBlock.value.id,
           type: subBlock.value.type,
+          name: "subcollection-name",
+          description: "subcollection-description",
           view_ids: subBlock.value.view_ids,
           collection_id: subBlock.value.collection_id,
         }));
@@ -122,6 +128,8 @@ function processBlocks(collectionPage: any): Collection[] {
         id: block.value.id,
         type: block.value.type,
         properties: block.value.properties,
+        name: "collection-name",
+        description: "collection-description",
         page_icon: block.value.format?.page_icon,
         subCollections,
       };
