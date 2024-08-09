@@ -33,8 +33,6 @@ export async function getNotionData(
       parentCollectionProcessed,
     );
 
-    const tempSubCollections: any = [];
-    const tempCollections: any = [];
     for (const collection of parentCollectionProcessed) {
       if (collection.subCollections) {
         collection.subCollections = await Promise.all(
@@ -45,45 +43,24 @@ export async function getNotionData(
               {},
             );
 
-            tempSubCollections.push(subCollectionData);
+            const { name, description } = extractSubCollectionInfo(
+              subCollectionData,
+              subCollection.collection_id,
+            );
 
-            const subCollectionArticles =
+            const articles =
               await processSubCollectionArticles(subCollectionData);
-
-            // console.log(
-            //   JSON.stringify(
-            //     subCollectionData.recordMap.block[subCollection.id].value,
-            //     null,
-            //     2,
-            //   ),
-            // );
-
-            console.log(subCollection.id);
-            // const name =
-            //   subCollectionData.recordMap.collection![subCollection.id].value
-            //     .name[0][0];
-
-            // console.log(name);
-
-            // const description =
-            //   subCollectionData.recordMap.block[subCollection.id].value
-            //     .properties["b<py"][0][0];
-            // console.log(subCollection);
 
             return {
               ...subCollection,
-              name: subCollection.name,
-              description: collection.description,
-              articles: subCollectionArticles,
+              name,
+              description,
+              articles,
             };
           }),
         );
       }
-      tempCollections.push(collection);
     }
-
-    saveToFile("json/tempSubCollections.json", tempSubCollections);
-    saveToFile("json/tempCollections.json", tempCollections);
 
     const updatedId = pageId.replace(
       /(.{8})(.{4})(.{4})(.{4})(.{12})/,
@@ -105,6 +82,24 @@ export async function getNotionData(
     console.error("Error fetching Notion data:", error.message);
     return error;
   }
+}
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+
+function extractSubCollectionInfo(
+  subCollectionData: any,
+  collectionId: string,
+) {
+  const collection = subCollectionData.recordMap.collection[collectionId];
+  if (collection) {
+    const name = collection.value.name[0][0];
+    const description = collection.value.description
+      ? collection.value.description[0][0]
+      : "";
+    return { name, description };
+  }
+  return { name: "", description: "" };
 }
 
 // ------------------------------------------------------------
@@ -134,6 +129,9 @@ async function fetchCollectionPage(recordMap: ExtendedRecordMap) {
 // ------------------------------------------------------------
 
 function processBlocks(collectionPage: any): Collection[] {
+  const tempSubCollections: any = [];
+
+  const collection = collectionPage.recordMap.collection;
   const blocks = collectionPage.recordMap.block;
   const blockIds = JSON.parse(JSON.stringify(collectionPage)).result
     .reducerResults.collection_group_results.blockIds;
@@ -148,16 +146,17 @@ function processBlocks(collectionPage: any): Collection[] {
             subBlock.value.parent_id === blockId,
         )
         .map((subBlock: any) => {
-          // console.log(subBlock);
+          const subCollectionId = subBlock.value.collection_id;
+          const subCollectionData = collection[subCollectionId];
+
+          tempSubCollections.push(subCollectionData);
           return {
             id: subBlock.value.id,
             type: subBlock.value.type,
-            name:
-              subBlock.value.properties?.title?.[0]?.[0] ||
-              "Untitled Sub_Collection",
-            description: subBlock.value.properties?.description?.[0]?.[0] || "",
+            name: "Untitled",
+            description: "",
             view_ids: subBlock.value.view_ids,
-            collection_id: subBlock.value.collection_id,
+            collection_id: subCollectionId,
           };
         });
 
@@ -166,13 +165,15 @@ function processBlocks(collectionPage: any): Collection[] {
         type: block.value.type,
         properties: block.value.properties,
         name: block.value.properties?.title?.[0]?.[0] || "Untitled",
-        description: "collection-description",
+        description: block.value.properties?.["A^D`"]?.[0]?.[0] || "",
         page_icon: block.value.format?.page_icon,
         subCollections,
       };
       return blockCopy;
     })
     .filter((block) => blockIds.includes(block.id));
+
+  saveToFile("json/tempSubCollections.json", tempSubCollections);
 
   return blockIds
     .map((blockId: string) => resultArray.find((block) => block.id === blockId))
