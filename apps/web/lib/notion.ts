@@ -24,6 +24,8 @@ export async function getNotionData(
     const parentPage = await fetchPage(pageId);
     const parentCollection = await fetchCollectionPage(parentPage);
 
+    saveToFile("json/parentCollection.json", parentCollection);
+
     const parentCollectionProcessed = processBlocks(parentCollection);
 
     saveToFile(
@@ -31,6 +33,8 @@ export async function getNotionData(
       parentCollectionProcessed,
     );
 
+    const tempSubCollections: any = [];
+    const tempCollections: any = [];
     for (const collection of parentCollectionProcessed) {
       if (collection.subCollections) {
         collection.subCollections = await Promise.all(
@@ -40,18 +44,46 @@ export async function getNotionData(
               subCollection.view_ids[0],
               {},
             );
+
+            tempSubCollections.push(subCollectionData);
+
             const subCollectionArticles =
               await processSubCollectionArticles(subCollectionData);
+
+            // console.log(
+            //   JSON.stringify(
+            //     subCollectionData.recordMap.block[subCollection.id].value,
+            //     null,
+            //     2,
+            //   ),
+            // );
+
+            console.log(subCollection.id);
+            // const name =
+            //   subCollectionData.recordMap.collection![subCollection.id].value
+            //     .name[0][0];
+
+            // console.log(name);
+
+            // const description =
+            //   subCollectionData.recordMap.block[subCollection.id].value
+            //     .properties["b<py"][0][0];
+            // console.log(subCollection);
+
             return {
               ...subCollection,
+              name: subCollection.name,
+              description: collection.description,
               articles: subCollectionArticles,
             };
           }),
         );
       }
+      tempCollections.push(collection);
     }
 
-    // saveToFile("json/parentPage.json", parentPage);
+    saveToFile("json/tempSubCollections.json", tempSubCollections);
+    saveToFile("json/tempCollections.json", tempCollections);
 
     const updatedId = pageId.replace(
       /(.{8})(.{4})(.{4})(.{4})(.{12})/,
@@ -115,20 +147,25 @@ function processBlocks(collectionPage: any): Collection[] {
             subBlock.value.type === "collection_view" &&
             subBlock.value.parent_id === blockId,
         )
-        .map((subBlock: any) => ({
-          id: subBlock.value.id,
-          type: subBlock.value.type,
-          name: "subcollection-name",
-          description: "subcollection-description",
-          view_ids: subBlock.value.view_ids,
-          collection_id: subBlock.value.collection_id,
-        }));
+        .map((subBlock: any) => {
+          // console.log(subBlock);
+          return {
+            id: subBlock.value.id,
+            type: subBlock.value.type,
+            name:
+              subBlock.value.properties?.title?.[0]?.[0] ||
+              "Untitled Sub_Collection",
+            description: subBlock.value.properties?.description?.[0]?.[0] || "",
+            view_ids: subBlock.value.view_ids,
+            collection_id: subBlock.value.collection_id,
+          };
+        });
 
       const blockCopy: Collection = {
         id: block.value.id,
         type: block.value.type,
         properties: block.value.properties,
-        name: "collection-name",
+        name: block.value.properties?.title?.[0]?.[0] || "Untitled",
         description: "collection-description",
         page_icon: block.value.format?.page_icon,
         subCollections,
@@ -145,6 +182,12 @@ function processBlocks(collectionPage: any): Collection[] {
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 // ------------------------------------------------------------
+
+async function getSubCollectionInfo(subCollection: any) {
+  const subCollectionInfo =
+    subCollection.recordMap.collection![subCollection.id].value;
+  console.log(subCollectionInfo);
+}
 
 async function processSubCollectionArticles(
   subCollection: any,

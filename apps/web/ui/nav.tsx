@@ -143,7 +143,7 @@ export default function Nav({ children }: { children: ReactNode }) {
       },
       {
         name: "Knowledge Bases",
-        href: "/knowledgebases",
+        href: "/knowledgebase",
         icon: <Book width={18} />,
       },
       {
