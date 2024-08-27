@@ -37,8 +37,6 @@ export default async function middleware(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams.toString();
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
 
-  // console.log("Path:", path);
-
   if (
     hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
     hostname === "app.localhost"
@@ -75,7 +73,6 @@ export default async function middleware(req: NextRequest) {
     hostname === "localhost:3000" ||
     hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
   ) {
-    // console.log("Rewriting URL to /home");
     return NextResponse.rewrite(
       new URL(`/home${path === "/" ? "" : path}`, req.url),
     );
@@ -87,6 +84,6 @@ export default async function middleware(req: NextRequest) {
   // }
   // return NextResponse.next();
 
-  // console.log("Default rewrite for hostname:", hostname);
+  console.log("Default rewrite for hostname:", hostname);
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }
