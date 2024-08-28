@@ -29,8 +29,18 @@ type CollectionWithSubCollections = Collection & {
   }>;
 };
 
+type CollectionWithArticleCount = Collection & {
+  _count: {
+    articles: number;
+  };
+  subCollections: CollectionWithSubCollections["subCollections"];
+};
+
+type KnowledgebaseCollection = CollectionWithSubCollections &
+  CollectionWithArticleCount;
+
 type KnowledgebaseWithCollections = Knowledgebase & {
-  collections: Collection[];
+  collections: KnowledgebaseCollection[];
 };
 
 export default function KnowledgebasePage({
@@ -43,7 +53,7 @@ export default function KnowledgebasePage({
   const [knowledgebase, setKnowledgebase] =
     useState<KnowledgebaseWithCollections | null>(null);
   const [selectedCollection, setSelectedCollection] =
-    useState<CollectionWithSubCollections | null>(null);
+    useState<KnowledgebaseCollection | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -59,9 +69,7 @@ export default function KnowledgebasePage({
     const data = await response.json();
     setKnowledgebase(data);
     if (data.collections.length > 0) {
-      setSelectedCollection(
-        data.collections[0] as CollectionWithSubCollections,
-      );
+      setSelectedCollection(data.collections[0]);
     }
   };
 
@@ -76,7 +84,9 @@ export default function KnowledgebasePage({
         <CollectionList
           collections={knowledgebase.collections}
           onSelectCollection={(collection) => {
-            setSelectedCollection(collection as CollectionWithSubCollections);
+            setSelectedCollection(
+              collection as unknown as KnowledgebaseCollection,
+            );
           }}
         />
       </div>

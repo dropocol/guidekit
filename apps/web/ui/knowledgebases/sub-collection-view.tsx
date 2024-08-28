@@ -51,7 +51,7 @@ export default function SubCollectionView({
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     Actions
                   </th>
@@ -74,7 +74,7 @@ export default function SubCollectionView({
                     <td className="px-6 py-4 text-center">-</td>
                     <td className="px-6 py-4 text-center">-</td>
                     <td className="px-6 py-4 text-center">
-                      <div className="flex items-center justify-center space-x-8">
+                      <div className="items-right flex justify-end space-x-8">
                         <button
                           className="text-indigo-600 hover:text-indigo-900"
                           title="View"
