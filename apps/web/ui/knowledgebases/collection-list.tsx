@@ -1,18 +1,14 @@
-import { Collection } from "@prisma/client";
+import { KnowledgebaseCollection } from "@/lib/types";
 
-type CollectionWithArticleCount = Collection & {
-  _count: {
-    articles: number;
-  };
-};
+export interface CollectionListProps {
+  collections: KnowledgebaseCollection[];
+  onSelectCollection: (collection: KnowledgebaseCollection) => void;
+}
 
 export default function CollectionList({
   collections,
   onSelectCollection,
-}: {
-  collections: CollectionWithArticleCount[];
-  onSelectCollection: (collection: CollectionWithArticleCount) => void;
-}) {
+}: CollectionListProps) {
   return (
     <ul className="space-y-2">
       {collections.map((collection) => (

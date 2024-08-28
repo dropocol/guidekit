@@ -3,45 +3,17 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import CollectionList from "@/ui/knowledgebases/collection-list";
+import CollectionList, {
+  CollectionListProps,
+} from "@/ui/knowledgebases/collection-list";
 import SubCollectionView from "@/ui/knowledgebases/sub-collection-view";
 import { Knowledgebase, Collection } from "@prisma/client";
-import { JsonValue } from "next-auth/adapters";
-
-// Add this type definition
-type CollectionWithSubCollections = Collection & {
-  subCollections: Array<{
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    view_ids: string[];
-    collection_id: string;
-    collectionId: string;
-    articles: Array<{
-      id: string;
-      title: string;
-      properties: JsonValue;
-      recordMap: JsonValue;
-      description: string;
-      subCollectionId: string;
-    }>;
-  }>;
-};
-
-type CollectionWithArticleCount = Collection & {
-  _count: {
-    articles: number;
-  };
-  subCollections: CollectionWithSubCollections["subCollections"];
-};
-
-type KnowledgebaseCollection = CollectionWithSubCollections &
-  CollectionWithArticleCount;
-
-type KnowledgebaseWithCollections = Knowledgebase & {
-  collections: KnowledgebaseCollection[];
-};
+import {
+  CollectionWithSubCollections,
+  KnowledgebaseCollection,
+  KnowledgebaseWithCollections,
+  CollectionWithArticleCount,
+} from "@/lib/types";
 
 export default function KnowledgebasePage({
   params,
@@ -53,7 +25,7 @@ export default function KnowledgebasePage({
   const [knowledgebase, setKnowledgebase] =
     useState<KnowledgebaseWithCollections | null>(null);
   const [selectedCollection, setSelectedCollection] =
-    useState<KnowledgebaseCollection | null>(null);
+    useState<CollectionWithSubCollections | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -83,16 +55,20 @@ export default function KnowledgebasePage({
         </h1>
         <CollectionList
           collections={knowledgebase.collections}
-          onSelectCollection={(collection) => {
-            setSelectedCollection(
-              collection as unknown as KnowledgebaseCollection,
-            );
-          }}
+          onSelectCollection={(collection: KnowledgebaseCollection) =>
+            setSelectedCollection(collection as CollectionWithSubCollections)
+          }
         />
       </div>
       <div className="w-full overflow-y-auto bg-slate-100 p-8">
         {selectedCollection && (
-          <SubCollectionView collection={selectedCollection} />
+          <SubCollectionView
+            collection={
+              selectedCollection as CollectionWithSubCollections & {
+                knowledgebaseId: string;
+              }
+            }
+          />
         )}
       </div>
     </div>

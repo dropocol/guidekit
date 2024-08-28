@@ -1,3 +1,5 @@
+import { JsonValue } from "next-auth/adapters";
+
 export type DomainVerificationStatusProps =
   | "Valid Configuration"
   | "Invalid Configuration"
@@ -97,3 +99,38 @@ export interface ArticleInfo {
   recordMap?: Record<string, any>;
   description: string;
 }
+
+// Add this type definition
+export type CollectionWithSubCollections = Collection & {
+  subCollections: Array<{
+    id: string;
+    name: string;
+    description: string;
+    type: string;
+    view_ids: string[];
+    collection_id: string;
+    collectionId: string;
+    articles: Array<{
+      id: string;
+      title: string;
+      properties: JsonValue;
+      recordMap: JsonValue;
+      description: string;
+      subCollectionId: string;
+    }>;
+  }>;
+};
+
+export type CollectionWithArticleCount = Collection & {
+  _count: {
+    articles: number;
+  };
+  subCollections: CollectionWithSubCollections["subCollections"];
+};
+
+export type KnowledgebaseCollection = CollectionWithSubCollections &
+  CollectionWithArticleCount;
+
+export type KnowledgebaseWithCollections = Knowledgebase & {
+  collections: KnowledgebaseCollection[];
+};
