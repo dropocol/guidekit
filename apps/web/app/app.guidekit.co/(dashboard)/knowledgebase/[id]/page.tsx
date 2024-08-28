@@ -1,49 +1,89 @@
-import { getSession } from "@/auth";
-import prisma from "@/lib/prisma";
-import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import CollectionList from "@/ui/knowledgebases/collection-list";
 import SubCollectionView from "@/ui/knowledgebases/sub-collection-view";
+import { Knowledgebase, Collection } from "@prisma/client";
+import { JsonValue } from "next-auth/adapters";
 
-export default async function KnowledgebasePage({
+// Add this type definition
+type CollectionWithSubCollections = Collection & {
+  subCollections: Array<{
+    id: string;
+    name: string;
+    description: string;
+    type: string;
+    view_ids: string[];
+    collection_id: string;
+    collectionId: string;
+    articles: Array<{
+      id: string;
+      title: string;
+      properties: JsonValue;
+      recordMap: JsonValue;
+      description: string;
+      subCollectionId: string;
+    }>;
+  }>;
+};
+
+type KnowledgebaseWithCollections = Knowledgebase & {
+  collections: Collection[];
+};
+
+export default function KnowledgebasePage({
   params,
 }: {
   params: { id: string };
 }) {
-  const session = await getSession();
-  if (!session) {
-    redirect("/login");
-  }
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [knowledgebase, setKnowledgebase] =
+    useState<KnowledgebaseWithCollections | null>(null);
+  const [selectedCollection, setSelectedCollection] =
+    useState<CollectionWithSubCollections | null>(null);
 
-  const knowledgebase = await prisma.knowledgebase.findUnique({
-    where: { id: params.id },
-    include: {
-      collections: {
-        include: {
-          subCollections: {
-            include: {
-              articles: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    } else if (status === "authenticated") {
+      fetchKnowledgebase();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, router, params.id]);
 
-  if (!knowledgebase) {
-    notFound();
-  }
+  const fetchKnowledgebase = async () => {
+    const response = await fetch(`/api/knowledgebase/${params.id}`);
+    const data = await response.json();
+    setKnowledgebase(data);
+    if (data.collections.length > 0) {
+      setSelectedCollection(
+        data.collections[0] as CollectionWithSubCollections,
+      );
+    }
+  };
+
+  if (!knowledgebase) return <div>Loading...</div>;
 
   return (
-    <div className="flex h-screen max-w-screen-xl">
+    <div className="flex h-screen max-w-screen-2xl">
       <div className="w-1/4 overflow-y-auto border-r border-stone-200 p-4 dark:border-stone-700">
         <h1 className="mb-4 font-cal text-2xl font-bold dark:text-white">
           {knowledgebase.name}
         </h1>
-        <CollectionList collections={knowledgebase.collections} />
+        <CollectionList
+          collections={knowledgebase.collections}
+          onSelectCollection={(collection) => {
+            setSelectedCollection(collection as CollectionWithSubCollections);
+          }}
+        />
       </div>
-      <div className="w-3/4 overflow-y-auto p-8">
-        <SubCollectionView collections={knowledgebase.collections} />
+      <div className="w-full overflow-y-auto bg-slate-100 p-8">
+        {selectedCollection && (
+          <SubCollectionView collection={selectedCollection} />
+        )}
       </div>
     </div>
   );
