@@ -113,6 +113,32 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <Settings width={18} />,
         },
       ];
+    } else if (segments[0] === "knowledgebase" && id) {
+      return [
+        {
+          name: "Back",
+          href: "/knowledgebases",
+          icon: <ArrowLeft width={18} />,
+        },
+        {
+          name: "Collections",
+          href: `/site/${id}`,
+          isActive: segments.length === 2,
+          icon: <Newspaper width={18} />,
+        },
+        {
+          name: "Analytics",
+          href: `/site/${id}/analytics`,
+          isActive: segments.includes("analytics"),
+          icon: <BarChart3 width={18} />,
+        },
+        {
+          name: "Settings",
+          href: `/site/${id}/settings`,
+          isActive: segments.includes("settings"),
+          icon: <Settings width={18} />,
+        },
+      ];
     } else if (segments[0] === "post" && id) {
       return [
         {
@@ -143,7 +169,7 @@ export default function Nav({ children }: { children: ReactNode }) {
       },
       {
         name: "Knowledge Bases",
-        href: "/knowledgebase",
+        href: "/knowledgebases",
         icon: <Book width={18} />,
       },
       {

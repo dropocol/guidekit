@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/auth";
 import { NotionAPI } from "notion-client";
 import { ExtendedRecordMap } from "notion-types";
+import fs, { writeFile } from "fs";
 
 const notion = new NotionAPI();
 
@@ -21,6 +22,12 @@ export async function POST(req: Request) {
 
     const pageId = id.replace(/[^a-zA-Z0-9]/g, "");
     const recordMap: ExtendedRecordMap = await notion.getPage(pageId);
+
+    // save to file
+    await fs.promises.writeFile(
+      "json/page.json",
+      JSON.stringify(recordMap, null, 2),
+    );
 
     return NextResponse.json({ recordMap });
   } catch (error) {

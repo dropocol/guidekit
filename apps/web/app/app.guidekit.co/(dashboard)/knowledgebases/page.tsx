@@ -5,6 +5,7 @@ import Link from "next/link";
 import CreateKnowledgebaseButton from "@/ui/knowledgebases/create-knowledgebase-button";
 import { Suspense } from "react";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
+import KnowledgebaseCard from "@/ui/knowledgebases/knowledgebase-card";
 
 export default async function KnowledgebasesPage() {
   const session = await getSession();
@@ -16,7 +17,11 @@ export default async function KnowledgebasesPage() {
     where: {
       userId: session.user?.id,
     },
-    include: {},
+    include: {
+      // _count: {
+      //   select: { articles: true },
+      // },
+    },
   });
 
   return (
@@ -39,16 +44,7 @@ export default async function KnowledgebasesPage() {
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {knowledgebases.map((kb) => (
-              <Link
-                key={kb.id}
-                href={`/knowledgebase/${kb.id}`}
-                className="rounded-lg border border-stone-200 p-4 transition-all hover:bg-stone-100 dark:border-stone-700 dark:hover:bg-stone-800"
-              >
-                <h2 className="font-semibold">{kb.name}</h2>
-                <p className="text-sm text-stone-500 dark:text-stone-400">
-                  {/* {kb._count.articles} articles */}
-                </p>
-              </Link>
+              <KnowledgebaseCard key={kb.id} data={kb} />
             ))}
           </div>
         </Suspense>

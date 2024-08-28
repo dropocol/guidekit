@@ -1,4 +1,7 @@
 import { NotionAPI } from "notion-client";
+import { NotionToMarkdown } from "notion-to-md";
+const { Client } = require("@notionhq/client");
+
 import {
   // Block,
   CollectionInstance,
@@ -10,6 +13,11 @@ import { Knowledgebase, Collection, SubCollection, ArticleInfo } from "./types";
 
 import fs, { writeFile } from "fs";
 
+// const notionForMarkdown = new Client({
+//   auth: process.env.NOTION_API_KEY,
+// });
+
+// const n2m = new NotionToMarkdown({ notionClient: notionForMarkdown });
 const notion = new NotionAPI();
 
 // ------------------------------------------------------------
@@ -24,7 +32,7 @@ export async function getNotionData(
     const parentPage = await fetchPage(pageId);
     const parentCollection = await fetchCollectionPage(parentPage);
 
-    saveToFile("json/parentCollection.json", parentCollection);
+    await saveToFile("json/parentCollection.json", parentCollection);
 
     const parentCollectionProcessed = processBlocks(parentCollection);
 
