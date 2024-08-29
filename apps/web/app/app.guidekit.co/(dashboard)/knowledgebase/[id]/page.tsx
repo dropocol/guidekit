@@ -10,9 +10,8 @@ import SubCollectionView from "@/ui/knowledgebases/sub-collection-view";
 import { Knowledgebase, Collection } from "@prisma/client";
 import {
   CollectionWithSubCollections,
-  KnowledgebaseCollection,
   KnowledgebaseWithCollections,
-  CollectionWithArticleCount,
+  SubCollection,
 } from "@/lib/types";
 
 export default function KnowledgebasePage({
@@ -54,21 +53,17 @@ export default function KnowledgebasePage({
           {knowledgebase.name}
         </h1>
         <CollectionList
-          collections={knowledgebase.collections}
-          onSelectCollection={(collection: KnowledgebaseCollection) =>
-            setSelectedCollection(collection as CollectionWithSubCollections)
+          collections={
+            knowledgebase.collections as CollectionWithSubCollections[]
+          }
+          onSelectCollection={(collection: CollectionWithSubCollections) =>
+            setSelectedCollection(collection)
           }
         />
       </div>
       <div className="w-full overflow-y-auto bg-slate-100 p-8">
         {selectedCollection && (
-          <SubCollectionView
-            collection={
-              selectedCollection as CollectionWithSubCollections & {
-                knowledgebaseId: string;
-              }
-            }
-          />
+          <SubCollectionView collection={selectedCollection} />
         )}
       </div>
     </div>

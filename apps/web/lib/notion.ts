@@ -9,7 +9,7 @@ import {
   Role,
 } from "notion-types";
 
-import { Knowledgebase, Collection, SubCollection, ArticleInfo } from "./types";
+import { Knowledgebase, Collection, SubCollection, Article } from "./types";
 
 import fs, { writeFile } from "fs";
 
@@ -58,12 +58,20 @@ export async function getNotionData(
 
             const articles =
               await processSubCollectionArticles(subCollectionData);
+            const articleCount = articles.length;
+            collection.articleCount = articleCount;
+
+            console.log(
+              "Article Count in Collection: ",
+              collection.articleCount,
+            );
 
             return {
               ...subCollection,
               name,
               description,
               articles,
+              articleCount,
             };
           }),
         );
@@ -78,11 +86,21 @@ export async function getNotionData(
       id: updatedId,
       name: parentPage.block[updatedId].value.properties.title[0][0],
       notionLink,
-      userId: "", // This should be set appropriately based on your application logic
+      userId: "", //TODO : This should be set appropriately based on your application logic
       collections: parentCollectionProcessed,
       createdAt: new Date(),
       updatedAt: new Date(),
+      articleCount: 0, // Initialize articleCount
     };
+
+    // console.log(JSON.stringify(knowledgebase.collections, null, 2));
+
+    // Calculate total articleCount
+    knowledgebase.articleCount = knowledgebase.collections.reduce(
+      (total, collection) => total + collection.articleCount,
+      0,
+    );
+
     return knowledgebase;
 
     // return {};
@@ -153,20 +171,23 @@ function processBlocks(collectionPage: any): Collection[] {
             subBlock.value.type === "collection_view" &&
             subBlock.value.parent_id === blockId,
         )
-        .map((subBlock: any) => {
-          const subCollectionId = subBlock.value.collection_id;
-          const subCollectionData = collection[subCollectionId];
+        .map((subBlock: any) => ({
+          id: subBlock.value.id,
+          type: subBlock.value.type,
+          name: "Untitled",
+          description: "",
+          view_ids: subBlock.value.view_ids,
+          collection_id: subBlock.value.collection_id, // Changed from collectionId
+          articles: [],
+          articleCount: 0,
+        }));
 
-          tempSubCollections.push(subCollectionData);
-          return {
-            id: subBlock.value.id,
-            type: subBlock.value.type,
-            name: "Untitled",
-            description: "",
-            view_ids: subBlock.value.view_ids,
-            collection_id: subCollectionId,
-          };
-        });
+      // const articleCount = subCollections.reduce(
+      //   (total, subCollection) => total + subCollection.articles.length,
+      //   0,
+      // );
+
+      // console.log("Article Count : ", articleCount);
 
       const blockCopy: Collection = {
         id: block.value.id,
@@ -176,6 +197,11 @@ function processBlocks(collectionPage: any): Collection[] {
         description: block.value.properties?.["A^D`"]?.[0]?.[0] || "",
         page_icon: block.value.format?.page_icon,
         subCollections,
+        articleCount: subCollections.reduce(
+          (total, subCollection) => total + subCollection.articleCount,
+          0,
+        ),
+        knowledgebaseId: "", // TODO: Add this late
       };
       return blockCopy;
     })
@@ -195,13 +221,12 @@ function processBlocks(collectionPage: any): Collection[] {
 async function getSubCollectionInfo(subCollection: any) {
   const subCollectionInfo =
     subCollection.recordMap.collection![subCollection.id].value;
-  console.log(subCollectionInfo);
 }
 
 async function processSubCollectionArticles(
   subCollection: any,
-): Promise<ArticleInfo[]> {
-  const processedCollection: ArticleInfo[] = [];
+): Promise<Article[]> {
+  const processedCollection: Article[] = [];
 
   const blockIds =
     subCollection.result.reducerResults.collection_group_results.blockIds;
@@ -213,13 +238,14 @@ async function processSubCollectionArticles(
 
   for (const block of matchingBlocks) {
     if (block.value.type === "page") {
-      const pageInfo: ArticleInfo = {
+      const pageInfo: Article = {
         id: block.value.id,
         title: block.value.properties?.title?.[0]?.[0] || "Untitled",
         description: (block.value.properties as any)?.["b<py"]?.[0]?.[0] || "",
         properties: block.value.properties || {},
+        recordMap: subCollection.recordMap, // Add this line
+        subCollectionId: subCollection.result.collection_id, // Add this line
       };
-      // collectionInfo.articles?.push(pageInfo);
       processedCollection.push(pageInfo);
     }
   }

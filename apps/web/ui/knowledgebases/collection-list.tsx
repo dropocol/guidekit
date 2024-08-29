@@ -1,8 +1,11 @@
-import { KnowledgebaseCollection } from "@/lib/types";
+import {
+  CollectionWithSubCollections,
+  KnowledgebaseWithCollections,
+} from "@/lib/types";
 
 export interface CollectionListProps {
-  collections: KnowledgebaseCollection[];
-  onSelectCollection: (collection: KnowledgebaseCollection) => void;
+  collections: CollectionWithSubCollections[];
+  onSelectCollection: (collection: CollectionWithSubCollections) => void;
 }
 
 export default function CollectionList({
@@ -17,7 +20,7 @@ export default function CollectionList({
             onClick={() => onSelectCollection(collection)}
             className="block w-full rounded-lg p-2 text-left hover:bg-stone-100 dark:hover:bg-stone-800"
           >
-            {collection.name} ({collection._count?.articles || 0} articles)
+            {collection.name} ({collection.articleCount} articles)
           </button>
         </li>
       ))}

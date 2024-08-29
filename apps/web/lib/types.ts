@@ -71,66 +71,51 @@ export type Knowledgebase = {
   collections: Collection[];
   createdAt: Date;
   updatedAt: Date;
+  articleCount: number;
 };
 
 export type Collection = {
   id: string;
+  page_icon?: string | null;
   name: string;
-  description: string;
+  description: string | null;
+  knowledgebaseId: string;
   type: string;
-  properties: Record<string, any>;
-  page_icon?: string;
-  subCollections?: SubCollection[];
+  properties: JsonValue;
+  subCollections: SubCollection[];
+  articleCount: number;
 };
+
 export type SubCollection = {
   id: string;
   name: string;
   description: string;
   type: string;
+  articles: Article[];
+  articleCount: number;
   view_ids: string[];
   collection_id: string;
-  articles?: ArticleInfo[];
 };
 
-export interface ArticleInfo {
+export type Article = {
   id: string;
   title: string;
-  properties: Record<string, any>;
-  recordMap?: Record<string, any>;
+  properties: JsonValue;
+  recordMap: JsonValue | null;
   description: string;
-}
+  subCollectionId: string;
+};
 
-// Add this type definition
 export type CollectionWithSubCollections = Collection & {
-  subCollections: Array<{
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    view_ids: string[];
-    collection_id: string;
-    collectionId: string;
-    articles: Array<{
-      id: string;
-      title: string;
-      properties: JsonValue;
-      recordMap: JsonValue;
-      description: string;
-      subCollectionId: string;
-    }>;
-  }>;
+  subCollections: Array<
+    SubCollection & {
+      articles: Article[];
+    }
+  >;
 };
-
-export type CollectionWithArticleCount = Collection & {
-  _count: {
-    articles: number;
-  };
-  subCollections: CollectionWithSubCollections["subCollections"];
-};
-
-export type KnowledgebaseCollection = CollectionWithSubCollections &
-  CollectionWithArticleCount;
 
 export type KnowledgebaseWithCollections = Knowledgebase & {
-  collections: KnowledgebaseCollection[];
+  collections: CollectionWithSubCollections[];
 };
+
+// Remove CollectionWithArticleCount and KnowledgebaseCollection types as they're no longer needed

@@ -122,14 +122,15 @@ model Example {
 
 // ------------------------------------------------------
 model Knowledgebase {
-  id          String       @id @default(cuid())
-  name        String
-  notionLink  String
-  userId      String
-  collections Collection[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id           String       @id @default(cuid())
+  name         String
+  notionLink   String
+  userId       String
+  collections  Collection[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  articleCount Int          @default(0) // Total count of articles in the knowledgebase
 
   @@index([userId])
 }
@@ -143,6 +144,7 @@ model Collection {
   type            String
   properties      Json
   subCollections  SubCollection[] @relation("SubCollection")
+  articleCount    Int             @default(0) // Total count of articles in the collection
 }
 
 model SubCollection {
@@ -155,6 +157,7 @@ model SubCollection {
   articles      Article[]
   collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
   collectionId  String
+  articleCount  Int        @default(0) // Total count of articles in the subcollection
 
   @@index([collectionId])
 }

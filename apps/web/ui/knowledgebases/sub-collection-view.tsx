@@ -2,11 +2,7 @@ import Link from "next/link";
 import { Collection, SubCollection, Article } from "@prisma/client";
 import { Eye, Copy, Edit, RefreshCw } from "lucide-react";
 
-type CollectionWithSubCollections = Collection & {
-  subCollections: (SubCollection & {
-    articles: Article[];
-  })[];
-};
+import { CollectionWithSubCollections } from "@/lib/types";
 
 export default function SubCollectionView({
   collection,
