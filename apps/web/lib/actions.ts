@@ -18,6 +18,7 @@ import { put } from "@vercel/blob";
 import { customAlphabet } from "nanoid";
 import { getBlurDataURL } from "@/lib/utils";
 import { getNotionData } from "@/lib/notion";
+import { Prisma } from "@prisma/client";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -442,10 +443,11 @@ export async function createKnowledgebase(formData: FormData) {
         // Create the Collection with SubCollections
         await prisma.collection.create({
           data: {
-            name: collection.name,
+            name: collection.page_icon + " " + collection.name,
             description: collection.description,
             knowledgebase: { connect: { id: knowledgebase.id } },
             type: collection.type,
+            articleCount: collection.articleCount,
             properties: collection.properties,
             subCollections: {
               create:
@@ -455,6 +457,8 @@ export async function createKnowledgebase(formData: FormData) {
                     create:
                       subCollection.articles?.map((article) => ({
                         ...article,
+                        properties: article.properties,
+                        recordMap: article.recordMap,
                       })) || [],
                   },
                 })) || [],

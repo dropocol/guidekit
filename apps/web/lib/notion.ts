@@ -42,6 +42,7 @@ export async function getNotionData(
     );
 
     for (const collection of parentCollectionProcessed) {
+      let totalArticleCount = 0;
       if (collection.subCollections) {
         collection.subCollections = await Promise.all(
           collection.subCollections.map(async (subCollection) => {
@@ -59,12 +60,7 @@ export async function getNotionData(
             const articles =
               await processSubCollectionArticles(subCollectionData);
             const articleCount = articles.length;
-            collection.articleCount = articleCount;
-
-            console.log(
-              "Article Count in Collection: ",
-              collection.articleCount,
-            );
+            totalArticleCount += articleCount;
 
             return {
               ...subCollection,
@@ -76,6 +72,9 @@ export async function getNotionData(
           }),
         );
       }
+
+      console.log("Total Article Count : ", totalArticleCount);
+      collection.articleCount = totalArticleCount;
     }
 
     const updatedId = pageId.replace(
@@ -99,6 +98,10 @@ export async function getNotionData(
     knowledgebase.articleCount = knowledgebase.collections.reduce(
       (total, collection) => total + collection.articleCount,
       0,
+    );
+
+    console.log(
+      JSON.stringify(knowledgebase.collections[0].articleCount, null, 2),
     );
 
     return knowledgebase;

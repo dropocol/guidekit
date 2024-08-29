@@ -1,4 +1,4 @@
-import { JsonValue } from "next-auth/adapters";
+import { JsonValue, JsonObject } from "next-auth/adapters";
 
 export type DomainVerificationStatusProps =
   | "Valid Configuration"
@@ -81,7 +81,7 @@ export type Collection = {
   description: string | null;
   knowledgebaseId: string;
   type: string;
-  properties: JsonValue;
+  properties: JsonObject;
   subCollections: SubCollection[];
   articleCount: number;
 };
@@ -100,8 +100,8 @@ export type SubCollection = {
 export type Article = {
   id: string;
   title: string;
-  properties: JsonValue;
-  recordMap: JsonValue | null;
+  properties: JsonObject;
+  recordMap: JsonObject;
   description: string;
   subCollectionId: string;
 };
