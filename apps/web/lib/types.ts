@@ -117,5 +117,3 @@ export type CollectionWithSubCollections = Collection & {
 export type KnowledgebaseWithCollections = Knowledgebase & {
   collections: CollectionWithSubCollections[];
 };
-
-// Remove CollectionWithArticleCount and KnowledgebaseCollection types as they're no longer needed
