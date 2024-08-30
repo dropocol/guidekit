@@ -407,6 +407,7 @@ export async function createKnowledgebase(formData: FormData) {
 
   const name = formData.get("name") as string;
   const notionLink = formData.get("notionLink") as string;
+  const slug = formData.get("slug") as string;
 
   try {
     const pageId = notionLink.split("-").pop();
@@ -415,23 +416,19 @@ export async function createKnowledgebase(formData: FormData) {
     if (knowledgebaseData && !(knowledgebaseData instanceof Error)) {
       knowledgebaseData.userId = session.user.id;
 
-      // Get the articles, collections, and subCollections from the knowledgebase and save it to the database
-
       const knowledgebase = await prisma.knowledgebase.create({
         data: {
           name: name,
           notionLink: notionLink,
           userId: session.user.id,
-          // collections: [],
+          slug: slug,
+          subdomain: `${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
         },
       });
 
       const collections = knowledgebaseData.collections;
 
-      // loop the
       for (const collection of collections) {
-        // Ensure the Knowledgebase record exists
-        // TODO : Recheck this code
         const knowledgebaseExists = await prisma.knowledgebase.findUnique({
           where: { id: knowledgebase.id },
         });
@@ -440,7 +437,6 @@ export async function createKnowledgebase(formData: FormData) {
           throw new Error(`Knowledgebase with ID ${collection.id} not found`);
         }
 
-        // Create the Collection with SubCollections
         await prisma.collection.create({
           data: {
             name: collection.page_icon + " " + collection.name,

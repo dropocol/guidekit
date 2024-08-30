@@ -23,6 +23,8 @@ export async function getSiteData(domain: string) {
   )();
 }
 
+//
+
 export async function getPostsForSite(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
@@ -130,4 +132,41 @@ async function getMdxSource(postContents: string) {
   });
 
   return mdxSource;
+}
+
+export async function getKnowledgebaseData(domain: string) {
+  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+    : null;
+
+  console.log("domain", domain);
+  console.log("subdomain", subdomain);
+
+  const data = await unstable_cache(
+    async () => {
+      return prisma.knowledgebase.findUnique({
+        where: subdomain ? { subdomain } : { customDomain: domain },
+        include: {
+          collections: {
+            include: {
+              subCollections: {
+                include: {
+                  articles: true,
+                },
+              },
+            },
+          },
+          // user: true,
+        },
+      });
+    },
+    [`${domain}-knowledgebase`],
+    {
+      revalidate: 900,
+      tags: [`${domain}-knowledgebase`],
+    },
+  )();
+
+  // console.log("data", data);
+  return data;
 }

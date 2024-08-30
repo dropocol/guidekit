@@ -5,11 +5,19 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
-  const id = params.slug;
+  const slug = params.slug;
+  console.log("slug", slug);
 
   try {
-    const knowledgebase = await prisma.knowledgebase.findUnique({
-      where: { id: String(id) },
+    const knowledgebase = await prisma.knowledgebase.findFirst({
+      where: {
+        OR: [
+          { id: slug },
+          { slug: slug },
+          { subdomain: slug },
+          { customDomain: slug },
+        ],
+      },
       include: {
         collections: {
           include: {

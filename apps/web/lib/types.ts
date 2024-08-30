@@ -72,6 +72,11 @@ export type Knowledgebase = {
   createdAt: Date;
   updatedAt: Date;
   articleCount: number;
+  slug: string;
+  subdomain: string | null;
+  customDomain: string | null;
+  image: string | null;
+  imageBlurhash: string | null;
 };
 
 export type Collection = {

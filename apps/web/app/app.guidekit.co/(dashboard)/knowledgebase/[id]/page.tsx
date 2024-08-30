@@ -39,7 +39,7 @@ export default function KnowledgebasePage({
     const response = await fetch(`/api/knowledgebase/${params.id}`);
     const data = await response.json();
     setKnowledgebase(data);
-    if (data.collections.length > 0) {
+    if (data.collections && data.collections.length > 0) {
       setSelectedCollection(data.collections[0]);
     }
   };

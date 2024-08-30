@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import CTA from "@/ui/cta";
 import ReportAbuse from "@/ui/sites/report-abuse";
 import { notFound, redirect } from "next/navigation";
-import { getSiteData } from "@/lib/fetchers";
+import { getKnowledgebaseData, getSiteData } from "@/lib/fetchers";
 import { fontMapper } from "@/styles/fonts";
 import { Metadata } from "next";
 
@@ -65,7 +65,8 @@ export default async function SiteLayout({
   children: ReactNode;
 }) {
   const domain = decodeURIComponent(params.domain);
-  const data = await getSiteData(domain);
+  // const data = await getSiteData(domain);
+  const data = await getKnowledgebaseData(domain);
 
   if (!data) {
     notFound();
@@ -81,7 +82,8 @@ export default async function SiteLayout({
   }
 
   return (
-    <div className={fontMapper[data.font]}>
+    // <div className={fontMapper[data.font]}>
+    <div>
       <div className="ease left-0 right-0 top-0 z-30 flex h-16 bg-white transition-all duration-150 dark:bg-black dark:text-white">
         <div className="mx-auto flex h-full max-w-screen-xl items-center justify-center space-x-5 px-10 sm:px-20">
           <Link href="/" className="flex items-center justify-center">
@@ -89,7 +91,7 @@ export default async function SiteLayout({
               <Image
                 alt={data.name || ""}
                 height={40}
-                src={data.logo || ""}
+                src={""} // TODO : Add a logo
                 width={40}
               />
             </div>
