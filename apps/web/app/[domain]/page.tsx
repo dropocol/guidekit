@@ -1,14 +1,9 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import BlurImage from "@/ui/cards/blur-image";
-import { placeholderBlurhash, toDateString } from "@/lib/utils";
-import BlogCard from "@/ui/cards/blog-card";
-import { getPostsForSite, getSiteData } from "@/lib/fetchers";
-import Image from "next/image";
 import { getKnowledgebaseData } from "@/lib/fetchers";
-import KnowledgebaseView from "@/ui/knowledgebases/knowledgebase-view";
 import { KnowledgebaseWithCollections } from "@/lib/types";
+import PublicKnowledgebaseView from "@/ui/knowledgebases/public-knowledgebase-view";
 
 export async function generateStaticParams() {
   const allKnowledgebases = await prisma.knowledgebase.findMany({
@@ -37,19 +32,15 @@ export default async function KnowledgebasePage({
 }: {
   params: { domain: string };
 }) {
-  const domain = decodeURIComponent(params.domain);
+  const domain = params.domain;
   const data = await getKnowledgebaseData(domain);
 
-  console.log("data", data);
-  console.log("Is Valid", isValidKnowledgebase(data));
-
   if (!data || !isValidKnowledgebase(data)) {
-    // Add validation check
     console.log("Not Valid");
     notFound();
   }
 
-  return <KnowledgebaseView knowledgebase={data} />;
+  return <PublicKnowledgebaseView knowledgebase={data} />;
 }
 
 // New type guard function to validate the data structure
