@@ -57,3 +57,13 @@ export const toDateString = (date: Date) => {
 export const random = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+export function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+}

@@ -19,6 +19,7 @@ import { customAlphabet } from "nanoid";
 import { getBlurDataURL } from "@/lib/utils";
 import { getNotionData } from "@/lib/notion";
 import { Prisma } from "@prisma/client";
+import { slugify } from "@/lib/utils"; // Add this import
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -439,7 +440,9 @@ export async function createKnowledgebase(formData: FormData) {
 
         await prisma.collection.create({
           data: {
-            name: collection.page_icon + " " + collection.name,
+            name: collection.name,
+            slug: slugify(collection.name), // Generate slug from name
+            pageIcon: collection.pageIcon,
             description: collection.description,
             knowledgebase: { connect: { id: knowledgebase.id } },
             type: collection.type,
@@ -449,10 +452,12 @@ export async function createKnowledgebase(formData: FormData) {
               create:
                 collection.subCollections?.map((subCollection) => ({
                   ...subCollection,
+                  slug: slugify(subCollection.name), // Generate slug for subCollection
                   articles: {
                     create:
                       subCollection.articles?.map((article) => ({
                         ...article,
+                        slug: slugify(article.title), // Generate slug for article
                         properties: article.properties,
                         recordMap: article.recordMap,
                       })) || [],

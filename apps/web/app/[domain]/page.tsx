@@ -36,16 +36,15 @@ export default async function KnowledgebasePage({
   const data = await getKnowledgebaseData(domain);
 
   if (!data || !isValidKnowledgebase(data)) {
-    console.log("Not Valid");
     notFound();
   }
 
   return <PublicKnowledgebaseView knowledgebase={data} />;
 }
 
-// New type guard function to validate the data structure
+// Type guard function to validate the data structure
 function isValidKnowledgebase(data: any): data is KnowledgebaseWithCollections {
   return data.collections.every(
-    (collection: any) => collection.properties !== null, // Ensure properties is not null
+    (collection: any) => collection.properties !== null,
   );
 }

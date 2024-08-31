@@ -143,6 +143,8 @@ model Knowledgebase {
 model Collection {
   id              String          @id @default(cuid())
   name            String
+  slug            String?
+  pageIcon        String?
   description     String?
   knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id])
   knowledgebaseId String
@@ -155,6 +157,7 @@ model Collection {
 model SubCollection {
   id            String     @id @default(cuid())
   name          String
+  slug          String
   description   String
   type          String
   view_ids      String[]
@@ -170,6 +173,7 @@ model SubCollection {
 model Article {
   id              String        @id @default(cuid())
   title           String
+  slug            String
   properties      Json
   recordMap       Json?
   description     String

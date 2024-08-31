@@ -61,10 +61,14 @@ export async function getPostsForSite(domain: string) {
 }
 
 export async function getPostData(domain: string, slug: string) {
+  console.log("domain", domain);
+  console.log("slug", slug);
+
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
 
+  console.log("subdomain", subdomain);
   return await unstable_cache(
     async () => {
       const data = await prisma.post.findFirst({
@@ -135,12 +139,11 @@ async function getMdxSource(postContents: string) {
 }
 
 export async function getKnowledgebaseData(domain: string) {
+  console.log("domain", domain);
+
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;
-
-  console.log("domain", domain);
-  console.log("subdomain", subdomain);
 
   const data = await unstable_cache(
     async () => {
@@ -162,11 +165,10 @@ export async function getKnowledgebaseData(domain: string) {
     },
     [`${domain}-knowledgebase`],
     {
-      revalidate: 900,
+      revalidate: 900, // TODO : change it according to the production
       tags: [`${domain}-knowledgebase`],
     },
   )();
 
-  // console.log("data", data);
   return data;
 }

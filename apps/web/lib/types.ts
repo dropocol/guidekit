@@ -72,16 +72,17 @@ export type Knowledgebase = {
   createdAt: Date;
   updatedAt: Date;
   articleCount: number;
-  slug: string;
-  subdomain: string | null;
-  customDomain: string | null;
-  image: string | null;
-  imageBlurhash: string | null;
+  slug?: string;
+  subdomain?: string | null;
+  customDomain?: string | null;
+  image?: string | null;
+  imageBlurhash?: string | null;
 };
 
 export type Collection = {
   id: string;
-  page_icon?: string | null;
+  slug: string;
+  pageIcon?: string | null;
   name: string;
   description: string | null;
   knowledgebaseId: string;
@@ -100,6 +101,7 @@ export type SubCollection = {
   articleCount: number;
   view_ids: string[];
   collection_id: string;
+  slug: string;
 };
 
 export type Article = {
@@ -109,6 +111,7 @@ export type Article = {
   recordMap: JsonObject;
   description: string;
   subCollectionId: string;
+  slug: string;
 };
 
 export type CollectionWithSubCollections = Collection & {

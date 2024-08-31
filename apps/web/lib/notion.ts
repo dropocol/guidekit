@@ -178,6 +178,7 @@ function processBlocks(collectionPage: any): Collection[] {
           id: subBlock.value.id,
           type: subBlock.value.type,
           name: "Untitled",
+          slug: "",
           description: "",
           view_ids: subBlock.value.view_ids,
           collection_id: subBlock.value.collection_id, // Changed from collectionId
@@ -191,14 +192,17 @@ function processBlocks(collectionPage: any): Collection[] {
       // );
 
       // console.log("Article Count : ", articleCount);
-
+      const name = block.value.properties?.title?.[0]?.[0] || "Untitled";
+      const slug = name.toLowerCase().replace(/ /g, "-");
       const blockCopy: Collection = {
         id: block.value.id,
         type: block.value.type,
         properties: block.value.properties,
-        name: block.value.properties?.title?.[0]?.[0] || "Untitled",
+        // name: block.value.properties?.title?.[0]?.[0] || "Untitled",
+        name,
+        slug,
         description: block.value.properties?.["A^D`"]?.[0]?.[0] || "",
-        page_icon: block.value.format?.page_icon,
+        pageIcon: block.value.format?.page_icon,
         subCollections,
         articleCount: subCollections.reduce(
           (total, subCollection) => total + subCollection.articleCount,
@@ -206,6 +210,8 @@ function processBlocks(collectionPage: any): Collection[] {
         ),
         knowledgebaseId: "", // TODO: Add this late
       };
+
+      console.log("blockCopy", blockCopy);
       return blockCopy;
     })
     .filter((block) => blockIds.includes(block.id));
@@ -241,9 +247,12 @@ async function processSubCollectionArticles(
 
   for (const block of matchingBlocks) {
     if (block.value.type === "page") {
+      const title = block.value.properties?.title?.[0]?.[0] || "Untitled";
+      const slug = title.toLowerCase().replace(/ /g, "-");
       const pageInfo: Article = {
         id: block.value.id,
-        title: block.value.properties?.title?.[0]?.[0] || "Untitled",
+        title: title,
+        slug: slug,
         description: (block.value.properties as any)?.["b<py"]?.[0]?.[0] || "",
         properties: block.value.properties || {},
         recordMap: subCollection.recordMap, // Add this line
