@@ -4,8 +4,12 @@ import Link from "next/link";
 
 export default function PublicKnowledgebaseView({
   knowledgebase,
+  children,
+  breadcrumbs,
 }: {
   knowledgebase: KnowledgebaseWithCollections;
+  children: React.ReactNode;
+  breadcrumbs: { name: string; href: string }[];
 }) {
   return (
     <div className="helpkit-bottom-container flex min-h-screen flex-col bg-[#eaeef6]">
@@ -25,9 +29,8 @@ export default function PublicKnowledgebaseView({
               >
                 {/* Add logo here */}
               </Link>
-              {/* pl-4 */}
               <div className="font-display flex justify-center self-center pb-0.5 pt-px text-center align-middle text-sm font-medium text-white sm:text-base">
-                ProductName
+                {knowledgebase.name}
               </div>
             </div>
           </div>
@@ -36,74 +39,39 @@ export default function PublicKnowledgebaseView({
               How can we help? 👋
             </span>
           </div>
-          {/* <div className="helpkit-search-wrapper relative z-50">
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search for articles"
-              className="helpkit-search-input helpsite-shadow hide-clear h-full w-full rounded border-none bg-[#ffffff38] px-4 py-3 pl-12 text-lg text-white placeholder-gray-50 placeholder-opacity-50 focus:ring-[#ffffff57] sm:py-4 sm:pl-14 sm:text-xl"
-            />
-            
-          </div> */}
         </div>
       </div>
-      <div className="helpsite-wrapper mx-auto mt-[-85px] flex-grow px-3 sm:-mt-28 sm:px-0">
-        <div className="mx-auto mt-3 w-full max-w-screen-lg">
-          <div className="-mx-2 flex flex-wrap sm:-mx-3">
-            {knowledgebase.collections.map((collection) => {
-              return (
-                <Link
-                  href={`/${collection.slug}/${collection.id}`}
-                  key={collection.id}
-                  className="helpkit-category-card mb-6 w-full transform px-3 transition hover:scale-[1.02] lg:w-1/2"
+      <div className="helpsite-wrapper mx-auto mt-[-85px] w-full max-w-screen-lg flex-grow px-3 sm:-mt-28 sm:px-0">
+        <div className="-mt-26 mt-6 flex w-[98%] items-center justify-start overflow-hidden overflow-ellipsis whitespace-nowrap pl-2 pr-5 text-sm text-white opacity-75 sm:w-full sm:px-1">
+          {breadcrumbs.map((crumb, index) => (
+            <React.Fragment key={crumb.href}>
+              {index > 0 && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="icon stroke-icon h-4"
                 >
-                  <div className="helpsite-shadow relative h-[215px] rounded bg-white text-center dark:bg-[#18233B]">
-                    <div className="flex h-full w-full flex-grow flex-col items-center justify-center px-8">
-                      <div className="mb-1 flex flex-col justify-center">
-                        <div className="mb-2 flex justify-center">
-                          <span className="text-4xl">
-                            {collection.pageIcon}
-                          </span>
-                        </div>
-                        <h2 className="text-primary-800 line-clamp-2 text-2xl font-bold dark:text-white">
-                          {collection.name}
-                        </h2>
-                      </div>
-                      <p className="mb-2 line-clamp-2 leading-snug text-gray-700 dark:text-gray-50">
-                        {collection.description}
-                      </p>
-                      <p className="helpkit-category-article-count mt-2 text-xs font-medium text-gray-600 dark:text-gray-200">
-                        {collection.articleCount} Articles
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              )}
+              <Link
+                href={crumb.href}
+                className="helpkit-breadcrumb-link font-medium text-white hover:text-white hover:underline"
+              >
+                {crumb.name}
+              </Link>
+            </React.Fragment>
+          ))}
         </div>
+        <div className="mx-auto mt-3 w-full max-w-screen-lg">{children}</div>
       </div>
-      <div className="helpkit-footer-wrapper helpsite-wrapper mb-5 mt-3 flex flex-col items-center justify-center self-center px-4 sm:mb-6 sm:mt-12 xl:px-0">
-        <a
-          target="_blank"
-          rel="noopener"
-          href="https://www.helpkit.so?utm_campaign=poweredBy&utm_medium=helpsite&utm_source=nakama"
-          title="Powered By HelpKit"
-          className="group mx-auto mt-3 flex cursor-pointer items-center justify-center rounded px-2 py-1 text-[12px] font-medium text-[#1A243A] opacity-60 hover:opacity-100 dark:text-[#f7fafc]"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            width="16"
-            src="/_nuxt/img/helpkit_logo_symbol.840bf11.png"
-            alt="Powered By HelpKit"
-            title="Powered By HelpKit"
-            className="mr-1"
-          />
-          Powered by
-          <span className="ml-[0.2rem] mr-1 font-semibold">HelpKit</span>
-          <span>↗</span>
-        </a>
-      </div>
+      {/* Footer content */}
     </div>
   );
 }

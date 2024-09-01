@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import prisma from "@/lib/prisma";
 import { serialize } from "next-mdx-remote/serialize";
 import { replaceExamples, replaceTweets } from "@/lib/remark-plugins";
+import { KnowledgebaseWithCollections } from "./types";
 
 export async function getSiteData(domain: string) {
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -138,7 +139,9 @@ async function getMdxSource(postContents: string) {
   return mdxSource;
 }
 
-export async function getKnowledgebaseData(domain: string) {
+export async function getKnowledgebaseData(
+  domain: string,
+): Promise<KnowledgebaseWithCollections | null> {
   console.log("domain", domain);
 
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -170,5 +173,5 @@ export async function getKnowledgebaseData(domain: string) {
     },
   )();
 
-  return data;
+  return data as KnowledgebaseWithCollections | null;
 }

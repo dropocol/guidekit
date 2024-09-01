@@ -1,0 +1,10 @@
+.notionContainer {
+  --notion-max-width: 100% !important;
+}
+
+.notionContainer :global(.notion) {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

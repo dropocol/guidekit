@@ -79,7 +79,7 @@ export type Knowledgebase = {
   imageBlurhash?: string | null;
 };
 
-export type Collection = {
+export interface Collection {
   id: string;
   slug: string;
   pageIcon?: string | null;
@@ -90,7 +90,7 @@ export type Collection = {
   properties: JsonObject;
   subCollections: SubCollection[];
   articleCount: number;
-};
+}
 
 export type SubCollection = {
   id: string;
@@ -122,6 +122,6 @@ export type CollectionWithSubCollections = Collection & {
   >;
 };
 
-export type KnowledgebaseWithCollections = Knowledgebase & {
-  collections: CollectionWithSubCollections[];
-};
+export interface KnowledgebaseWithCollections extends Knowledgebase {
+  collections: Collection[];
+}
