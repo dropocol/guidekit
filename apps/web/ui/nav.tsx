@@ -15,6 +15,7 @@ import {
   FileCode,
   Github,
   Book,
+  Paintbrush,
 } from "lucide-react";
 import {
   useParams,
@@ -116,21 +117,40 @@ export default function Nav({ children }: { children: ReactNode }) {
     } else if (segments[0] === "knowledgebase" && id) {
       return [
         {
-          name: "Back",
+          name: "Back to All Knowledgebases",
           href: "/knowledgebases",
           icon: <ArrowLeft width={18} />,
         },
         {
+          name: "Overview",
+          href: `/knowledgebase/${id}`,
+          isActive: segments.length === 2,
+          icon: <LayoutDashboard width={18} />,
+        },
+        {
           name: "Analytics",
-          href: `/site/${id}/analytics`,
+          href: `/knowledgebase/${id}/analytics`,
           isActive: segments.includes("analytics"),
           icon: <BarChart3 width={18} />,
         },
         {
           name: "Settings",
-          href: `/site/${id}/settings`,
-          isActive: segments.includes("settings"),
+          href: `/knowledgebase/${id}/settings`,
+          // Update this condition to check if we're in any settings page
+          isActive: segments.includes("settings") && segments.length === 3,
           icon: <Settings width={18} />,
+        },
+        {
+          name: "Domains",
+          href: `/knowledgebase/${id}/settings/domains`,
+          isActive: segments.includes("domains"),
+          icon: <Globe width={18} />,
+        },
+        {
+          name: "Appearance",
+          href: `/knowledgebase/${id}/settings/appearance`,
+          isActive: segments.includes("appearance"),
+          icon: <Paintbrush width={18} />,
         },
       ];
     } else if (segments[0] === "post" && id) {

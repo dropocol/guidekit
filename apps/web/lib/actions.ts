@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { Post, Site } from "@prisma/client";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 import {
   getSession,
   withPostAuth,
@@ -476,4 +476,49 @@ export async function createKnowledgebase(formData: FormData) {
     console.log(error);
     return { error: error.message };
   }
+}
+
+export async function updateKnowledgebase(formData: FormData) {
+  const knowledgebaseId = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const subdomain = formData.get("subdomain") as string;
+  const customDomain = formData.get("customDomain") as string;
+  const image = formData.get("image") as File;
+  const logo = formData.get("logo") as File;
+  const font = formData.get("font") as string;
+  const message404 = formData.get("message404") as string;
+
+  try {
+    const response = await prisma.knowledgebase.update({
+      where: {
+        id: knowledgebaseId,
+      },
+      data: {
+        name,
+        description,
+        subdomain,
+        customDomain,
+        image: image instanceof File ? await uploadImage(image) : undefined,
+        logo: logo instanceof File ? await uploadImage(logo) : undefined,
+        font,
+        message404,
+      },
+    });
+
+    revalidatePath(`/knowledgebase/${knowledgebaseId}/settings`);
+    return response;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}
+
+// Add this helper function to handle image uploads
+async function uploadImage(file: File): Promise<string> {
+  // Implement your image upload logic here
+  // This is just a placeholder, you'll need to replace it with your actual upload code
+  console.log("Uploading image:", file.name);
+  return "https://example.com/uploaded-image-url.jpg";
 }

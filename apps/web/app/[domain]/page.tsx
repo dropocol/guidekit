@@ -39,7 +39,7 @@ export default async function KnowledgebasePage({
     notFound();
   }
 
-  const breadcrumbs = [{ name: "All Categories", href: `/${domain}` }];
+  const breadcrumbs = [{ name: "All Categories", href: `/` }];
 
   return (
     <PublicKnowledgebaseView knowledgebase={data} breadcrumbs={breadcrumbs}>
