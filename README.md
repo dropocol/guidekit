@@ -1,58 +1,111 @@
-# Turborepo Tailwind CSS starter
+# GuideKit - Knowledge Base Platform
 
-This is an official starter Turborepo.
+GuideKit is a powerful knowledge base platform that allows users to create, manage, and share knowledge bases with ease. It's built using Next.js, Prisma, and integrates with Notion for content management.
 
-## Using this example
+## Features
 
-Run the following command:
+- Multi-tenant architecture
+- Notion integration for content management
+- Custom domain support
+- User authentication and authorization
+- Responsive design for various devices
+- Article management with nested collections and subcollections
+- Rich text editor for content creation
+- File upload functionality
+- API routes for data fetching and manipulation
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+## Prerequisites
 
-## What's inside?
+Before you begin, ensure you have the following installed:
 
-This Turborepo includes the following packages/apps:
+- Node.js (v14 or later)
+- Yarn package manager
+- PostgreSQL database
 
-### Apps and Packages
+## Getting Started
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+1. Clone the repository:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+   ```
+   git clone https://github.com/your-username/guidekit.git
+   cd guidekit
+   ```
 
-### Building packages/ui
+2. Install dependencies:
 
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.js`. This was chosen for several reasons:
+   ```
+   yarn install
+   ```
 
-- Make sharing one `tailwind.config.js` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
+3. Set up environment variables: Create a `.env` file in the root directory and add the following variables:
 
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.js` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
+   ```
+   DATABASE_URL=postgresql://username:password@localhost:5432/guidekit
+   NEXTAUTH_SECRET=your-nextauth-secret
+   NEXT_PUBLIC_ROOT_DOMAIN=your-root-domain.com
+   NOTION_API_KEY=your-notion-api-key
+   ```
 
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
+4. Set up the database:
 
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
-```
+   ```
+   npx prisma migrate dev
+   ```
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+5. Run the development server:
 
-### Utilities
+   ```
+   yarn dev
+   ```
 
-This Turborepo has some additional tools already setup for you:
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Project Structure
+
+The project follows a monorepo structure using Yarn workspaces:
+
+- `apps/web`: Main Next.js application
+- `apps/marketing`: Marketing website (if applicable)
+- `packages/ui`: Shared UI components
+
+## Key Components
+
+1. Authentication:
+
+   - Implemented using NextAuth.js
+   - See `apps/web/auth/index.ts` for configuration
+
+2. API Routes:
+
+   - Located in `apps/web/app/api`
+   - Handles data fetching and manipulation
+
+3. Database:
+
+   - Uses Prisma ORM
+   - Schema defined in `apps/web/prisma/schema.prisma`
+
+4. UI Components:
+
+   - Shared components in `packages/ui/src`
+   - App-specific components in `apps/web/ui`
+
+5. Notion Integration:
+   - Implemented in `apps/web/lib/notion.ts`
+
+## Deployment
+
+The project is designed to be deployed on Vercel. Follow these steps:
+
+1. Create a new project on Vercel
+2. Connect your GitHub repository
+3. Set up the environment variables in the Vercel dashboard
+4. Deploy the project
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.
