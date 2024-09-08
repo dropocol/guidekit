@@ -30,7 +30,7 @@ export default async function KnowledgebaseSettingsLayout({
 
   return (
     <>
-      <div className="flex flex-col items-center space-x-4 space-y-2 sm:flex-row sm:space-y-0">
+      <div className="flex flex-col items-center space-x-4 space-y-2 px-6 py-4 sm:flex-row sm:space-y-0">
         <h1 className="font-cal text-xl font-bold sm:text-3xl dark:text-white">
           Settings for {data.name}
         </h1>

@@ -183,6 +183,7 @@ model Article {
   description     String
   subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   subCollectionId String
+  image           String?       @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png") @db.Text
 
   @@index([subCollectionId])
 }

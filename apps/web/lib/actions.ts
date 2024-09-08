@@ -515,10 +515,53 @@ export async function updateKnowledgebase(formData: FormData) {
   }
 }
 
-// Add this helper function to handle image uploads
+// Add this function to the existing actions file
+export async function updateArticle(formData: FormData) {
+  const session = await getSession();
+  if (!session) {
+    return {
+      error: "Not authenticated",
+    };
+  }
+  const articleId = formData.get("id") as string;
+  const slug = formData.get("slug") as string;
+  const image = formData.get("image") as File | null;
+
+  try {
+    const updateData: Prisma.ArticleUpdateInput = {
+      slug: slug,
+    };
+
+    if (image) {
+      const imageUrl = await uploadImage(image);
+      updateData.image = imageUrl;
+    }
+
+    const article = await prisma.article.update({
+      where: {
+        id: articleId,
+      },
+      data: updateData,
+    });
+
+    revalidateTag(`article-${articleId}`);
+    return article;
+  } catch (error) {
+    console.error("Error updating article:", error);
+    return {
+      error: "Error updating article",
+    };
+  }
+}
+
+// Update the uploadImage function to return a Promise<string>
 async function uploadImage(file: File): Promise<string> {
   // Implement your image upload logic here
   // This is just a placeholder, you'll need to replace it with your actual upload code
   console.log("Uploading image:", file.name);
   return "https://example.com/uploaded-image-url.jpg";
+}
+
+export async function deleteArticle(formData: FormData) {
+  // Implementation of deleteArticle
 }

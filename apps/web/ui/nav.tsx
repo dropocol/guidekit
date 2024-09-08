@@ -114,10 +114,13 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <Settings width={18} />,
         },
       ];
-    } else if (segments[0] === "knowledgebase" && id) {
+    } else if (
+      segments[0] === "knowledgebase" ||
+      (segments[0] === "article" && id)
+    ) {
       return [
         {
-          name: "Back to All Knowledgebases",
+          name: "Back",
           href: "/knowledgebases",
           icon: <ArrowLeft width={18} />,
         },
@@ -186,12 +189,12 @@ export default function Nav({ children }: { children: ReactNode }) {
         href: "/knowledgebases",
         icon: <Book width={18} />,
       },
-      {
-        name: "Sites",
-        href: "/sites",
-        isActive: segments[0] === "sites",
-        icon: <Globe width={18} />,
-      },
+      // {
+      //   name: "Sites",
+      //   href: "/sites",
+      //   isActive: segments[0] === "sites",
+      //   icon: <Globe width={18} />,
+      // },
       {
         name: "Settings",
         href: "/settings",
