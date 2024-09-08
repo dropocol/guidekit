@@ -109,7 +109,11 @@ export default async function DynamicPage({
         breadcrumbs={breadcrumbs}
       >
         <div className="mx-auto mt-3 w-full">
-          <ArticleContent articleId={article.id} title={article.title} />
+          <ArticleContent
+            articleId={article.id}
+            title={article.title}
+            knowledgebaseId={knowledgebase.id}
+          />
         </div>
       </PublicKnowledgebaseView>
     );

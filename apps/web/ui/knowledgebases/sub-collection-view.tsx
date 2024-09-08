@@ -51,6 +51,12 @@ export default function SubCollectionView({
                   >
                     Actions
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500"
+                  >
+                    Visits
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 overflow-hidden rounded-b-lg bg-white">
@@ -97,6 +103,8 @@ export default function SubCollectionView({
                         </button>
                       </div>
                     </td>
+                    {/* <td className="px-6 py-4 text-center">{article.visits}</td> */}
+                    <td className="px-6 py-4 text-center">{30000}</td>
                   </tr>
                 ))}
               </tbody>

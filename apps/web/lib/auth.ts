@@ -17,6 +17,7 @@ const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 // const adapter = PrismaAdapter(prisma);
 
 export const authOptions: NextAuthConfig = {
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     Credentials({

@@ -479,40 +479,71 @@ export async function createKnowledgebase(formData: FormData) {
 }
 
 export async function updateKnowledgebase(formData: FormData) {
-  const knowledgebaseId = formData.get("id") as string;
-  const name = formData.get("name") as string;
-  const description = formData.get("description") as string;
-  const subdomain = formData.get("subdomain") as string;
-  const customDomain = formData.get("customDomain") as string;
-  const image = formData.get("image") as File;
-  const logo = formData.get("logo") as File;
-  const font = formData.get("font") as string;
-  const message404 = formData.get("message404") as string;
+  const session = await getSession();
+  if (!session?.user!.id) {
+    return { error: "Not authenticated" };
+  }
+
+  const id = formData.get("id") as string;
+  console.log(formData);
+  if (!id) {
+    return { error: "Knowledgebase ID is required" };
+  }
+
+  const updateData: Record<string, any> = {};
+
+  // List of fields that can be updated
+  const updatableFields = [
+    "name",
+    "description",
+    "subdomain",
+    "customDomain",
+    "font",
+    "message404",
+  ];
+
+  // Only add fields to updateData if they are present in the formData
+  for (const field of updatableFields) {
+    const value = formData.get(field);
+    if (value !== null) {
+      updateData[field] = value;
+    }
+  }
+
+  // Handle file uploads separately
+  const image = formData.get("image") as File | null;
+  const logo = formData.get("logo") as File | null;
+
+  if (image) {
+    updateData.image = await uploadImage(image);
+  }
+
+  if (logo) {
+    updateData.logo = await uploadImage(logo);
+  }
 
   try {
     const response = await prisma.knowledgebase.update({
-      where: {
-        id: knowledgebaseId,
-      },
-      data: {
-        name,
-        description,
-        subdomain,
-        customDomain,
-        image: image instanceof File ? await uploadImage(image) : undefined,
-        logo: logo instanceof File ? await uploadImage(logo) : undefined,
-        font,
-        message404,
-      },
+      where: { id },
+      data: updateData,
     });
 
-    revalidatePath(`/knowledgebase/${knowledgebaseId}/settings`);
+    revalidatePath(`/knowledgebase/${id}/settings`);
     return response;
   } catch (error: any) {
+    console.error("Error updating knowledgebase:", error);
     return {
-      error: error.message,
+      error: error.message || "Error updating knowledgebase",
     };
   }
+}
+
+// Implement this function to handle image uploads
+async function uploadImage(file: File): Promise<string> {
+  // Implement your image upload logic here
+  // This should return the URL of the uploaded image
+  console.log("Uploading image:", file.name);
+  return "https://example.com/uploaded-image-url.jpg";
 }
 
 // Add this function to the existing actions file
@@ -552,14 +583,6 @@ export async function updateArticle(formData: FormData) {
       error: "Error updating article",
     };
   }
-}
-
-// Update the uploadImage function to return a Promise<string>
-async function uploadImage(file: File): Promise<string> {
-  // Implement your image upload logic here
-  // This is just a placeholder, you'll need to replace it with your actual upload code
-  console.log("Uploading image:", file.name);
-  return "https://example.com/uploaded-image-url.jpg";
 }
 
 export async function deleteArticle(formData: FormData) {

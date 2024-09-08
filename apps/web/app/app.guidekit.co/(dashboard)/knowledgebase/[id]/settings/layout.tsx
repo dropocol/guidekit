@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
-// Remove this import as we're not using it anymore
-// import KnowledgebaseSettingsNav from "./nav";
 
 export default async function KnowledgebaseSettingsLayout({
   params,
@@ -47,7 +45,6 @@ export default async function KnowledgebaseSettingsLayout({
           {url} ↗
         </a>
       </div>
-      {/* Remove the KnowledgebaseSettingsNav component */}
       {children}
     </>
   );

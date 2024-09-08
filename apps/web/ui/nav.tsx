@@ -25,6 +25,7 @@ import {
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { getSiteFromPostId } from "@/lib/actions";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const externalLinks = [
   {
@@ -67,8 +68,10 @@ const externalLinks = [
 export default function Nav({ children }: { children: ReactNode }) {
   const segments = useSelectedLayoutSegments();
   const { id } = useParams() as { id?: string };
+  const router = useRouter();
 
   const [siteId, setSiteId] = useState<string | null>();
+  const [knowledgebaseId, setKnowledgebaseId] = useState<string | null>(null);
 
   useEffect(() => {
     if (segments[0] === "post" && id) {
@@ -76,18 +79,22 @@ export default function Nav({ children }: { children: ReactNode }) {
         setSiteId(id);
       });
     }
+    // Store knowledgebase ID when navigating to an article
+    if (segments[0] === "knowledgebase" && id) {
+      setKnowledgebaseId(id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segments[0], id]);
 
-  // useEffect(() => {
-  //   if (segments[0] === "post" && id) {
-  //     getSiteFromPostId(id).then((id) => {
-  //       setSiteId(id);
-  //     });
-  //   }
-  // }, []);
+  type TabItem = {
+    name: string;
+    href: string;
+    icon: React.ReactNode;
+    isActive?: boolean;
+    onClick?: (e: React.MouseEvent) => void;
+  };
 
-  const tabs = useMemo(() => {
+  const tabs: TabItem[] = useMemo(() => {
     if (segments[0] === "site" && id) {
       return [
         {
@@ -121,8 +128,19 @@ export default function Nav({ children }: { children: ReactNode }) {
       return [
         {
           name: "Back",
-          href: "/knowledgebases",
+          href:
+            segments[0] === "article" && id
+              ? `/knowledgebase/${id}`
+              : "/knowledgebases",
           icon: <ArrowLeft width={18} />,
+          onClick: (e: React.MouseEvent) => {
+            e.preventDefault();
+            if (segments[0] === "article" && knowledgebaseId) {
+              router.push(`/knowledgebase/${knowledgebaseId}`);
+            } else {
+              router.push("/knowledgebases");
+            }
+          },
         },
         {
           name: "Overview",
@@ -139,19 +157,18 @@ export default function Nav({ children }: { children: ReactNode }) {
         {
           name: "Settings",
           href: `/knowledgebase/${id}/settings`,
-          // Update this condition to check if we're in any settings page
-          isActive: segments.includes("settings") && segments.length === 3,
+          isActive: segments.includes("settings"),
           icon: <Settings width={18} />,
         },
         {
           name: "Domains",
-          href: `/knowledgebase/${id}/settings/domains`,
+          href: `/knowledgebase/${id}/domains`,
           isActive: segments.includes("domains"),
           icon: <Globe width={18} />,
         },
         {
           name: "Appearance",
-          href: `/knowledgebase/${id}/settings/appearance`,
+          href: `/knowledgebase/${id}/appearance`,
           isActive: segments.includes("appearance"),
           icon: <Paintbrush width={18} />,
         },
@@ -202,7 +219,7 @@ export default function Nav({ children }: { children: ReactNode }) {
         icon: <Settings width={18} />,
       },
     ];
-  }, [segments, id, siteId]);
+  }, [segments, id, siteId, knowledgebaseId, router]);
 
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -267,13 +284,14 @@ export default function Nav({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="grid gap-1">
-            {tabs.map(({ name, href, isActive, icon }) => (
+            {tabs.map(({ name, href, isActive, icon, onClick }) => (
               <Link
                 key={name}
                 href={href}
                 className={`flex items-center space-x-3 ${
                   isActive ? "bg-stone-200 text-black dark:bg-stone-700" : ""
                 } rounded-lg px-2 py-1.5 transition-all duration-150 ease-in-out hover:bg-stone-200 active:bg-stone-300 dark:text-white dark:hover:bg-stone-700 dark:active:bg-stone-800`}
+                onClick={onClick}
               >
                 {icon}
                 <span className="text-sm font-medium">{name}</span>

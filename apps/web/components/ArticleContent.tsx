@@ -24,18 +24,34 @@ async function fetchArticle(id: string) {
 export default function ArticleContent({
   articleId,
   title,
+  knowledgebaseId,
 }: {
   articleId: string;
   title: string;
+  knowledgebaseId: string;
 }) {
   const [recordMap, setRecordMap] = useState(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchArticle(articleId)
-      .then(({ recordMap }) => setRecordMap(recordMap))
-      .catch((err) => setError(err.message));
-  }, [articleId]);
+    const fetchData = async () => {
+      try {
+        const { recordMap } = await fetchArticle(articleId);
+        setRecordMap(recordMap);
+
+        // Record visit
+        await fetch("/api/visit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ knowledgebaseId, articleId }),
+        });
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, [articleId, knowledgebaseId]);
 
   if (error) {
     return <div>Error loading article: {error}</div>;

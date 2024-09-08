@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { KnowledgebaseWithCollections } from "@/lib/types";
 import Link from "next/link";
 
@@ -11,6 +13,15 @@ export default function PublicKnowledgebaseView({
   children: React.ReactNode;
   breadcrumbs: { name: string; href: string }[];
 }) {
+  // useEffect(() => {
+  //   // Record visit when the component mounts
+  //   fetch("/api/visit", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ knowledgebaseId: knowledgebase.id }),
+  //   });
+  // }, [knowledgebase.id]);
+
   return (
     <div className="helpkit-bottom-container flex min-h-screen flex-col bg-[#eaeef6]">
       <div

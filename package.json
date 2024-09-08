@@ -29,5 +29,8 @@
     "apps/*",
     "packages/*"
   ],
-  "packageManager": "pnpm@9.5.0"
+  "packageManager": "pnpm@9.5.0",
+  "resolutions": {
+    "eventemitter3": "^5.0.1"
+  }
 }

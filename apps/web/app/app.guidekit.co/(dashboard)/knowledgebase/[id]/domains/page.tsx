@@ -7,11 +7,20 @@ export default async function KnowledgebaseSettingsDomains({
 }: {
   params: { id: string };
 }) {
+  const id = decodeURIComponent(params.id);
   const data = await prisma.knowledgebase.findUnique({
-    where: {
-      id: decodeURIComponent(params.id),
-    },
+    where: { id },
   });
+
+  if (!data) {
+    return <div>Knowledgebase not found</div>;
+  }
+
+  const handleSubmitWithId = async (formData: FormData) => {
+    "use server";
+    formData.append("id", id);
+    return updateKnowledgebase(formData);
+  };
 
   return (
     <div className="flex flex-col space-y-6">
@@ -22,11 +31,11 @@ export default async function KnowledgebaseSettingsDomains({
         inputAttrs={{
           name: "subdomain",
           type: "text",
-          defaultValue: data?.subdomain!,
+          defaultValue: data.subdomain ?? "",
           placeholder: "subdomain",
           maxLength: 32,
         }}
-        handleSubmit={updateKnowledgebase}
+        handleSubmit={handleSubmitWithId}
       />
       <Form
         title="Custom Domain"
@@ -35,12 +44,12 @@ export default async function KnowledgebaseSettingsDomains({
         inputAttrs={{
           name: "customDomain",
           type: "text",
-          defaultValue: data?.customDomain!,
+          defaultValue: data.customDomain ?? "",
           placeholder: "yourdomain.com",
           maxLength: 64,
           pattern: "^[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}$",
         }}
-        handleSubmit={updateKnowledgebase}
+        handleSubmit={handleSubmitWithId}
       />
     </div>
   );
