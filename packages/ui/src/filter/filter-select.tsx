@@ -96,7 +96,7 @@ export function FilterSelect({
 
       setIsOpen(false);
     },
-    [activeFilters, selectedFilter, askAI],
+    [activeFilters, selectedFilter, askAI]
   );
 
   return (
@@ -137,7 +137,7 @@ export function FilterSelect({
                     // Prepend search with selected filter label for more context
                     selectedFilter
                       ? `${selectedFilter.label} ${search}`
-                      : search,
+                      : search
                   );
                   setIsOpen(false);
                 } else selectOption(search);
@@ -147,7 +147,7 @@ export function FilterSelect({
               <Command.List
                 className={cn(
                   "flex w-full flex-col gap-1 p-1",
-                  selectedFilter ? "min-w-[100px]" : "min-w-[180px]",
+                  selectedFilter ? "min-w-[100px]" : "min-w-[180px]"
                 )}
               >
                 {!selectedFilter
@@ -165,10 +165,10 @@ export function FilterSelect({
                       </>
                     ))
                   : // Filter options
-                    selectedFilter.options?.map((option) => {
+                    (selectedFilter.options?.map((option) => {
                       const isSelected =
                         activeFilters?.find(
-                          ({ key }) => key === selectedFilterKey,
+                          ({ key }) => key === selectedFilterKey
                         )?.value === option.value;
 
                       return (
@@ -196,7 +196,7 @@ export function FilterSelect({
                           <LoadingSpinner />
                         </div>
                       </Command.Loading>
-                    )}
+                    ))}
 
                 {/* Only render CommandEmpty if not loading */}
                 {(!selectedFilter || selectedFilter.options) && (
@@ -214,7 +214,7 @@ export function FilterSelect({
           "group flex h-10 cursor-pointer appearance-none items-center gap-x-2 truncate rounded-md border px-3 text-sm outline-none transition-all",
           "border-gray-200 bg-white text-gray-900 placeholder-gray-400",
           "focus-visible:border-gray-500 data-[state=open]:border-gray-500 data-[state=open]:ring-4 data-[state=open]:ring-gray-200",
-          className,
+          className
         )}
       >
         <ListFilter className="h-4 w-4 shrink-0" />
@@ -240,7 +240,7 @@ export function FilterSelect({
 const CommandInput = (
   props: React.ComponentProps<typeof Command.Input> & {
     emptySubmit?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  },
+  }
 ) => {
   const isEmpty = useCommandState((state) => state.filtered.count === 0);
   return (
@@ -273,7 +273,7 @@ const FilterScroll = forwardRef(
       setScrollProgress(
         scrollHeight === clientHeight
           ? 1
-          : scrollTop / (scrollHeight - clientHeight),
+          : scrollTop / (scrollHeight - clientHeight)
       );
     }, []);
 
@@ -297,7 +297,7 @@ const FilterScroll = forwardRef(
         ></div>
       </>
     );
-  },
+  }
 );
 
 function FilterButton({
@@ -312,21 +312,21 @@ function FilterButton({
   onSelect: () => void;
 }) {
   const Icon = option
-    ? option.icon ??
+    ? (option.icon ??
       filter.getOptionIcon?.(option.value, { key: filter.key, option }) ??
-      filter.icon
+      filter.icon)
     : filter.icon;
 
   const label = option
-    ? option.label ??
-      filter.getOptionLabel?.(option.value, { key: filter.key, option })
+    ? (option.label ??
+      filter.getOptionLabel?.(option.value, { key: filter.key, option }))
     : filter.label;
 
   return (
     <Command.Item
       className={cn(
         "flex cursor-pointer items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-left text-sm",
-        "data-[selected=true]:bg-gray-100",
+        "data-[selected=true]:bg-gray-100"
       )}
       onSelect={onSelect}
       value={label}

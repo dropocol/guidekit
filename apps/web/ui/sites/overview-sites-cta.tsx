@@ -9,7 +9,7 @@ export default async function OverviewSitesCTA() {
   if (!session) {
     return 0;
   }
-  const sites = await prisma.site.count({
+  const sites = await prisma.knowledgebase.count({
     where: {
       userId: session.user?.id as string,
     },

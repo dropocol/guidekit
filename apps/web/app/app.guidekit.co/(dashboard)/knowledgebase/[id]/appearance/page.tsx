@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import Form from "@/ui/form";
 import { updateKnowledgebase } from "@/lib/actions";
+import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 
 export default async function KnowledgebaseSettingsAppearance({
   params,
@@ -13,8 +14,18 @@ export default async function KnowledgebaseSettingsAppearance({
     },
   });
 
+  if (!data) {
+    return <div>Knowledgebase not found</div>;
+  }
+
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col space-y-6 p-8">
+      <KnowledgebaseHeader
+        name={data.name}
+        subdomain={data.subdomain!}
+        page={"Appearance"}
+      />
+
       <Form
         title="Thumbnail image"
         description="The thumbnail image for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"

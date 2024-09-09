@@ -9,7 +9,7 @@ export default async function Sites({ limit }: { limit?: number }) {
   if (!session) {
     redirect("/login");
   }
-  const sites = await prisma.site.findMany({
+  const sites = await prisma.knowledgebase.findMany({
     where: {
       user: {
         id: session.user?.id as string,

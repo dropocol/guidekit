@@ -23,7 +23,7 @@ import {
   useSelectedLayoutSegments,
 } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { getSiteFromPostId } from "@/lib/actions";
+// import { getSiteFromPostId } from "@/lib/actions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -75,9 +75,9 @@ export default function Nav({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (segments[0] === "post" && id) {
-      getSiteFromPostId(id).then((id) => {
-        setSiteId(id);
-      });
+      // getSiteFromPostId(id).then((id) => {
+      //   setSiteId(id);
+      // });
     }
     // Store knowledgebase ID when navigating to an article
     if (segments[0] === "knowledgebase" && id) {
@@ -155,10 +155,10 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <BarChart3 width={18} />,
         },
         {
-          name: "Settings",
-          href: `/knowledgebase/${id}/settings`,
-          isActive: segments.includes("settings"),
-          icon: <Settings width={18} />,
+          name: "Appearance",
+          href: `/knowledgebase/${id}/appearance`,
+          isActive: segments.includes("appearance"),
+          icon: <Paintbrush width={18} />,
         },
         {
           name: "Domains",
@@ -167,10 +167,10 @@ export default function Nav({ children }: { children: ReactNode }) {
           icon: <Globe width={18} />,
         },
         {
-          name: "Appearance",
-          href: `/knowledgebase/${id}/appearance`,
-          isActive: segments.includes("appearance"),
-          icon: <Paintbrush width={18} />,
+          name: "Settings",
+          href: `/knowledgebase/${id}/settings`,
+          isActive: segments.includes("settings"),
+          icon: <Settings width={18} />,
         },
       ];
     } else if (segments[0] === "post" && id) {

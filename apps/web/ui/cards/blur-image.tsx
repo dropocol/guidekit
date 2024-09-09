@@ -3,10 +3,9 @@
 import cn from "clsx";
 import Image from "next/image";
 import { useState } from "react";
+import { ImageProps } from "next/image";
 
-import type { ComponentProps } from "react";
-
-export default function BlurImage(props: ComponentProps<typeof Image>) {
+export default function BlurImage(props: ImageProps) {
   const [isLoading, setLoading] = useState(true);
 
   return (

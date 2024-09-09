@@ -1,10 +1,10 @@
 import { Knowledgebase } from "@prisma/client";
 import Link from "next/link";
 import { Book } from "lucide-react";
-import Image from "next/image";
-import { placeholderBlurhash } from "@/lib/utils";
+import GradientCard from "./gradient-card";
 
 export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
+  const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link
@@ -12,14 +12,7 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
         className="flex flex-col overflow-hidden rounded-lg"
       >
         <div className="relative h-44 w-full">
-          <Image
-            alt={data.name ?? "Knowledgebase thumbnail"}
-            src={"/placeholder.png"}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={placeholderBlurhash}
-          />
+          <GradientCard className="rounded-t-lg" />
         </div>
         <div className="p-4">
           <h3 className="my-0 truncate font-cal text-xl font-bold tracking-wide dark:text-white">
@@ -32,10 +25,15 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
       </Link>
       <div className="absolute bottom-4 flex w-full justify-between space-x-4 px-4">
         <Link
-          href={`/knowledgebase/${data.id}`}
+          // href={`/knowledgebase/${data.id}`}
+          href={
+            process.env.NEXT_PUBLIC_VERCEL_ENV
+              ? `https://${url}`
+              : `http://${data.subdomain}.localhost:3000`
+          }
           className="truncate rounded-md bg-stone-100 px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
         >
-          View Knowledgebase
+          {url} ↗
         </Link>
         <div className="flex items-center rounded-md bg-blue-100 px-2 py-1 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-200 dark:bg-blue-900 dark:bg-opacity-50 dark:text-blue-400 dark:hover:bg-blue-800 dark:hover:bg-opacity-50">
           <Book height={16} />

@@ -13,6 +13,7 @@ import {
   KnowledgebaseWithCollections,
   SubCollection,
 } from "@/lib/types";
+import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 
 export default function KnowledgebasePage({
   params,
@@ -44,27 +45,36 @@ export default function KnowledgebasePage({
     }
   };
 
-  if (!knowledgebase) return <div>Loading...</div>;
+  if (!knowledgebase) return <div></div>;
 
   return (
-    <div className="flex h-screen max-w-screen-2xl">
-      <div className="w-1/4 overflow-y-auto border-r border-stone-200 p-4 dark:border-stone-700">
-        <h1 className="mb-4 font-cal text-2xl font-bold dark:text-white">
-          {knowledgebase.name}
-        </h1>
-        <CollectionList
-          collections={
-            knowledgebase.collections as CollectionWithSubCollections[]
-          }
-          onSelectCollection={(collection: CollectionWithSubCollections) =>
-            setSelectedCollection(collection)
-          }
+    <div className="flex h-screen max-w-screen-2xl flex-col">
+      <div className="border-b border-stone-200 p-4 dark:border-stone-700">
+        <KnowledgebaseHeader
+          name={knowledgebase.name}
+          subdomain={knowledgebase.subdomain!}
+          page={"Dashboard"}
         />
       </div>
-      <div className="w-full overflow-y-auto bg-slate-100 p-8">
-        {selectedCollection && (
-          <SubCollectionView collection={selectedCollection} />
-        )}
+      <div className="flex flex-1">
+        <div className="w-1/4 overflow-y-auto border-r border-stone-200 p-4 dark:border-stone-700">
+          <h1 className="mb-4 font-cal text-2xl font-bold dark:text-white">
+            Collections
+          </h1>
+          <CollectionList
+            collections={
+              knowledgebase.collections as CollectionWithSubCollections[]
+            }
+            onSelectCollection={(collection: CollectionWithSubCollections) =>
+              setSelectedCollection(collection)
+            }
+          />
+        </div>
+        <div className="w-3/4 overflow-y-auto bg-slate-100 p-8">
+          {selectedCollection && (
+            <SubCollectionView collection={selectedCollection} />
+          )}
+        </div>
       </div>
     </div>
   );

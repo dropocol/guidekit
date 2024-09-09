@@ -37,7 +37,7 @@ export function withSiteAuth(action: any) {
         error: "Not authenticated",
       };
     }
-    const site = await prisma.site.findUnique({
+    const site = await prisma.knowledgebase.findUnique({
       where: {
         id: siteId,
       },
@@ -64,13 +64,13 @@ export async function withPostAuth(action: any) {
         error: "Not authenticated",
       };
     }
-    const post = await prisma.post.findUnique({
+    const post = await prisma.knowledgebase.findUnique({
       where: {
         id: postId,
       },
-      include: {
-        site: true,
-      },
+      // include: {
+      //   site: true,
+      // },
     });
     if (!post || post.userId !== session.user.id) {
       return {

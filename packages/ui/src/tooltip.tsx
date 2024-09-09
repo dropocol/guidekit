@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { nFormatter, timeAgo } from "@dub/utils";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import Linkify from "linkify-react";
 import { HelpCircle } from "lucide-react";
-import Link from "next/link";
 import { ReactNode, useState } from "react";
 import { Badge } from "./badge";
 import { ButtonProps } from "./button";

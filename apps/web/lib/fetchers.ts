@@ -11,7 +11,7 @@ export async function getSiteData(domain: string) {
 
   return await unstable_cache(
     async () => {
-      return prisma.site.findUnique({
+      return prisma.knowledgebase.findUnique({
         where: subdomain ? { subdomain } : { customDomain: domain },
         include: { user: true },
       });
@@ -26,103 +26,103 @@ export async function getSiteData(domain: string) {
 
 //
 
-export async function getPostsForSite(domain: string) {
-  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
-    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
-    : null;
+// export async function getPostsForSite(domain: string) {
+//   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+//     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+//     : null;
 
-  return await unstable_cache(
-    async () => {
-      return prisma.post.findMany({
-        where: {
-          site: subdomain ? { subdomain } : { customDomain: domain },
-          published: true,
-        },
-        select: {
-          title: true,
-          description: true,
-          slug: true,
-          image: true,
-          imageBlurhash: true,
-          createdAt: true,
-        },
-        orderBy: [
-          {
-            createdAt: "desc",
-          },
-        ],
-      });
-    },
-    [`${domain}-posts`],
-    {
-      revalidate: 900,
-      tags: [`${domain}-posts`],
-    },
-  )();
-}
+//   return await unstable_cache(
+//     async () => {
+//       return prisma.article.findMany({
+//         where: {
+//           site: subdomain ? { subdomain } : { customDomain: domain },
+//           published: true,
+//         },
+//         select: {
+//           title: true,
+//           description: true,
+//           slug: true,
+//           image: true,
+//           imageBlurhash: true,
+//           createdAt: true,
+//         },
+//         orderBy: [
+//           {
+//             createdAt: "desc",
+//           },
+//         ],
+//       });
+//     },
+//     [`${domain}-posts`],
+//     {
+//       revalidate: 900,
+//       tags: [`${domain}-posts`],
+//     },
+//   )();
+// }
 
-export async function getPostData(domain: string, slug: string) {
-  console.log("domain", domain);
-  console.log("slug", slug);
+// export async function getPostData(domain: string, slug: string) {
+//   console.log("domain", domain);
+//   console.log("slug", slug);
 
-  const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
-    ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
-    : null;
+//   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+//     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+//     : null;
 
-  console.log("subdomain", subdomain);
-  return await unstable_cache(
-    async () => {
-      const data = await prisma.post.findFirst({
-        where: {
-          site: subdomain ? { subdomain } : { customDomain: domain },
-          slug,
-          published: true,
-        },
-        include: {
-          site: {
-            include: {
-              user: true,
-            },
-          },
-        },
-      });
+//   console.log("subdomain", subdomain);
+//   return await unstable_cache(
+//     async () => {
+//       const data = await prisma.post.findFirst({
+//         where: {
+//           site: subdomain ? { subdomain } : { customDomain: domain },
+//           slug,
+//           published: true,
+//         },
+//         include: {
+//           site: {
+//             include: {
+//               user: true,
+//             },
+//           },
+//         },
+//       });
 
-      if (!data) return null;
+//       if (!data) return null;
 
-      const [mdxSource, adjacentPosts] = await Promise.all([
-        getMdxSource(data.content!),
-        prisma.post.findMany({
-          where: {
-            site: subdomain ? { subdomain } : { customDomain: domain },
-            published: true,
-            NOT: {
-              id: data.id,
-            },
-          },
-          select: {
-            slug: true,
-            title: true,
-            createdAt: true,
-            description: true,
-            image: true,
-            imageBlurhash: true,
-          },
-        }),
-      ]);
+//       const [mdxSource, adjacentPosts] = await Promise.all([
+//         getMdxSource(data.content!),
+//         prisma.post.findMany({
+//           where: {
+//             site: subdomain ? { subdomain } : { customDomain: domain },
+//             published: true,
+//             NOT: {
+//               id: data.id,
+//             },
+//           },
+//           select: {
+//             slug: true,
+//             title: true,
+//             createdAt: true,
+//             description: true,
+//             image: true,
+//             imageBlurhash: true,
+//           },
+//         }),
+//       ]);
 
-      return {
-        ...data,
-        mdxSource,
-        adjacentPosts,
-      };
-    },
-    [`${domain}-${slug}`],
-    {
-      revalidate: 900, // 15 minutes
-      tags: [`${domain}-${slug}`],
-    },
-  )();
-}
+//       return {
+//         ...data,
+//         mdxSource,
+//         adjacentPosts,
+//       };
+//     },
+//     [`${domain}-${slug}`],
+//     {
+//       revalidate: 900, // 15 minutes
+//       tags: [`${domain}-${slug}`],
+//     },
+//   )();
+// }
 
 async function getMdxSource(postContents: string) {
   // transforms links like <link> to [link](link) as MDX doesn't support <link> syntax

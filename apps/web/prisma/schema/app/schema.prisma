@@ -24,6 +24,9 @@ model User {
   accounts       Account[]
   sessions       Session[]
   knowledgebases Knowledgebase[]
+  Collection     Collection[]
+  SubCollection  SubCollection[]
+  Article        Article[]
 }
 
 model Account {
@@ -74,10 +77,10 @@ model Knowledgebase {
   logo          String?      @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/JRajRyC-PhBHEinQkupt02jqfKacBVHLWJq7Iy.png") @db.Text
   font          String       @default("font-cal")
   notionLink    String
-  userId        String
   collections   Collection[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  userId        String
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   articleCount  Int          @default(0)
   slug          String?      @unique
@@ -88,6 +91,7 @@ model Knowledgebase {
   message404    String?      @default("Blimey! You've found a page that doesn't exist.") @db.Text
   totalVisitors Int          @default(0)
   lastVisited   DateTime?
+  Article       Article[]
 
   @@index([userId])
 }
@@ -98,8 +102,10 @@ model Collection {
   slug            String?
   pageIcon        String?
   description     String?
-  knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id])
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   knowledgebaseId String
+  knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id])
   type            String
   properties      Json
   subCollections  SubCollection[] @relation("SubCollection")
@@ -118,6 +124,8 @@ model SubCollection {
   collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
   collectionId  String
   articleCount  Int        @default(0) // Total count of articles in the subcollection
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([collectionId])
 }
@@ -135,6 +143,12 @@ model Article {
 
   visits      Int       @default(0)
   lastVisited DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  knowledgebaseId String
+  knowledgebase   Knowledgebase @relation(fields: [knowledgebaseId], references: [id])
 
   // @@unique([slug, siteId])
   // @@index([siteId])
