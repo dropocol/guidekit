@@ -91,7 +91,7 @@ model Knowledgebase {
   message404    String?      @default("Blimey! You've found a page that doesn't exist.") @db.Text
   totalVisitors Int          @default(0)
   lastVisited   DateTime?
-  Article       Article[]
+  articles      Article[]
 
   @@index([userId])
 }
@@ -119,10 +119,10 @@ model SubCollection {
   description   String
   type          String
   view_ids      String[]
-  collection_id String
   articles      Article[]
-  collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
+  collection_id String
   collectionId  String
+  collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
   articleCount  Int        @default(0) // Total count of articles in the subcollection
   userId        String
   user          User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -131,21 +131,22 @@ model SubCollection {
 }
 
 model Article {
-  id              String        @id @default(cuid())
-  title           String
-  slug            String
-  properties      Json
-  recordMap       Json?
-  description     String
-  subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  subCollectionId String
-  image           String?       @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png") @db.Text
+  id          String  @id @default(cuid())
+  title       String
+  slug        String
+  properties  Json
+  recordMap   Json?
+  description String
+  image       String? @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/hxfcV5V-eInX3jbVUhjAt1suB7zB88uGd1j20b.png") @db.Text
 
   visits      Int       @default(0)
   lastVisited DateTime?
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  subCollectionId String
+  subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   knowledgebaseId String
   knowledgebase   Knowledgebase @relation(fields: [knowledgebaseId], references: [id])

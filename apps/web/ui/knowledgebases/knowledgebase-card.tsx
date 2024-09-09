@@ -38,7 +38,7 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
         <div className="flex items-center rounded-md bg-blue-100 px-2 py-1 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-200 dark:bg-blue-900 dark:bg-opacity-50 dark:text-blue-400 dark:hover:bg-blue-800 dark:hover:bg-opacity-50">
           <Book height={16} />
           {/* <p className="ml-1">{data._count?.articles || 0} articles</p> */}
-          <p className="ml-1">{0} articles</p>
+          <p className="ml-1">{0}</p>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Sites from "@/ui/sites/sites";
+import Knowledgebases from "@/ui/knowledgebases/top-knowledgebases";
 import OverviewStats from "@/ui/analytics/overview-stats";
 import Articles from "@/ui/knowledgebases/articles";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default async function Overview() {
       <div className="flex flex-col space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="font-cal text-3xl font-bold dark:text-white">
-            Top Sites
+            Top Knowledgebases
           </h1>
           <Suspense fallback={null}>
             <OverviewSitesCTA />
@@ -36,7 +36,7 @@ export default async function Overview() {
             </div>
           }
         >
-          <Sites limit={4} />
+          <Knowledgebases limit={4} />
         </Suspense>
       </div>
 

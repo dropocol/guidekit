@@ -1,15 +1,16 @@
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import SiteCard from "./site-card";
+import SiteCard from "../sites/site-card";
 import Image from "next/image";
+import KnowledgebaseCard from "@/ui/knowledgebases/knowledgebase-card";
 
 export default async function Sites({ limit }: { limit?: number }) {
   const session = await getSession();
   if (!session) {
     redirect("/login");
   }
-  const sites = await prisma.knowledgebase.findMany({
+  const knowledgebases = await prisma.knowledgebase.findMany({
     where: {
       user: {
         id: session.user?.id as string,
@@ -21,10 +22,10 @@ export default async function Sites({ limit }: { limit?: number }) {
     ...(limit ? { take: limit } : {}),
   });
 
-  return sites.length > 0 ? (
+  return knowledgebases.length > 0 ? (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {sites.map((site) => (
-        <SiteCard key={site.id} data={site} />
+      {knowledgebases.map((kb) => (
+        <KnowledgebaseCard key={kb.id} data={kb} />
       ))}
     </div>
   ) : (

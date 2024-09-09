@@ -66,6 +66,7 @@ export default function SubCollectionView({
                       <div className="flex items-center">
                         <Link
                           href={`/article/${article.id}`}
+                          // href={`$/${subCollection.slug}/${subCollection.id}/${article.slug}/${article.id}`}
                           className="max-w-[280px] truncate text-sm font-medium text-gray-900 hover:text-blue-600"
                         >
                           {article.title || "Untitled Article"}
