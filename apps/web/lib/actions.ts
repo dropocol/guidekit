@@ -501,7 +501,7 @@ export async function updateKnowledgebase(formData: FormData) {
   }
 
   const id = formData.get("id") as string;
-
+  console.log(formData);
   if (!id) {
     return { error: "Knowledgebase ID is required" };
   }

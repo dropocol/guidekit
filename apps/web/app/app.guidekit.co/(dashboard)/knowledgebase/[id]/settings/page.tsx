@@ -25,6 +25,12 @@ export default async function KnowledgebaseSettingsPage({
     notFound();
   }
 
+  const handleSubmit = async (formData: FormData) => {
+    "use server";
+    formData.append("id", data.id);
+    return updateKnowledgebase(formData);
+  };
+
   return (
     <div className="flex flex-col space-y-6 p-8">
       <KnowledgebaseHeader
@@ -44,7 +50,7 @@ export default async function KnowledgebaseSettingsPage({
             placeholder: "My Awesome Knowledgebase",
             maxLength: 32,
           }}
-          handleSubmit={updateKnowledgebase}
+          handleSubmit={handleSubmit}
         />
 
         <Form
@@ -57,7 +63,7 @@ export default async function KnowledgebaseSettingsPage({
             defaultValue: data.description || "Sample description",
             placeholder: "A knowledgebase about really interesting things.",
           }}
-          handleSubmit={updateKnowledgebase}
+          handleSubmit={handleSubmit}
         />
       </div>
     </div>
