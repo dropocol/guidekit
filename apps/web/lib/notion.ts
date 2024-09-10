@@ -100,6 +100,7 @@ export async function getNotionData(
       0,
     );
 
+    console.log("Knowledgebase Article Count : ", knowledgebase.articleCount);
     console.log(
       JSON.stringify(knowledgebase.collections[0].articleCount, null, 2),
     );

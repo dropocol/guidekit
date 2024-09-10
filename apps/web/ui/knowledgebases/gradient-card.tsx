@@ -6,6 +6,13 @@ const colors = [
   ["#87CEFA", "#F08080"],
   ["#DDA0DD", "#20B2AA"],
   ["#FFD700", "#FF69B4"],
+  ["#FF6347", "#4682B4"],
+  ["#7B68EE", "#00FA9A"],
+  ["#FF4500", "#32CD32"],
+  ["#6A5ACD", "#00CED1"],
+  ["#FF1493", "#1E90FF"],
+  ["#00FF7F", "#FF00FF"],
+  ["#8A2BE2", "#00BFFF"],
 ];
 
 interface GradientCardProps {

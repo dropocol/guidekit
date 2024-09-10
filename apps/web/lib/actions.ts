@@ -434,6 +434,7 @@ export async function createKnowledgebase(formData: FormData) {
           slug: slug,
           // subdomain: `${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
           subdomain: subdomain,
+          articleCount: knowledgebaseData.articleCount,
         },
       });
 
