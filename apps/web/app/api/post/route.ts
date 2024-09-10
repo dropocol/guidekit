@@ -18,7 +18,8 @@ export async function POST(req: Request) {
 
     const recordMap = await notion.getPage(article.id);
 
-    return NextResponse.json({ recordMap });
+    // return NextResponse.json({ recordMap: article.recordMap });
+    return NextResponse.json({ recordMap: recordMap });
   } catch (error) {
     console.error("Error fetching article:", error);
     return NextResponse.json(

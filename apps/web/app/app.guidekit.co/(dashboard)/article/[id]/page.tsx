@@ -39,9 +39,6 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       const { recordMap, article } = await fetchArticle(params.id);
       setRecordMap(recordMap);
       setArticle(article);
-
-      console.log("article", article);
-      console.log("recordMap", recordMap);
     };
 
     checkSessionAndFetchArticle();

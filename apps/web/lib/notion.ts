@@ -212,7 +212,6 @@ function processBlocks(collectionPage: any): Collection[] {
         knowledgebaseId: "", // TODO: Add this late
       };
 
-      console.log("blockCopy", blockCopy);
       return blockCopy;
     })
     .filter((block) => blockIds.includes(block.id));

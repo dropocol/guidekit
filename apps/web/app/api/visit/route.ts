@@ -3,8 +3,7 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   const { knowledgebaseId, articleId } = await req.json();
-  console.log("knowledgebaseId", knowledgebaseId);
-  console.log("articleId", articleId);
+
   try {
     await prisma.$transaction(async (tx) => {
       // Update Knowledgebase visits
