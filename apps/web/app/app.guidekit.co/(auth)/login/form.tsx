@@ -98,7 +98,7 @@ export default function LoginForm() {
           onClick={handleCredentialsSubmit}
           // loading={clickedEmail}
         />
-        <Button
+        {/* <Button
           variant="secondary"
           onClick={() => {
             setClickedGithub(true);
@@ -108,7 +108,7 @@ export default function LoginForm() {
           }}
           loading={clickedGithub}
           icon={<Github className="h-5 w-5 text-black" />}
-        />
+        /> */}
       </div>
       {/* add forgot password and signup link */}
       <p className="text-center text-sm text-gray-500">

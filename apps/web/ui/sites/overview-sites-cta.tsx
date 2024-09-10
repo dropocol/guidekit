@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import CreateSiteButton from "./create-site-button";
 import CreateSiteModal from "../modal/create-site";
 import Link from "next/link";
+import CreateKnowledgebaseModal from "../modal/create-knowledgebase";
 
 export default async function OverviewSitesCTA() {
   const session = await getSession();
@@ -24,7 +25,7 @@ export default async function OverviewSitesCTA() {
     </Link>
   ) : (
     <CreateSiteButton>
-      <CreateSiteModal />
+      <CreateKnowledgebaseModal />
     </CreateSiteButton>
   );
 }
