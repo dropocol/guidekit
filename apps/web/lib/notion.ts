@@ -255,7 +255,8 @@ async function processSubCollectionArticles(
         slug: slug,
         description: (block.value.properties as any)?.["b<py"]?.[0]?.[0] || "",
         properties: block.value.properties || {},
-        recordMap: subCollection.recordMap, // Add this line
+        // recordMap: subCollection.recordMap, // Add this line
+        recordMap: {}, // Add this line
         subCollectionId: subCollection.result.collection_id, // Add this line
       };
       processedCollection.push(pageInfo);

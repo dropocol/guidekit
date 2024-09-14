@@ -27,36 +27,36 @@ export default function SubCollectionView({
                   >
                     Article
                   </th>
-                  <th
+                  {/* <th
                     scope="col"
                     className="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500"
                   >
                     😞
-                  </th>
-                  <th
+                  </th> */}
+                  {/* <th
                     scope="col"
                     className="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500"
                   >
                     😐
-                  </th>
-                  <th
+                  </th> */}
+                  {/* <th
                     scope="col"
                     className="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500"
                   >
                     🤩
-                  </th>
-                  <th
+                  </th> */}
+                  {/* <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     Actions
-                  </th>
-                  <th
+                  </th> */}
+                  {/* <th
                     scope="col"
                     className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     Visits
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 overflow-hidden rounded-b-lg bg-white">
@@ -73,10 +73,10 @@ export default function SubCollectionView({
                         </Link>
                       </div>
                     </td>
+                    {/* <td className="px-6 py-4 text-center">-</td>
                     <td className="px-6 py-4 text-center">-</td>
-                    <td className="px-6 py-4 text-center">-</td>
-                    <td className="px-6 py-4 text-center">-</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-6 py-4 text-center">-</td> */}
+                    {/* <td className="px-6 py-4 text-center">
                       <div className="items-right flex justify-end space-x-8">
                         <button
                           className="text-indigo-600 hover:text-indigo-900"
@@ -103,9 +103,9 @@ export default function SubCollectionView({
                           <RefreshCw size={16} />
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                     {/* <td className="px-6 py-4 text-center">{article.visits}</td> */}
-                    <td className="px-6 py-4 text-center">{30000}</td>
+                    {/* <td className="px-6 py-4 text-center">{}</td> */}
                   </tr>
                 ))}
               </tbody>

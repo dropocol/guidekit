@@ -3,15 +3,11 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import CollectionList, {
-  CollectionListProps,
-} from "@/ui/knowledgebases/collection-list";
+import CollectionList from "@/ui/knowledgebases/collection-list";
 import SubCollectionView from "@/ui/knowledgebases/sub-collection-view";
-import { Knowledgebase, Collection } from "@prisma/client";
 import {
   CollectionWithSubCollections,
   KnowledgebaseWithCollections,
-  SubCollection,
 } from "@/lib/types";
 import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 import { RefreshCw } from "lucide-react";
@@ -106,6 +102,7 @@ export default function KnowledgebasePage({
             onSelectCollection={(collection: CollectionWithSubCollections) =>
               setSelectedCollection(collection)
             }
+            selectedCollectionId={selectedCollection?.id || null}
           />
         </div>
         <div className="w-3/4 overflow-y-auto bg-slate-100 p-8">

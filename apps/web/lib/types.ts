@@ -125,3 +125,10 @@ export type CollectionWithSubCollections = Collection & {
 export interface KnowledgebaseWithCollections extends Knowledgebase {
   collections: Collection[];
 }
+
+export type SubCollectionArticle = {
+  title: string;
+  description?: string;
+  properties: Record<string, any>;
+  recordMap: Record<string, any>;
+};
