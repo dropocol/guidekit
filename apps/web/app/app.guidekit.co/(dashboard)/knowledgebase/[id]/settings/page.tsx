@@ -60,7 +60,7 @@ export default async function KnowledgebaseSettingsPage({
           inputAttrs={{
             name: "description",
             type: "text",
-            defaultValue: data.description || "Sample description",
+            defaultValue: data.description || "",
             placeholder: "A knowledgebase about really interesting things.",
           }}
           handleSubmit={handleSubmit}
