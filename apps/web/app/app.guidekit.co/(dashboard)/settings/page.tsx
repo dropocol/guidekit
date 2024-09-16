@@ -1,24 +1,19 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import Form from "@/ui/form";
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions";
-import prisma from "@/lib/prisma";
 
-// import ClientFormWrapper from "./clientWrapper";
+async function handleEditUser(formData: FormData) {
+  "use server";
+  return editUser(formData);
+}
 
 export default async function SettingsPage() {
   const session = await getSession();
   if (!session) {
     redirect("/login");
-    return null;
   }
-
-  // const data = await prisma.user.findUnique({
-  //   where: {
-  //     id: session?.user!.id,
-  //   },
-  // });
 
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
@@ -38,7 +33,7 @@ export default async function SettingsPage() {
             placeholder: "Brendon Urie",
             maxLength: 32,
           }}
-          handleSubmit={editUser}
+          handleSubmit={handleEditUser}
         />
         <Form
           title="Email"
@@ -47,10 +42,11 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "email",
             type: "email",
-            defaultValue: session.user?.email! ?? "",
+            defaultValue: session.user?.email ?? "",
+            // TODO: Update placeholder
             placeholder: "panic@thedis.co",
           }}
-          handleSubmit={editUser}
+          handleSubmit={handleEditUser}
         />
       </div>
     </div>

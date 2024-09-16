@@ -13,7 +13,7 @@ import {
   removeDomainFromVercelProject,
   validDomainRegex,
 } from "@/lib/domains";
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 import { customAlphabet } from "nanoid";
 import { getBlurDataURL } from "@/lib/utils";
 import { getNotionData } from "@/lib/notion";
@@ -56,24 +56,39 @@ const nanoid = customAlphabet(
 //   }
 // }
 
-export async function editUser(formData: FormData, _id: unknown, key: string) {
+export async function editUser(formData: FormData) {
   const session = await getSession();
   if (!session?.user?.id) {
     return { error: "Not authenticated" };
   }
-  const value = formData.get(key) as string;
+
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
 
   try {
     const response = await prisma.user.update({
       where: { id: session.user.id },
-      data: { [key]: value },
+      data: {
+        name: name || undefined,
+        email: email || undefined,
+      },
     });
     return response;
   } catch (error: any) {
     if (error.code === "P2002") {
-      return { error: `This ${key} is already in use` };
+      return { error: "This email is already in use" };
     } else {
       return { error: error.message };
+    }
+  }
+}
+
+async function deleteOldImage(url: string | null) {
+  if (url) {
+    try {
+      await del(url);
+    } catch (error) {
+      console.error("Error deleting old image:", error);
     }
   }
 }
@@ -532,9 +547,19 @@ export async function updateKnowledgebase(formData: FormData) {
 
   console.log("Updating knowledgebase:", image);
 
+  const knowledgebase = await prisma.knowledgebase.findUnique({
+    where: { id },
+    select: { image: true, logo: true },
+  });
+
   if (image) {
     try {
-      updateData.image = await uploadImage(image);
+      const newImageUrl = await uploadImage(image);
+      if (knowledgebase?.image) {
+        await deleteOldImage(knowledgebase.image);
+      }
+      updateData.image = newImageUrl;
+      updateData.imageBlurhash = await getBlurDataURL(newImageUrl);
     } catch (error) {
       return { error: "Failed to upload image" };
     }
@@ -542,7 +567,12 @@ export async function updateKnowledgebase(formData: FormData) {
 
   if (logo) {
     try {
-      updateData.logo = await uploadImage(logo);
+      const newLogoUrl = await uploadImage(logo);
+      // await deleteOldImage(knowledgebase?.logo);
+      if (knowledgebase?.logo) {
+        await deleteOldImage(knowledgebase.logo);
+      }
+      updateData.logo = newLogoUrl;
     } catch (error) {
       return { error: "Failed to upload logo" };
     }
@@ -645,10 +675,25 @@ export async function removeKnowledgebaseImage(
   }
 
   try {
+    const knowledgebase = await prisma.knowledgebase.findUnique({
+      where: { id: knowledgebaseId },
+      select: { image: true, logo: true },
+    });
+
     const updateData =
       type === "thumbnail"
         ? { image: null, imageBlurhash: null }
         : { logo: null };
+
+    if (type === "thumbnail") {
+      if (knowledgebase?.image) {
+        await deleteOldImage(knowledgebase.image);
+      }
+    } else {
+      if (knowledgebase?.logo) {
+        await deleteOldImage(knowledgebase.logo);
+      }
+    }
 
     const response = await prisma.knowledgebase.update({
       where: { id: knowledgebaseId },

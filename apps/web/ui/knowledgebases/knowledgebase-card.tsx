@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import BlurImage from "@/ui/cards/blur-image";
 import { placeholderBlurhash, random } from "@/lib/utils";
@@ -5,6 +8,7 @@ import { Knowledgebase } from "@prisma/client";
 import { BarChart, ExternalLink } from "lucide-react";
 
 export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
+  const [imageError, setImageError] = useState(false);
   const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
   const bgClasses = [
     "bg-gradient-to-r from-red-300 to-blue-300",
@@ -22,7 +26,7 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
         className="flex flex-col overflow-hidden rounded-lg"
       >
         <div className="relative h-44 overflow-hidden">
-          {data.image ? (
+          {data.image && !imageError ? (
             <BlurImage
               alt={data.name ?? "Knowledgebase thumbnail"}
               width={500}
@@ -31,6 +35,7 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
               src={data.image}
               placeholder="blur"
               blurDataURL={data.imageBlurhash || placeholderBlurhash}
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className={`h-full w-full ${bgClasses[random(0, 5)]}`} />
