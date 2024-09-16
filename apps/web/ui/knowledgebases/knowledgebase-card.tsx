@@ -1,43 +1,63 @@
-import { Knowledgebase } from "@prisma/client";
 import Link from "next/link";
-import { Book } from "lucide-react";
-import GradientCard from "./gradient-card";
+import BlurImage from "@/ui/cards/blur-image";
+import { placeholderBlurhash, random } from "@/lib/utils";
+import { Knowledgebase } from "@prisma/client";
+import { BarChart, ExternalLink } from "lucide-react";
 
 export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
   const url = `${data.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+  const bgClasses = [
+    "bg-gradient-to-r from-red-300 to-blue-300",
+    "bg-gradient-to-r from-yellow-300 to-green-300",
+    "bg-gradient-to-r from-blue-300 to-purple-300",
+    "bg-gradient-to-r from-green-300 to-yellow-300",
+    "bg-gradient-to-r from-purple-300 to-red-300",
+    "bg-gradient-to-r from-indigo-300 to-pink-300",
+  ];
+
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link
         href={`/knowledgebase/${data.id}`}
         className="flex flex-col overflow-hidden rounded-lg"
       >
-        <div className="relative h-44 w-full">
-          <GradientCard className="rounded-t-lg" />
+        <div className="relative h-44 overflow-hidden">
+          {data.image ? (
+            <BlurImage
+              alt={data.name ?? "Knowledgebase thumbnail"}
+              width={500}
+              height={400}
+              className="h-full object-cover"
+              src={data.image}
+              placeholder="blur"
+              blurDataURL={data.imageBlurhash || placeholderBlurhash}
+            />
+          ) : (
+            <div className={`h-full w-full ${bgClasses[random(0, 5)]}`} />
+          )}
         </div>
-        <div className="p-4">
+        <div className="border-t border-stone-200 p-4 dark:border-stone-700">
           <h3 className="my-0 truncate font-cal text-xl font-bold tracking-wide dark:text-white">
             {data.name}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm font-normal leading-snug text-stone-500 dark:text-stone-400">
-            {data.name}
+          <p className="mt-2 line-clamp-1 text-sm font-normal leading-snug text-stone-500 dark:text-stone-400">
+            {data.description}
           </p>
         </div>
       </Link>
       <div className="absolute bottom-4 flex w-full justify-between space-x-4 px-4">
-        <Link
-          // href={`/knowledgebase/${data.id}`}
-          href={
-            process.env.NEXT_PUBLIC_VERCEL_ENV
-              ? `https://${url}`
-              : `http://${data.subdomain}.localhost:3000`
-          }
-          className="truncate rounded-md bg-stone-100 px-2 py-1 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+        <a
+          href={`https://${url}`}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center space-x-1 rounded-md bg-stone-100 px-2 py-1 text-sm text-stone-600 transition-all hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
         >
-          {url} ↗
-        </Link>
-        <div className="flex items-center rounded-md bg-blue-100 py-0 pl-1 pr-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-200 dark:bg-blue-900 dark:bg-opacity-50 dark:text-blue-400 dark:hover:bg-blue-800 dark:hover:bg-opacity-50">
-          <Book height={14} />
-          <p className="ml-1">{data.articleCount}</p>
+          <ExternalLink className="h-4 w-4" />
+          <p>{url}</p>
+        </a>
+        <div className="flex items-center space-x-1 rounded-md bg-stone-100 px-2 py-1 text-sm text-stone-600 dark:bg-stone-800 dark:text-stone-400">
+          <BarChart className="h-4 w-4" />
+          <p>{data.articleCount}</p>
         </div>
       </div>
     </div>

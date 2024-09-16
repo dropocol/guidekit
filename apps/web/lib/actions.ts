@@ -501,6 +501,7 @@ export async function updateKnowledgebase(formData: FormData) {
   }
 
   const id = formData.get("id") as string;
+  console.log("Updating knowledgebase:", id);
   if (!id) {
     return { error: "Knowledgebase ID is required" };
   }
@@ -529,12 +530,22 @@ export async function updateKnowledgebase(formData: FormData) {
   const image = formData.get("image") as File | null;
   const logo = formData.get("logo") as File | null;
 
+  console.log("Updating knowledgebase:", image);
+
   if (image) {
-    updateData.image = await uploadImage(image);
+    try {
+      updateData.image = await uploadImage(image);
+    } catch (error) {
+      return { error: "Failed to upload image" };
+    }
   }
 
   if (logo) {
-    updateData.logo = await uploadImage(logo);
+    try {
+      updateData.logo = await uploadImage(logo);
+    } catch (error) {
+      return { error: "Failed to upload logo" };
+    }
   }
 
   try {
@@ -555,10 +566,26 @@ export async function updateKnowledgebase(formData: FormData) {
 
 // Implement this function to handle image uploads
 async function uploadImage(file: File): Promise<string> {
-  // Implement your image upload logic here
-  // This should return the URL of the uploaded image
   console.log("Uploading image:", file.name);
-  return "https://example.com/uploaded-image-url.jpg";
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error(
+      "Missing BLOB_READ_WRITE_TOKEN. Please set it in your environment variables.",
+    );
+  }
+
+  const filename = `${nanoid()}.${file.type.split("/")[1]}`;
+
+  try {
+    const { url } = await put(filename, file, {
+      access: "public",
+    });
+
+    console.log("Uploaded image to Vercel Blob:", url);
+    return url;
+  } catch (error) {
+    console.error("Error uploading image to Vercel Blob:", error);
+    throw new Error("Failed to upload image");
+  }
 }
 
 // Add this function to the existing actions file
@@ -579,8 +606,12 @@ export async function updateArticle(formData: FormData) {
     };
 
     if (image) {
-      const imageUrl = await uploadImage(image);
-      updateData.image = imageUrl;
+      try {
+        const imageUrl = await uploadImage(image);
+        updateData.image = imageUrl;
+      } catch (error) {
+        return { error: "Failed to upload image" };
+      }
     }
 
     const article = await prisma.article.update({
@@ -602,4 +633,35 @@ export async function updateArticle(formData: FormData) {
 
 export async function deleteArticle(formData: FormData) {
   // Implementation of deleteArticle
+}
+
+export async function removeKnowledgebaseImage(
+  knowledgebaseId: string,
+  type: "thumbnail" | "logo",
+) {
+  const session = await getSession();
+  if (!session?.user!.id) {
+    return { error: "Not authenticated" };
+  }
+
+  try {
+    const updateData =
+      type === "thumbnail"
+        ? { image: null, imageBlurhash: null }
+        : { logo: null };
+
+    const response = await prisma.knowledgebase.update({
+      where: { id: knowledgebaseId },
+      data: updateData,
+    });
+
+    revalidatePath(`/knowledgebase/${knowledgebaseId}`);
+    revalidatePath(`/knowledgebases`);
+    return response;
+  } catch (error: any) {
+    console.error(`Error removing knowledgebase ${type}:`, error);
+    return {
+      error: error.message || `Error removing knowledgebase ${type}`,
+    };
+  }
 }

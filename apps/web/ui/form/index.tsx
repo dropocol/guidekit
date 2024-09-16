@@ -13,13 +13,7 @@ import DomainConfiguration from "./domain-configuration";
 import Uploader from "./uploader";
 import va from "@vercel/analytics";
 
-export default function Form({
-  title,
-  description,
-  helpText,
-  inputAttrs,
-  handleSubmit,
-}: {
+interface FormProps {
   title: string;
   description: string;
   helpText: string;
@@ -32,7 +26,17 @@ export default function Form({
     pattern?: string;
   };
   handleSubmit: any;
-}) {
+  additionalContent?: React.ReactNode;
+}
+
+export default function Form({
+  title,
+  description,
+  helpText,
+  inputAttrs,
+  handleSubmit,
+  additionalContent,
+}: FormProps) {
   const { id } = useParams() as { id?: string };
   const router = useRouter();
   // const { update } = useSession();
@@ -142,6 +146,7 @@ export default function Form({
         <p className="text-sm text-stone-500 dark:text-stone-400">{helpText}</p>
         <FormButton />
       </div>
+      {additionalContent}
     </form>
   );
 }
