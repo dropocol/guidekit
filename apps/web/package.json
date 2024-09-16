@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm run db:generate && next dev",
-    "build": "echo $POSTGRES_PRISMA_URL && prisma generate && prisma migrate deploy && prisma db push && next build",
+    "build": "echo `BUILDING GUIDEKIT` && echo $POSTGRES_PRISMA_URL && prisma generate && prisma migrate deploy && prisma db push && next build",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "start": "next start",
