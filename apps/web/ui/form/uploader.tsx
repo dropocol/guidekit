@@ -1,15 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function Uploader({
   defaultValue,
   name,
+  onImageChange,
 }: {
   defaultValue: string | null;
   name: "image" | "logo";
+  onImageChange?: (file: File | null) => void;
 }) {
   const aspectRatio = name === "image" ? "aspect-video" : "aspect-square";
 
@@ -19,6 +21,10 @@ export default function Uploader({
   });
 
   const [dragActive, setDragActive] = useState(false);
+
+  useEffect(() => {
+    setData({ [name]: defaultValue });
+  }, [defaultValue, name]);
 
   const handleUpload = (file: File | null) => {
     if (file) {
@@ -34,8 +40,16 @@ export default function Uploader({
         const reader = new FileReader();
         reader.onload = (e) => {
           setData((prev) => ({ ...prev, [name]: e.target?.result as string }));
+          if (onImageChange) {
+            onImageChange(file);
+          }
         };
         reader.readAsDataURL(file);
+      }
+    } else {
+      setData((prev) => ({ ...prev, [name]: null }));
+      if (onImageChange) {
+        onImageChange(null);
       }
     }
   };

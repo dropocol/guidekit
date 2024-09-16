@@ -18,7 +18,6 @@ module.exports = {
       { hostname: "www.google.com" },
       { hostname: "flag.vercel.app" },
       { hostname: "illustrations.popsy.co" },
-      // TODO :  make it common url for vercel blob storage
       { hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
