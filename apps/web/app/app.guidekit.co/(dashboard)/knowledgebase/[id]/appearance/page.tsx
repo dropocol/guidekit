@@ -51,11 +51,11 @@ export default async function KnowledgebaseSettingsAppearance({
         handleSubmit={handleSubmitWithId}
         additionalContent={
           data?.image && (
-            <form action={handleRemoveImage}>
+            <form action={handleRemoveImage} className="inline">
               <input type="hidden" name="type" value="thumbnail" />
               <button
                 type="submit"
-                className="ml-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
+                className="mr-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
               >
                 Remove Image
               </button>
@@ -63,7 +63,7 @@ export default async function KnowledgebaseSettingsAppearance({
           )
         }
       />
-
+      {/* <>{JSON.stringify(data, null, 2)}</> */}
       <Form
         title="Logo"
         description="The logo for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"
@@ -76,18 +76,19 @@ export default async function KnowledgebaseSettingsAppearance({
         handleSubmit={handleSubmitWithId}
         additionalContent={
           data?.logo && (
-            <form action={handleRemoveImage}>
+            <form action={handleRemoveImage} className="inline">
               <input type="hidden" name="type" value="logo" />
               <button
                 type="submit"
-                className="ml-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
+                className="mr-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
               >
-                Remove Image
+                Remove Logo
               </button>
             </form>
           )
         }
       />
+
       <Form
         title="404 Page Message"
         description="Message to be displayed on the 404 page."
