@@ -103,35 +103,7 @@ export default function KnowledgebaseSettingsAppearance({
         }
       />
 
-      <Form
-        title="Name"
-        description="The name of your knowledgebase."
-        helpText="This is the name that will be displayed in the header of your knowledgebase."
-        inputAttrs={{
-          name: "name",
-          type: "text",
-          defaultValue: data?.name!,
-          placeholder: "My Knowledgebase",
-          maxLength: 32,
-        }}
-        handleSubmit={handleSubmitWithId}
-      />
-
-      <Form
-        title="Description"
-        description="A short description of your knowledgebase."
-        helpText="This will be displayed in the meta description of your knowledgebase."
-        inputAttrs={{
-          name: "description",
-          type: "text",
-          defaultValue: data?.description!,
-          placeholder: "A collection of knowledge about...",
-          maxLength: 140,
-        }}
-        handleSubmit={handleSubmitWithId}
-      />
-
-      <Form
+      {/* <Form
         title="Font"
         description="The font for the heading text your knowledgebase."
         helpText="Please select a font."
@@ -141,7 +113,7 @@ export default function KnowledgebaseSettingsAppearance({
           defaultValue: data?.font!,
         }}
         handleSubmit={handleSubmitWithId}
-      />
+      /> */}
 
       <Form
         title="404 Page Message"

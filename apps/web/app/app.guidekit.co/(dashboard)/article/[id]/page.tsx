@@ -55,7 +55,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
           darkMode={false}
         />
       </div>
-      <ArticleSettingsSidebar article={article} />
+      {/* <ArticleSettingsSidebar article={article} /> */}
     </div>
   );
 }
