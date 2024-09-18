@@ -1,9 +1,5 @@
-const { loadEnvConfig } = require("@next/env");
-loadEnvConfig(process.cwd());
+/** @type {import('next').NextConfig} */
 
-/**
- * @type {import('next').NextConfig}
- */
 module.exports = {
   experimental: {
     serverActions: {
