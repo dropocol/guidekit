@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "echo 'Environment Variables:' && env | sort && echo 'Building...' && pnpm run db:generate && next dev",
+    "dev": "pnpm run db:generate && next dev",
     "build": "echo 'Environment Variables:' && env | sort && echo 'Building...' && prisma generate && next build",
     "vercel-build": "echo 'Environment Variables:' && env | sort && echo 'Building...' && prisma generate && prisma migrate deploy && prisma db push && next build",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
