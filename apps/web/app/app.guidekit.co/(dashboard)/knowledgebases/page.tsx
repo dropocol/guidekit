@@ -1,7 +1,7 @@
 import { getSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
+
 import CreateKnowledgebaseButton from "@/ui/knowledgebases/create-knowledgebase-button";
 import { Suspense } from "react";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
@@ -43,7 +43,7 @@ export default async function KnowledgebasesPage() {
           }
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {knowledgebases.map((kb) => (
+            {knowledgebases.map((kb: any) => (
               <KnowledgebaseCard key={kb.id} data={kb} />
             ))}
           </div>

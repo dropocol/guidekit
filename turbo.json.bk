@@ -22,18 +22,7 @@
     "AUTH_BEARER_TOKEN",
     "PROJECT_ID_VERCEL",
     "TEAM_ID_VERCEL",
-    "OPENAI_API_KEY",
-    "NEXT_PUBLIC_APP_NAME",
-    "NEXT_PUBLIC_APP_SHORT_DOMAIN",
-    "NEXT_PUBLIC_APP_DOMAIN",
-    "NEXT_PUBLIC_VERCEL_ENV",
-    "NEXT_PUBLIC_NGROK_URL",
-    "NEXT_PUBLIC_IS_DUB",
-    "DATABASE_URL",
-    "NEXT_PUBLIC_ROOT_DOMAIN",
-    "NOTION_API_KEY",
-    "VERCEL_ENV",
-    "VERCEL_URL"
+    "OPENAI_API_KEY"
   ],
   "tasks": {
     "build": {
@@ -68,18 +57,7 @@
         "AUTH_BEARER_TOKEN",
         "PROJECT_ID_VERCEL",
         "TEAM_ID_VERCEL",
-        "OPENAI_API_KEY",
-        "NEXT_PUBLIC_APP_NAME",
-        "NEXT_PUBLIC_APP_SHORT_DOMAIN",
-        "NEXT_PUBLIC_APP_DOMAIN",
-        "NEXT_PUBLIC_VERCEL_ENV",
-        "NEXT_PUBLIC_NGROK_URL",
-        "NEXT_PUBLIC_IS_DUB",
-        "DATABASE_URL",
-        "NEXT_PUBLIC_ROOT_DOMAIN",
-        "NOTION_API_KEY",
-        "VERCEL_ENV",
-        "VERCEL_URL"
+        "OPENAI_API_KEY"
       ]
     },
     "lint": {},

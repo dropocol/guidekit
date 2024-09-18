@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo build --summarize",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
@@ -13,13 +13,13 @@
     "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "^2.0.9",
     "@dub/tailwind-config": "workspace:*",
-    "eslint": "^8.48.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "tsconfig": "workspace:*"
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tsconfig": "workspace:*",
+    "turbo": "^2.1.2"
   },
   "engines": {
     "node": ">=18"

@@ -4,9 +4,9 @@ import { notFound, redirect } from "next/navigation";
 // import Editor from "@/components/editor";
 import dynamic from "next/dynamic";
 
-const Editor = dynamic(() => import("@/ui/editor/editor"), {
-  ssr: false,
-});
+// const Editor = dynamic(() => import("@/ui/editor/editor"), {
+//   ssr: false,
+// });
 
 export default async function PostPage({ params }: { params: { id: string } }) {
   const session = await getSession();
@@ -29,5 +29,6 @@ export default async function PostPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  return <Editor post={data} />;
+  // return <Editor post={data} />;
+  return <></>;
 }

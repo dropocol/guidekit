@@ -1,3 +1,6 @@
+const { loadEnvConfig } = require("@next/env");
+loadEnvConfig(process.cwd());
+
 /**
  * @type {import('next').NextConfig}
  */

@@ -2,7 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prismaEdge from "@/lib/edge";
+// import prismaEdge from "@/lib/edge";
 import prisma from "@/lib/prisma";
 // import edge from "@/lib/edge";
 import EmailProvider from "next-auth/providers/email";

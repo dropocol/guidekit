@@ -13,6 +13,9 @@ export default function KnowledgebaseView({
   const [selectedCollection, setSelectedCollection] = useState(
     knowledgebase.collections[0],
   );
+  const [selectedCollectionId, setSelectedCollectionId] = useState(
+    knowledgebase.collections[0]?.id,
+  );
 
   return (
     <div className="flex h-screen max-w-screen-2xl">
@@ -22,7 +25,11 @@ export default function KnowledgebaseView({
         </h1>
         <CollectionList
           collections={knowledgebase.collections}
-          onSelectCollection={setSelectedCollection}
+          onSelectCollection={(collection) => {
+            setSelectedCollection(collection);
+            setSelectedCollectionId(collection.id);
+          }}
+          selectedCollectionId={selectedCollectionId}
         />
       </div>
       <div className="w-full overflow-y-auto bg-slate-100 p-8">

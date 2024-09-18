@@ -28,6 +28,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*
 
 # turbo
 .turbo
@@ -35,3 +36,5 @@ yarn-error.log*
 # ui
 dist/
 json
+.vercel
+.env*.local

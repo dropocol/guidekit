@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import prismaEdge from "@/lib/edge";
 
 // import edge from "@/lib/edge";
 

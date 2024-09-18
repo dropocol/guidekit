@@ -43,7 +43,11 @@ export default function Modal({
     <AnimatePresence>
       {showModal && (
         <>
-          {isMobile && <Leaflet setShow={setShowModal}>{children}</Leaflet>}
+          {isMobile && (
+            <Leaflet setShow={setShowModal}>
+              <>{children}</>
+            </Leaflet>
+          )}
           {isDesktop && (
             <>
               <FocusTrap focusTrapOptions={{ initialFocus: false }}>

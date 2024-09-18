@@ -1,7 +1,6 @@
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import SiteCard from "../sites/site-card";
 import Image from "next/image";
 import KnowledgebaseCard from "@/ui/knowledgebases/knowledgebase-card";
 

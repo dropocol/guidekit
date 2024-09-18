@@ -5,27 +5,27 @@ import { getKnowledgebaseData } from "@/lib/fetchers";
 import { KnowledgebaseWithCollections } from "@/lib/types";
 import PublicKnowledgebaseView from "@/ui/knowledgebases/public-knowledgebase-view";
 
-export async function generateStaticParams() {
-  const allKnowledgebases = await prisma.knowledgebase.findMany({
-    select: {
-      subdomain: true,
-      customDomain: true,
-    },
-  });
+// export async function generateStaticParams() {
+//   const allKnowledgebases = await prisma.knowledgebase.findMany({
+//     select: {
+//       subdomain: true,
+//       customDomain: true,
+//     },
+//   });
 
-  const allPaths = allKnowledgebases
-    .flatMap(({ subdomain, customDomain }) => [
-      subdomain && {
-        domain: `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
-      },
-      customDomain && {
-        domain: customDomain,
-      },
-    ])
-    .filter(Boolean);
+//   const allPaths = allKnowledgebases
+//     .flatMap(({ subdomain, customDomain }) => [
+//       subdomain && {
+//         domain: `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+//       },
+//       customDomain && {
+//         domain: customDomain,
+//       },
+//     ])
+//     .filter(Boolean);
 
-  return allPaths;
-}
+//   return allPaths;
+// }
 
 export default async function KnowledgebasePage({
   params,
