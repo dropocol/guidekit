@@ -2,6 +2,7 @@
 
 module.exports = {
   // output: "export",
+  // output: "standalone",
   distDir: "build",
   experimental: {
     serverActions: {

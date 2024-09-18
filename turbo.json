@@ -45,6 +45,7 @@
         ".env*"
       ],
       "outputs": [
+        "build/**",
         "dist/**",
         ".next/**",
         "!.next/cache/**"
