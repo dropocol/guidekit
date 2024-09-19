@@ -6,7 +6,11 @@ module.exports = {
   // distDir: "build",
   experimental: {
     serverActions: {
-      allowedOrigins: ["app.localhost:3000"],
+      allowedOrigins: [
+        "[::1]:3000",
+        "app.localhost:3000",
+        "guidekit.vercel.app",
+      ],
     },
   },
   images: {

@@ -10,7 +10,8 @@
     "db:push": "turbo run db:push",
     "db:generate": "turbo run db:generate",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
-    "db:seed": "turbo run db:seed"
+    "db:seed": "turbo run db:seed",
+    "env": "vercel pull && vercel pull --environment=preview && vercel pull --environment=production"
   },
   "devDependencies": {
     "@dub/tailwind-config": "workspace:*",
