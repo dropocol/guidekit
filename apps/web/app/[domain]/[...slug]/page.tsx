@@ -90,8 +90,8 @@ export default async function DynamicPage({
 
   if (slug.length === 4) {
     const article = collection.subCollections
-      .flatMap((sc) => sc.articles)
-      .find((a) => a.slug === articleSlug && a.id === articleId);
+      .flatMap((sc: any) => sc.articles)
+      .find((a: any) => a.slug === articleSlug && a.id === articleId);
 
     if (!article) {
       notFound();
