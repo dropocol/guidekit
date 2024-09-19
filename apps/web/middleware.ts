@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
 
 interface CustomNextRequest extends NextRequest {
   auth?: {
