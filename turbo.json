@@ -45,6 +45,7 @@
         ".env*"
       ],
       "outputs": [
+        ".vercel/**",
         "build/**",
         "dist/**",
         ".next/**",

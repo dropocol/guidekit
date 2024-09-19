@@ -3,7 +3,7 @@
 module.exports = {
   // output: "export",
   // output: "standalone",
-  distDir: "build",
+  // distDir: "build",
   experimental: {
     serverActions: {
       allowedOrigins: ["app.localhost:3000"],
