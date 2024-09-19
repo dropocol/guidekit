@@ -3,8 +3,8 @@ import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
-    console.log("Fetching total visitors");
-    console.log(process.env);
+    // console.log("Fetching total visitors");
+    // console.log(process.env);
     const result = await prisma.knowledgebase.aggregate({
       _sum: {
         totalVisitors: true,

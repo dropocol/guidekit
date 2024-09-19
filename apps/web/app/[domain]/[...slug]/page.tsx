@@ -53,7 +53,7 @@ export default async function DynamicPage({
         breadcrumbs={breadcrumbs}
       >
         <div className="mx-auto mt-3 w-full">
-          {collection.subCollections.map((subCollection) => (
+          {collection.subCollections.map((subCollection: any) => (
             <div key={subCollection.id}>
               <span className="contents">
                 <h1 className="sr-only">{subCollection.name}</h1>
@@ -64,7 +64,7 @@ export default async function DynamicPage({
                   <h2 className="mb-2.5 text-lg font-medium opacity-70 sm:mb-4 sm:text-xl sm:font-bold dark:text-white">
                     {subCollection.name}
                   </h2>
-                  {subCollection.articles.map((article) => (
+                  {subCollection.articles.map((article: any) => (
                     <Link
                       key={article.id}
                       href={`/${collectionSlug}/${collectionId}/${article.slug}/${article.id}`}
