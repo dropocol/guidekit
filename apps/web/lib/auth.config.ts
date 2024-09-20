@@ -1,14 +1,14 @@
 import type { NextAuthConfig } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GitHubProvider from "next-auth/providers/github";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+// import { PrismaAdapter } from "@auth/prisma-adapter";
 // import prismaEdge from "@/lib/edge";
-import prisma from "@/lib/prisma";
+// import prisma from "@/lib/prisma";
 // import edge from "@/lib/edge";
-import EmailProvider from "next-auth/providers/email";
+// import EmailProvider from "next-auth/providers/email";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { decode, encode } from "next-auth/jwt";
+// import { decode, encode } from "next-auth/jwt";
 import { User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import { getUserByEmail, getAllUsers, getUserById } from "@/data/user";
@@ -16,7 +16,7 @@ import { getUserByEmail, getAllUsers, getUserById } from "@/data/user";
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 // const adapter = PrismaAdapter(prisma);
 
-export const authOptions: NextAuthConfig = {
+export const authConfig: NextAuthConfig = {
   trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -87,8 +87,6 @@ export const authOptions: NextAuthConfig = {
     // verifyRequest: `/login`,
     error: "/login", // Error code passed in query string as ?error=
   },
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
       name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
