@@ -8,8 +8,12 @@ module.exports = {
     serverActions: {
       allowedOrigins: [
         "[::1]:3000",
+        "localhost:3000",
         "app.localhost:3000",
         "guidekit.vercel.app",
+        "app.contentbay.co",
+        "*.contentbay.co",
+        "contentbay.co",
       ],
     },
   },

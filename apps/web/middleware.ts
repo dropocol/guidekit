@@ -26,6 +26,46 @@ export default async function middleware(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams.toString();
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
 
+  // Handle root domain
+  if (hostname === "contentbay.co") {
+    return NextResponse.rewrite(new URL(`/home${url.pathname}`, req.url));
+  }
+
+  // Handle app subdomain
+  if (hostname === "app.contentbay.co") {
+    const session = await auth(req as any);
+    if (
+      !session &&
+      !url.pathname.startsWith("/login") &&
+      !url.pathname.startsWith("/register")
+    ) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+    return NextResponse.rewrite(new URL(`/app${url.pathname}`, req.url));
+  }
+
+  // Handle wildcard subdomains for knowledgebases
+  if (hostname.endsWith(".contentbay.co") && hostname !== "app.contentbay.co") {
+    const subdomain = hostname.replace(
+      `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+      "",
+    );
+    return NextResponse.rewrite(
+      new URL(`/${subdomain}${url.pathname}`, req.url),
+    );
+  }
+
+  // Handle Vercel deployment URLs
+  if (
+    hostname.includes("---") &&
+    hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
+  ) {
+    const subdomain = hostname.split("---")[0];
+    return NextResponse.rewrite(
+      new URL(`/${subdomain}${url.pathname}`, req.url),
+    );
+  }
+
   if (
     hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
     hostname === "app.localhost"
