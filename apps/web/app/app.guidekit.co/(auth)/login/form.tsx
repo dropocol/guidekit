@@ -33,7 +33,9 @@ export default function LoginForm() {
         redirect: false,
         email,
         password,
-        callbackUrl: "http://app.localhost:3000/register",
+        callbackUrl: process.env.VERCEL_URL
+          ? `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}/register`
+          : "http://app.localhost:3000/register",
       });
 
       setClickedEmail(false);
