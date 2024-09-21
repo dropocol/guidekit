@@ -2,12 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidateTag, revalidatePath } from "next/cache";
-import {
-  getSession,
-  withPostAuth,
-  withSiteAuth,
-  unstable_update,
-} from "@/auth";
+import { getSession, unstable_update } from "@/auth";
 import {
   addDomainToVercel,
   removeDomainFromVercelProject,
@@ -25,37 +20,6 @@ const nanoid = customAlphabet(
   7,
 ); // 7-character random string
 
-// export async function createSite(formData: FormData) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const name = formData.get("name") as string;
-//   const description = formData.get("description") as string;
-//   const subdomain = formData.get("subdomain") as string;
-
-//   try {
-//     const response = await prisma.site.create({
-//       data: {
-//         name,
-//         description,
-//         subdomain,
-//         user: { connect: { id: session.user.id } },
-//       },
-//     });
-//     await revalidateTag(
-//       `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-//     );
-//     return response;
-//   } catch (error: any) {
-//     if (error.code === "P2002") {
-//       return { error: "This subdomain is already taken" };
-//     } else {
-//       return { error: error.message };
-//     }
-//   }
-// }
-
 export async function editUser(formData: FormData) {
   const session = await getSession();
   if (!session?.user?.id) {
@@ -66,14 +30,24 @@ export async function editUser(formData: FormData) {
   const email = formData.get("email") as string;
 
   try {
-    const response = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: {
         name: name || undefined,
         email: email || undefined,
       },
     });
-    return response;
+
+    // Trigger the JWT update
+    await unstable_update({
+      user: {
+        name: updatedUser.name,
+        email: updatedUser.email,
+      },
+    });
+
+    revalidatePath("/settings");
+    return updatedUser;
   } catch (error: any) {
     if (error.code === "P2002") {
       return { error: "This email is already in use" };
@@ -164,255 +138,6 @@ export async function updateSite(
     }
   }
 }
-
-// export async function deleteSite(siteId: string) {
-//   const session = await getSession();
-//   if (!session) {
-//     return { error: "Not authenticated" };
-//   }
-//   const site = await prisma.site.findUnique({ where: { id: siteId } });
-//   if (!site || !session.user || site.userId !== session.user.id) {
-//     return { error: "Not authorized" };
-//   }
-//   try {
-//     const response = await prisma.site.delete({ where: { id: site.id } });
-//     await revalidateTag(
-//       `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-//     );
-//     site.customDomain && (await revalidateTag(`${site.customDomain}-metadata`));
-//     return response;
-//   } catch (error: any) {
-//     return { error: error.message };
-//   }
-// }
-
-// export const deletePost = withSiteAuth(async function deletePost(
-//   _: FormData,
-//   post: Post,
-// ) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const foundPost = await prisma.post.findUnique({
-//     where: { id: post.id },
-//     include: { site: true },
-//   });
-//   if (!foundPost || foundPost.userId !== session.user.id) {
-//     return { error: "Not authorized" };
-//   }
-//   try {
-//     const response = await prisma.post.delete({ where: { id: post.id } });
-//     return response;
-//   } catch (error: any) {
-//     return { error: error.message };
-//   }
-// });
-
-// export const createPost = withSiteAuth(async function createPost(
-//   _: FormData,
-//   site: Site,
-// ) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return {
-//       error: "Not authenticated",
-//     };
-//   }
-//   const response = await prisma.post.create({
-//     data: {
-//       siteId: site.id,
-//       userId: session.user.id,
-//     },
-//   });
-
-//   await revalidateTag(
-//     `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
-//   );
-//   site.customDomain && (await revalidateTag(`${site.customDomain}-posts`));
-
-//   return response;
-// });
-// export async function createPost(siteId: string) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const site = await prisma.site.findUnique({ where: { id: siteId } });
-//   if (!site || site.userId !== session.user.id) {
-//     return { error: "Not authorized" };
-//   }
-//   const response = await prisma.post.create({
-//     data: { siteId: site.id, userId: session.user.id },
-//   });
-//   await revalidateTag(
-//     `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
-//   );
-//   site.customDomain && (await revalidateTag(`${site.customDomain}-posts`));
-//   return response;
-// }
-
-// export async function updatePost(data: Post) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const post = await prisma.post.findUnique({
-//     where: { id: data.id },
-//     include: { site: true },
-//   });
-//   if (!post || post.userId !== session.user.id) {
-//     return { error: "Post not found" };
-//   }
-//   try {
-//     const response = await prisma.post.update({
-//       where: { id: data.id },
-//       data: {
-//         title: data.title,
-//         description: data.description,
-//         content: data.content,
-//       },
-//     });
-//     await revalidateTag(
-//       `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
-//     );
-//     await revalidateTag(
-//       `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
-//     );
-//     post.site?.customDomain &&
-//       (await revalidateTag(`${post.site?.customDomain}-posts`),
-//       await revalidateTag(`${post.site?.customDomain}-${post.slug}`));
-//     return response;
-//   } catch (error: any) {
-//     return { error: error.message };
-//   }
-// }
-
-// export async function updatePostMetadata(
-//   formData: FormData,
-//   postId: string,
-//   key: string,
-// ) {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const post = await prisma.post.findUnique({
-//     where: { id: postId },
-//     include: { site: true },
-//   });
-//   if (!post || post.userId !== session.user.id) {
-//     return { error: "Not authorized" };
-//   }
-//   const value = formData.get(key) as string;
-//   try {
-//     let response;
-//     if (key === "image") {
-//       const file = formData.get("image") as File;
-//       const filename = `${nanoid()}.${file.type.split("/")[1]}`;
-//       const { url } = await put(filename, file, { access: "public" });
-//       const blurhash = await getBlurDataURL(url);
-//       response = await prisma.post.update({
-//         where: { id: post.id },
-//         data: { image: url, imageBlurhash: blurhash },
-//       });
-//     } else {
-//       response = await prisma.post.update({
-//         where: { id: post.id },
-//         data: { [key]: key === "published" ? value === "true" : value },
-//       });
-//     }
-//     await revalidateTag(
-//       `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-posts`,
-//     );
-//     await revalidateTag(
-//       `${post.site?.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-${post.slug}`,
-//     );
-//     post.site?.customDomain &&
-//       (await revalidateTag(`${post.site?.customDomain}-posts`),
-//       await revalidateTag(`${post.site?.customDomain}-${post.slug}`));
-//     return response;
-//   } catch (error: any) {
-//     if (error.code === "P2002") {
-//       return { error: `This slug is already in use` };
-//     } else {
-//       return { error: error.message };
-//     }
-//   }
-// }
-
-// export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
-//   const session = await getSession();
-//   if (!session?.user?.id) {
-//     return { error: "Not authenticated" };
-//   }
-//   const foundPost = await prisma.post.findUnique({
-//     where: { id: post.id },
-//     include: { site: true },
-//   });
-//   if (!foundPost || foundPost.userId !== session.user.id) {
-//     return { error: "Not authorized" };
-//   }
-//   try {
-//     const response = await prisma.post.delete({ where: { id: post.id } });
-//     return response;
-//   } catch (error: any) {
-//     return { error: error.message };
-//   }
-// });
-
-// export const deletePost = withPostAuth(async (_: FormData, post: Post) => {
-//   try {
-//     const response = await prisma.post.delete({
-//       where: {
-//         id: post.id,
-//       },
-//       select: {
-//         siteId: true,
-//       },
-//     });
-//     return response;
-//   } catch (error: any) {
-//     return {
-//       error: error.message,
-//     };
-//   }
-// });
-
-// export async function getSiteFromPostId(postId: string) {
-//   const post = await prisma.post.findUnique({
-//     where: {
-//       id: postId,
-//     },
-//     select: {
-//       siteId: true,
-//     },
-//   });
-//   return post?.siteId;
-// }
-
-// export const deleteSite = withSiteAuth(async function deleteSite(
-//   _: FormData,
-//   site: Site,
-// ) {
-//   try {
-//     const response = await prisma.site.delete({
-//       where: {
-//         id: site.id,
-//       },
-//     });
-//     await revalidateTag(
-//       `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}-metadata`,
-//     );
-//     response.customDomain &&
-//       (await revalidateTag(`${site.customDomain}-metadata`));
-//     return response;
-//   } catch (error: any) {
-//     return {
-//       error: error.message,
-//     };
-//   }
-// });
 
 export async function createKnowledgebase(formData: FormData) {
   const session = await getSession();

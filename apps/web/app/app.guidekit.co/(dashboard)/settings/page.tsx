@@ -1,18 +1,47 @@
-import { ReactNode } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Form from "@/ui/form";
-import { getSession } from "@/auth";
-import { redirect } from "next/navigation";
 import { editUser } from "@/lib/actions";
+import { useSession } from "next-auth/react";
 
-async function handleEditUser(formData: FormData) {
-  "use server";
-  return editUser(formData);
-}
+export default function SettingsPage() {
+  const router = useRouter();
+  const { data: session, update, status } = useSession();
+  const [error, setError] = useState<string | null>(null);
 
-export default async function SettingsPage() {
-  const session = await getSession();
-  if (!session) {
-    redirect("/login");
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session?.user) {
+    return null;
+  }
+
+  async function handleEditUser(formData: FormData) {
+    const result = await editUser(formData);
+    if ("error" in result) {
+      setError(result.error);
+    } else {
+      // Update the session
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+        },
+      });
+      // Refresh the page to show updated data
+      router.refresh();
+    }
   }
 
   return (
@@ -22,6 +51,8 @@ export default async function SettingsPage() {
           Settings
         </h1>
 
+        {error && <p className="text-red-500">{error}</p>}
+
         <Form
           title="Name"
           description="Your name on this app."
@@ -29,8 +60,8 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "name",
             type: "text",
-            defaultValue: session.user?.name ?? "",
-            placeholder: "Brendon Urie",
+            defaultValue: session.user.name ?? "",
+            placeholder: "Your Name",
             maxLength: 32,
           }}
           handleSubmit={handleEditUser}
@@ -42,9 +73,8 @@ export default async function SettingsPage() {
           inputAttrs={{
             name: "email",
             type: "email",
-            defaultValue: session.user?.email ?? "",
-            // TODO: Update placeholder
-            placeholder: "panic@thedis.co",
+            defaultValue: session.user.email ?? "",
+            placeholder: "your.email@example.com",
           }}
           handleSubmit={handleEditUser}
         />
