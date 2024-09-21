@@ -11,6 +11,17 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
+  console.log("Environment Variables:", {
+    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
+    POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
+    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
+    NEXT_PUBLIC_ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+    NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
+    VERCEL_ENV: process.env.VERCEL_ENV,
+    // Add any other environment variables you want to check
+  });
+
   const url = req.nextUrl;
   let hostname = req.headers.get("host")!;
 
