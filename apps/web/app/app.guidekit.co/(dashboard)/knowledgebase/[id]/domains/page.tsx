@@ -20,7 +20,7 @@ export default async function KnowledgebaseSettingsDomains({
   const handleSubmitWithId = async (formData: FormData) => {
     "use server";
     formData.append("id", id);
-    return updateKnowledgebase(formData);
+    await updateKnowledgebase(formData);
   };
 
   return (
@@ -55,7 +55,7 @@ export default async function KnowledgebaseSettingsDomains({
             defaultValue: data.customDomain ?? "",
             placeholder: "yourdomain.com",
             maxLength: 64,
-            pattern: "^[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}$",
+            // pattern: "^[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}$",
           }}
           handleSubmit={handleSubmitWithId}
         />

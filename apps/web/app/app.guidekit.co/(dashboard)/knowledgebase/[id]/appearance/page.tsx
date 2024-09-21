@@ -20,8 +20,8 @@ export default async function KnowledgebaseSettingsAppearancePage({
     },
   });
 
-  if (!data) {
-    return <div>Knowledgebase not found</div>;
+  if (!data || !session.user || data.userId !== session.user.id) {
+    redirect("/404");
   }
 
   return <KnowledgebaseSettingsAppearance params={params} initialData={data} />;

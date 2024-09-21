@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Form from "@/ui/form";
+// import Form from "@/ui/form";
+import FormV2 from "@/ui/form/index";
 import { updateKnowledgebase, removeKnowledgebaseImage } from "@/lib/actions";
 import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 import { toast } from "sonner";
@@ -27,8 +28,11 @@ export default function KnowledgebaseSettingsAppearance({
         ...prevData,
         ...result,
       }));
+      toast.success("Successfully updated!");
+      router.refresh();
+    } else {
+      toast.error(result.error);
     }
-    return result;
   };
 
   const handleRemoveImage = async (type: "thumbnail" | "logo") => {
@@ -57,72 +61,44 @@ export default function KnowledgebaseSettingsAppearance({
         page={"Appearance"}
       />
 
-      <Form
+      <FormV2
         title="Thumbnail image"
         description="The thumbnail image for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"
         helpText="Max file size 50MB. Recommended size 1200x630."
         inputAttrs={{
           name: "image",
           type: "file",
-          defaultValue: data?.image!,
+          accept: "image/png, image/jpeg",
         }}
         handleSubmit={handleSubmitWithId}
-        additionalContent={
-          data?.image && (
-            <button
-              type="button"
-              onClick={() => handleRemoveImage("thumbnail")}
-              className="mr-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
-            >
-              Remove Image
-            </button>
-          )
-        }
+        handleRemove={() => handleRemoveImage("thumbnail")}
+        buttonText="Upload Image"
+        currentImage={data.image}
       />
 
-      <Form
+      <FormV2
         title="Logo"
         description="The logo for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"
         helpText="Max file size 50MB. Recommended size 400x400."
         inputAttrs={{
           name: "logo",
           type: "file",
-          defaultValue: data?.logo!,
+          accept: "image/png, image/jpeg",
         }}
         handleSubmit={handleSubmitWithId}
-        additionalContent={
-          data?.logo && (
-            <button
-              type="button"
-              onClick={() => handleRemoveImage("logo")}
-              className="mr-2 rounded-md bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600"
-            >
-              Remove Logo
-            </button>
-          )
-        }
+        handleRemove={() => handleRemoveImage("logo")}
+        buttonText="Upload Logo"
+        currentImage={data.logo}
       />
 
-      {/* <Form
-        title="Font"
-        description="The font for the heading text your knowledgebase."
-        helpText="Please select a font."
-        inputAttrs={{
-          name: "font",
-          type: "select",
-          defaultValue: data?.font!,
-        }}
-        handleSubmit={handleSubmitWithId}
-      /> */}
-
-      <Form
+      <FormV2
         title="404 Page Message"
         description="Message to be displayed on the 404 page."
         helpText="Please use 240 characters maximum."
         inputAttrs={{
           name: "message404",
           type: "text",
-          defaultValue: data?.message404!,
+          defaultValue: data.message404 || "",
           placeholder: "Oops! You've found a page that doesn't exist.",
           maxLength: 240,
         }}

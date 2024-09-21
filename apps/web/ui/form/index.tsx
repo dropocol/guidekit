@@ -1,116 +1,210 @@
 "use client";
 
-import { useState } from "react";
-import LoadingDots from "@/ui/icons/loading-dots";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { cn } from "@dub/utils";
+import {
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+  ReactNode,
+  useMemo,
+  useState,
+} from "react";
+import { Button } from "@dub/ui";
+import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import Uploader from "./uploader";
+import DomainStatus from "./domain-status";
+import DomainConfiguration from "./domain-configuration";
+import va from "@vercel/analytics";
 
-export default function Form({
-  title,
-  description,
-  helpText,
-  inputAttrs,
-  handleSubmit,
-  additionalContent,
-}: {
+interface ExtendedInputAttributes
+  extends InputHTMLAttributes<HTMLInputElement> {
+  accept?: string;
+}
+
+interface ExtendedTextareaAttributes
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  name: string;
+}
+
+interface FormProps {
   title: string;
   description: string;
-  helpText?: string;
-  inputAttrs: {
-    name: string;
-    type: string;
-    defaultValue?: string;
-    [key: string]: any;
-  };
-  handleSubmit: (formData: FormData) => Promise<any>;
+  inputAttrs: ExtendedInputAttributes | ExtendedTextareaAttributes;
+  helpText?: string | ReactNode;
+  buttonText?: string;
+  handleSubmit: (data: FormData, id?: string, name?: string) => Promise<any>;
+  handleRemove?: () => Promise<void>;
+  currentImage?: string | null;
   additionalContent?: React.ReactNode;
-}) {
-  const [isPending, setIsPending] = useState(false);
-  const [currentImage, setCurrentImage] = useState<File | null>(null);
+}
+
+export default function FormV2({
+  title,
+  description,
+  inputAttrs,
+  helpText,
+  buttonText = "Save Changes",
+  handleSubmit,
+  handleRemove,
+  currentImage,
+  additionalContent,
+}: FormProps) {
+  const [value, setValue] = useState(inputAttrs.defaultValue);
+  const [saving, setSaving] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
+  const { id } = useParams() as { id?: string };
   const router = useRouter();
+  const { update } = useSession();
+
+  const isInputElement = (
+    attrs: ExtendedInputAttributes | ExtendedTextareaAttributes,
+  ): attrs is ExtendedInputAttributes => {
+    return "type" in attrs;
+  };
+
+  const saveDisabled = useMemo(() => {
+    if (isInputElement(inputAttrs) && inputAttrs.type === "file") {
+      return saving || (!image && !currentImage);
+    }
+    return saving || (!value && !image) || value === inputAttrs.defaultValue;
+  }, [saving, value, image, inputAttrs, currentImage]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPending(true);
+    setSaving(true);
     const formData = new FormData(e.currentTarget);
-    if (currentImage) {
-      formData.set(inputAttrs.name, currentImage);
+    if (image) {
+      formData.set(inputAttrs.name as string, image);
     }
-    const res = await handleSubmit(formData);
-    setIsPending(false);
+
+    if (
+      inputAttrs.name === "customDomain" &&
+      inputAttrs.defaultValue &&
+      formData.get("customDomain") !== inputAttrs.defaultValue &&
+      !confirm("Are you sure you want to change your custom domain?")
+    ) {
+      setSaving(false);
+      return;
+    }
+
+    const res = await handleSubmit(formData, id, inputAttrs.name);
+    setSaving(false);
     if (res.error) {
       toast.error(res.error);
     } else {
-      toast.success(`Successfully updated ${title.toLowerCase()}!`);
-      router.refresh();
+      va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
+      if (id) {
+        router.refresh();
+      } else {
+        await update();
+        router.refresh();
+      }
+      toast.success(`Successfully updated ${inputAttrs.name}!`);
     }
-  };
-
-  const handleImageChange = (file: File | null) => {
-    setCurrentImage(file);
   };
 
   return (
     <form
-      className="rounded-lg border border-stone-200 bg-white dark:border-stone-700 dark:bg-black"
       onSubmit={onSubmit}
+      className="rounded-lg border border-stone-200 bg-white dark:border-stone-700 dark:bg-black"
     >
-      <div className="relative flex flex-col space-y-4 p-5 sm:p-10">
-        <h2 className="font-cal text-xl dark:text-white">{title}</h2>
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          {description}
-        </p>
-        {inputAttrs.type === "text" ||
-        inputAttrs.type === "email" ||
-        inputAttrs.type === "url" ? (
-          <input
-            {...inputAttrs}
-            className="w-full max-w-md rounded-md border border-stone-300 text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700"
-          />
-        ) : inputAttrs.type === "file" ? (
-          <Uploader
-            defaultValue={inputAttrs.defaultValue || null}
-            name={inputAttrs.name as "image" | "logo"}
-            onImageChange={handleImageChange}
-          />
-        ) : inputAttrs.type === "select" ? (
-          <select
-            {...inputAttrs}
-            className="w-full max-w-md rounded-md border border-stone-300 bg-white text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700"
-          >
-            <option value="font-cal">Cal Sans</option>
-            <option value="font-lora">Lora</option>
-            <option value="font-work">Work Sans</option>
-          </select>
-        ) : null}
-        {helpText && (
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            {helpText}
+      <div className="relative flex flex-col space-y-6 p-5 sm:p-10">
+        <div className="flex flex-col space-y-3">
+          <h2 className="font-cal text-xl dark:text-white">{title}</h2>
+          <p className="text-sm text-stone-500 dark:text-stone-400">
+            {description}
           </p>
+        </div>
+        {isInputElement(inputAttrs) && inputAttrs.type === "file" ? (
+          <Uploader
+            defaultValue={currentImage || null}
+            name={inputAttrs.name as "image" | "logo"}
+            onImageChange={setImage}
+          />
+        ) : inputAttrs.name === "font" ? (
+          <div className="flex max-w-sm items-center overflow-hidden rounded-lg border border-stone-600">
+            <select
+              name="font"
+              defaultValue={inputAttrs.defaultValue as string}
+              onChange={(e) => setValue(e.target.value)}
+              className="w-full rounded-none border-none bg-white px-4 py-2 text-sm font-medium text-stone-700 focus:outline-none focus:ring-black dark:bg-black dark:text-stone-200 dark:focus:ring-white"
+            >
+              <option value="font-cal">Cal Sans</option>
+              <option value="font-lora">Lora</option>
+              <option value="font-work">Work Sans</option>
+            </select>
+          </div>
+        ) : inputAttrs.name === "subdomain" ? (
+          <div className="flex w-full max-w-md">
+            <input
+              {...(inputAttrs as ExtendedInputAttributes)}
+              required
+              onChange={(e) => setValue(e.target.value)}
+              className="z-10 flex-1 rounded-l-md border border-stone-300 text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700"
+            />
+            <div className="flex items-center rounded-r-md border border-l-0 border-stone-300 bg-stone-100 px-3 text-sm dark:border-stone-600 dark:bg-stone-800 dark:text-stone-400">
+              {process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+            </div>
+          </div>
+        ) : inputAttrs.name === "customDomain" ? (
+          <div className="relative flex w-full max-w-md">
+            <input
+              {...(inputAttrs as ExtendedInputAttributes)}
+              onChange={(e) => setValue(e.target.value)}
+              className="z-10 flex-1 rounded-md border border-stone-300 text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700"
+            />
+            {inputAttrs.defaultValue && (
+              <div className="absolute right-3 z-10 flex h-full items-center">
+                <DomainStatus domain={inputAttrs.defaultValue as string} />
+              </div>
+            )}
+          </div>
+        ) : inputAttrs.name === "description" ? (
+          <textarea
+            {...(inputAttrs as ExtendedTextareaAttributes)}
+            rows={3}
+            required
+            onChange={(e) => setValue(e.target.value)}
+            className="w-full max-w-xl rounded-md border border-stone-300 text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700"
+          />
+        ) : (
+          <input
+            {...(inputAttrs as ExtendedInputAttributes)}
+            onChange={(e) => setValue(e.target.value)}
+            className={cn(
+              "w-full max-w-md rounded-md border border-stone-300 text-sm text-stone-900 placeholder-stone-300 focus:border-stone-500 focus:outline-none focus:ring-stone-500 dark:border-stone-600 dark:bg-black dark:text-white dark:placeholder-stone-700",
+            )}
+          />
         )}
       </div>
+      {inputAttrs.name === "customDomain" && inputAttrs.defaultValue && (
+        <DomainConfiguration domain={inputAttrs.defaultValue as string} />
+      )}
       <div className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10 dark:border-stone-700 dark:bg-stone-800">
-        <p className="text-sm text-stone-500 dark:text-stone-400">
-          {inputAttrs.type === "file" ? (
-            <>Max file size: 50MB. Supported file types: .png, .jpg, .jpeg</>
-          ) : null}
-        </p>
-        <div className="flex items-center space-x-2">
+        {typeof helpText === "string" ? (
+          <p className="text-sm text-stone-500 dark:text-stone-400">
+            {helpText}
+          </p>
+        ) : (
+          helpText
+        )}
+        <div className="flex justify-end space-x-2">
           {additionalContent}
-          <button
-            type="submit"
-            disabled={isPending}
-            className={cn(
-              "flex h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none sm:w-auto sm:px-5",
-              isPending
-                ? "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
-                : "border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:hover:border-stone-200 dark:hover:bg-black dark:hover:text-white",
-            )}
-          >
-            {isPending ? <LoadingDots color="#808080" /> : <p>Save Changes</p>}
-          </button>
+          {handleRemove && (
+            <Button
+              text={`Remove ${inputAttrs.name === "image" ? "Image" : "Logo"}`}
+              variant="danger"
+              onClick={handleRemove}
+              className="w-36"
+            />
+          )}
+          <Button
+            text={buttonText}
+            loading={saving}
+            disabled={saveDisabled}
+            className="w-36"
+          />
         </div>
       </div>
     </form>

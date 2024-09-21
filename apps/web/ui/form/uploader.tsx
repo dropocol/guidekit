@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -95,18 +96,19 @@ export default function Uploader({
           }}
         />
         <div
-          className={`${
-            dragActive ? "border-2 border-black" : ""
-          } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-md px-10 transition-all ${
+          className={cn(
+            "absolute inset-0 z-[3] flex flex-col items-center justify-center rounded-md px-10 transition-all",
+            dragActive ? "border-2 border-black" : "",
             data[name]
               ? "bg-white/80 opacity-0 hover:opacity-100 hover:backdrop-blur-md"
-              : "bg-white opacity-100 hover:bg-gray-50"
-          }`}
+              : "bg-white opacity-100 hover:bg-gray-50",
+          )}
         >
           <svg
-            className={`${
-              dragActive ? "scale-110" : "scale-100"
-            } h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
+            className={cn(
+              "h-7 w-7 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95",
+              dragActive ? "scale-110" : "scale-100",
+            )}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -130,12 +132,13 @@ export default function Uploader({
           <span className="sr-only">Photo upload</span>
         </div>
         {data[name] && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={data[name] as string}
-            alt="Preview"
-            className="h-full w-full rounded-md object-cover"
-          />
+          <div className="absolute inset-0 z-[1]">
+            <img
+              src={data[name] as string}
+              alt="Preview"
+              className="h-full w-full rounded-md object-cover"
+            />
+          </div>
         )}
       </label>
       <div className="mt-1 flex rounded-md shadow-sm">

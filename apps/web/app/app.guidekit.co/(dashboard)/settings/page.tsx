@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Form from "@/ui/form";
 import { editUser } from "@/lib/actions";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -39,6 +40,9 @@ export default function SettingsPage() {
           email: formData.get("email") as string,
         },
       });
+
+      // TODO: Show success toast
+      toast.success("Profile updated successfully!");
       // Refresh the page to show updated data
       router.refresh();
     }
