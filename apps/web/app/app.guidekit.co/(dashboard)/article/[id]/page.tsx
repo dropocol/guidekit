@@ -6,7 +6,7 @@ import * as React from "react";
 import { NotionRenderer } from "react-notion-x";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import ArticleSettingsSidebar from "@/components/ArticleSettingsSidebar";
+// import ArticleSettingsSidebar from "@/components/ArticleSettingsSidebar";
 
 async function fetchArticle(id: string) {
   const response = await fetch("/api/article", {
