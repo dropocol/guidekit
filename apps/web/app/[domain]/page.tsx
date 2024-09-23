@@ -32,11 +32,12 @@ export default async function KnowledgebasePage({
 }: {
   params: { domain: string };
 }) {
-  const domain = params.domain;
+  const domain = decodeURIComponent(params.domain);
+
   const data = await getKnowledgebaseData(domain);
 
   if (!data || !isValidKnowledgebase(data)) {
-    notFound();
+    return notFound();
   }
 
   const breadcrumbs = [{ name: "All Categories", href: `/` }];

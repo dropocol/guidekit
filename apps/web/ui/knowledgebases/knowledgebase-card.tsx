@@ -52,7 +52,9 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
       </Link>
       <div className="absolute bottom-4 flex w-full justify-between space-x-4 px-4">
         <a
-          href={`https://${url}`}
+          href={`${
+            process.env.NODE_ENV === "production" ? "https" : "http"
+          }://${url}`}
           target="_blank"
           rel="noreferrer"
           className="flex items-center space-x-1 rounded-md bg-stone-100 px-2 py-1 text-sm text-stone-600 transition-all hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"

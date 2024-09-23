@@ -10,10 +10,16 @@ export default async function DynamicPage({
 }: {
   params: { domain: string; slug: string[] };
 }) {
-  const { domain, slug } = params;
+  console.log("params", params);
+
+  // Decode the domain parameter
+  const domain = decodeURIComponent(params.domain);
+  const { slug } = params;
+
   if (!domain || slug.length % 2 !== 0) {
     notFound();
   }
+
   const knowledgebase = await getKnowledgebaseData(domain);
 
   if (!knowledgebase) {
@@ -93,7 +99,10 @@ export default async function DynamicPage({
       .flatMap((sc: any) => sc.articles)
       .find((a: any) => a.slug === articleSlug && a.id === articleId);
 
+    console.log("article", article);
+
     if (!article) {
+      console.log("Article not found");
       notFound();
     }
 
