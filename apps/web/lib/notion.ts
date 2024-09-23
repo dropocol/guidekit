@@ -32,14 +32,17 @@ export async function getNotionData(
     const parentPage = await fetchPage(pageId);
     const parentCollection = await fetchCollectionPage(parentPage);
 
-    await saveToFile("json/parentCollection.json", parentCollection);
-
+    if (process.env.NODE_ENV === "development") {
+      await saveToFile("json/parentCollection.json", parentCollection);
+    }
     const parentCollectionProcessed = processBlocks(parentCollection);
 
-    saveToFile(
-      "json/parentCollectionProcessed.json",
-      parentCollectionProcessed,
-    );
+    if (process.env.NODE_ENV === "development") {
+      saveToFile(
+        "json/parentCollectionProcessed.json",
+        parentCollectionProcessed,
+      );
+    }
 
     for (const collection of parentCollectionProcessed) {
       let totalArticleCount = 0;
@@ -216,7 +219,9 @@ function processBlocks(collectionPage: any): Collection[] {
     })
     .filter((block) => blockIds.includes(block.id));
 
-  saveToFile("json/tempSubCollections.json", tempSubCollections);
+  if (process.env.NODE_ENV === "development") {
+    saveToFile("json/tempSubCollections.json", tempSubCollections);
+  }
 
   return blockIds
     .map((blockId: string) => resultArray.find((block) => block.id === blockId))
