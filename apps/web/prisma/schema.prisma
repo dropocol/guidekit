@@ -27,9 +27,9 @@ model User {
   accounts       Account[]
   sessions       Session[]
   knowledgebases Knowledgebase[]
-  Collection     Collection[]
-  SubCollection  SubCollection[]
-  Article        Article[]
+  collection     Collection[]
+  subCollection  SubCollection[]
+  article        Article[]
 }
 
 model Account {
@@ -80,7 +80,7 @@ model Knowledgebase {
   logo          String?      @default("https://public.blob.vercel-storage.com/eEZHAoPTOBSYGBE3/JRajRyC-PhBHEinQkupt02jqfKacBVHLWJq7Iy.png") @db.Text
   font          String       @default("font-cal")
   notionLink    String
-  collections   Collection[] @relation(onDelete: Cascade) // Add 
+  collections   Collection[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   userId        String
@@ -94,7 +94,7 @@ model Knowledgebase {
   message404    String?      @default("Blimey! You've found a page that doesn't exist.") @db.Text
   totalVisitors Int          @default(0)
   lastVisited   DateTime?
-  articles      Article[]    @relation(onDelete: Cascade)
+  articles      Article[]
 
   @@index([userId])
 }
@@ -111,9 +111,8 @@ model Collection {
   knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id], onDelete: Cascade) // Add onDelete: Cascade
   type            String
   properties      Json
-  subCollections  SubCollection[] @relation("SubCollection")
+  subCollections  SubCollection[]
   articleCount    Int             @default(0) // Total count of articles in the collection
-  SubCollection   SubCollection[]
 }
 
 model SubCollection {
@@ -129,7 +128,6 @@ model SubCollection {
   collection    Collection @relation(fields: [collectionId], references: [id])
   user          User?      @relation(fields: [userId], references: [id])
   userId        String?
-  Collection    Collection @relation(fields: [collectionId], references: [id])
 
   @@index([collectionId])
 }
