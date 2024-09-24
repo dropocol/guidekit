@@ -14,6 +14,7 @@ import { getBlurDataURL } from "@/lib/utils";
 import { getNotionData } from "@/lib/notion";
 import { Prisma } from "@prisma/client";
 import { slugify } from "@/lib/utils"; // Add this import
+import { hash } from "bcryptjs"; // Import bcryptjs for hashing passwords
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -433,5 +434,30 @@ export async function removeKnowledgebaseImage(
     return {
       error: error.message || `Error removing knowledgebase ${type}`,
     };
+  }
+}
+
+export async function updatePassword(formData: FormData) {
+  const session = await getSession();
+  if (!session?.user?.id) {
+    return { error: "Not authenticated" };
+  }
+
+  const password = formData.get("password") as string;
+
+  if (!password) {
+    return { error: "Password is required" };
+  }
+
+  try {
+    const hashedPassword = await hash(password, 10);
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message };
   }
 }

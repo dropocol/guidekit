@@ -90,7 +90,8 @@ export default function FormV2({
 
     const res = await handleSubmit(formData, id, inputAttrs.name);
     setSaving(false);
-    if (res.error) {
+    console.log("res", res);
+    if (res && res.error) {
       toast.error(res.error);
     } else {
       va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
@@ -191,7 +192,7 @@ export default function FormV2({
         )}
         <div className="flex justify-end space-x-2">
           {additionalContent}
-          {handleRemove && (
+          {currentImage && handleRemove && (
             <Button
               text={`Remove ${inputAttrs.name === "image" ? "Image" : "Logo"}`}
               variant="danger"

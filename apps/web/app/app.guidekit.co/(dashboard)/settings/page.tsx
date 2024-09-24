@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Form from "@/ui/form";
-import { editUser } from "@/lib/actions";
+import { editUser, updatePassword } from "@/lib/actions"; // Import updatePassword
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -41,10 +41,18 @@ export default function SettingsPage() {
         },
       });
 
-      // TODO: Show success toast
       toast.success("Profile updated successfully!");
-      // Refresh the page to show updated data
       router.refresh();
+    }
+  }
+
+  async function handleUpdatePassword(formData: FormData) {
+    const result = await updatePassword(formData);
+
+    if ("error" in result) {
+      setError(result.error);
+    } else {
+      toast.success("Password updated successfully!");
     }
   }
 
@@ -81,6 +89,18 @@ export default function SettingsPage() {
             placeholder: "your.email@example.com",
           }}
           handleSubmit={handleEditUser}
+        />
+        <Form
+          title="Password"
+          description="Update your password."
+          helpText="Please enter a new password."
+          inputAttrs={{
+            name: "password",
+            type: "password",
+            defaultValue: "", // Add this line to resolve the error
+            placeholder: "New Password",
+          }}
+          handleSubmit={handleUpdatePassword}
         />
       </div>
     </div>

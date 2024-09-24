@@ -23,6 +23,7 @@ export default function KnowledgebaseSettingsAppearance({
   const handleSubmitWithId = async (formData: FormData) => {
     formData.append("id", id);
     const result = await updateKnowledgebase(formData);
+    console.log("result", result);
     if (!("error" in result)) {
       setData((prevData) => ({
         ...prevData,
