@@ -23,7 +23,13 @@ export default async function middleware(req: NextRequest) {
   // });
 
   const url = req.nextUrl;
-  let hostname = req.headers.get("host")!;
+  var hostname = req.headers.get("host")!;
+
+  // // Handle IPv6 localhost
+  if (hostname.includes("[::1]")) {
+    let forwardedHost = req.headers.get("x-forwarded-host") || "";
+    hostname = forwardedHost;
+  }
 
   hostname = hostname.replace(
     ".localhost:3000",
@@ -85,6 +91,10 @@ export default async function middleware(req: NextRequest) {
     hostname === "app.localhost"
   ) {
     const session = await auth(req as any);
+
+    let hostname = req.headers.get("host")!;
+
+    console.log("hostname", hostname);
 
     if (!session && path !== "/login" && path !== "/register") {
       // console.log("No session, redirecting to login");
