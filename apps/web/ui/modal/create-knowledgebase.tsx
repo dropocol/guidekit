@@ -24,15 +24,18 @@ export default function CreateKnowledgebaseModal() {
     <form
       action={async (formData: any) => {
         const response = await createKnowledgebase(formData);
+        console.log("-----------------------------------");
+        console.log("-----------------------------------");
+        console.log("-----------------------------------");
         console.log("response", response);
-        // if (response && response.error) {
-        //   toast.error(response.error);
-        // } else {
-        //   va.track("Created Knowledgebase");
-        //   router.refresh();
-        //   modal?.hide();
-        //   toast.success(`Successfully created knowledgebase!`);
-        // }
+        if (response && "error" in response) {
+          toast.error(response.error);
+        } else {
+          va.track("Created Knowledgebase");
+          router.refresh();
+          modal?.hide();
+          toast.success(`Successfully created knowledgebase!`);
+        }
       }}
       className="w-full rounded-md bg-white md:max-w-md md:border md:border-stone-200 md:shadow dark:bg-black dark:md:border-stone-700"
     >

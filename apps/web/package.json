@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "npx prisma generate",
+    "db:migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "db:migrate:dev-deploy": "dotenv -e .env.development -- npx prisma migrate deploy",
     "db:migrate:deploy": "npx prisma migrate deploy",
     "db:seed": "npx prisma db seed",
     "db:push": "npx prisma db push",

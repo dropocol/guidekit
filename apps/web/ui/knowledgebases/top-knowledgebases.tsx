@@ -29,7 +29,7 @@ export default async function Sites({ limit }: { limit?: number }) {
     </div>
   ) : (
     <div className="mt-20 flex flex-col items-center space-x-4">
-      <h1 className="font-cal text-4xl">No Sites Yet</h1>
+      <h1 className="font-cal text-4xl">No Knowledgebases Yet</h1>
       <Image
         alt="missing site"
         src="https://illustrations.popsy.co/gray/web-design.svg"
@@ -37,7 +37,7 @@ export default async function Sites({ limit }: { limit?: number }) {
         height={400}
       />
       <p className="text-lg text-stone-500">
-        You do not have any sites yet. Create one to get started.
+        You do not have any knowledgebases yet. Create one to get started.
       </p>
     </div>
   );

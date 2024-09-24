@@ -152,6 +152,15 @@ export async function createKnowledgebase(formData: FormData) {
   const notionLink = formData.get("notionLink") as string;
   const slug = formData.get("slug") as string;
 
+  // Check if the subdomain already exists in the knowledgebase
+  const existingKnowledgebase = await prisma.knowledgebase.findUnique({
+    where: { subdomain: subdomain },
+  });
+
+  if (existingKnowledgebase) {
+    return { error: "Subdomain is already taken" };
+  }
+
   try {
     const pageId = notionLink.split("-").pop();
     const knowledgebaseData = await getNotionData(notionLink!);
@@ -193,11 +202,10 @@ export async function createKnowledgebase(formData: FormData) {
         await prisma.collection.create({
           data: {
             name: collection.name,
-            slug: slugify(collection.name), // Generate slug from name
+            slug: slugify(collection.name),
             pageIcon: collection.pageIcon,
             userId: userId,
             description: collection.description,
-            // knowledgebase: { connect: { id: knowledgebase.id } },
             knowledgebaseId: knowledgebase.id,
             type: collection.type,
             articleCount: collection.articleCount,
@@ -225,7 +233,7 @@ export async function createKnowledgebase(formData: FormData) {
         });
       }
 
-      return true;
+      return { success: true };
     } else {
       return { error: "Failed to fetch knowledgebase data" };
     }
