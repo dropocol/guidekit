@@ -134,6 +134,8 @@ export async function POST(req: NextRequest) {
               await prisma.article.update({
                 where: { id: existingArticle.id },
                 data: {
+                  // id: article.id,
+                  notionId: article.id,
                   title: article.title,
                   slug: slugify(article.title),
                   description: article.description || "",
@@ -145,7 +147,8 @@ export async function POST(req: NextRequest) {
               // Create new article
               await prisma.article.create({
                 data: {
-                  id: article.id,
+                  // id: article.id,
+                  notionId: article.id,
                   title: article.title,
                   slug: slugify(article.title),
                   description: article.description || "",
@@ -163,10 +166,11 @@ export async function POST(req: NextRequest) {
           if (existingSubCollection) {
             const notionArticleIds =
               subCollection.articles?.map((a) => a.id) || [];
+            console.log("notionArticleIds", notionArticleIds);
             await prisma.article.deleteMany({
               where: {
                 subCollectionId: existingSubCollection.id,
-                id: { notIn: notionArticleIds },
+                notionId: { notIn: notionArticleIds },
               },
             });
           }

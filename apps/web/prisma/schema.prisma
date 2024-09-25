@@ -138,6 +138,7 @@ model SubCollection {
 
 model Article {
   id          String  @id @default(cuid())
+  notionId    String? @db.Text
   title       String
   slug        String
   properties  Json

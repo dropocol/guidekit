@@ -99,8 +99,6 @@ export default async function DynamicPage({
       .flatMap((sc: any) => sc.articles)
       .find((a: any) => a.slug === articleSlug && a.id === articleId);
 
-    console.log("article", article);
-
     if (!article) {
       console.log("Article not found");
       notFound();

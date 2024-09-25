@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
-    const recordMap = await notion.getPage(article.id);
+    const recordMap = await notion.getPage(article.notionId!);
 
     // return NextResponse.json({ recordMap: article.recordMap });
     return NextResponse.json({ recordMap: recordMap });

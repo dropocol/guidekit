@@ -168,21 +168,12 @@ export async function createKnowledgebase(formData: FormData) {
     if (knowledgebaseData && !(knowledgebaseData instanceof Error)) {
       knowledgebaseData.userId = session.user.id;
 
-      // TODO :  return error if subdomain is already taken
-      const knowledgebaseExists = await prisma.knowledgebase.findUnique({
-        where: { subdomain: subdomain },
-      });
-      if (knowledgebaseExists) {
-        return { error: "Subdomain is already taken" };
-      }
-
       const knowledgebase = await prisma.knowledgebase.create({
         data: {
           name: name,
           notionLink: notionLink,
           userId: userId,
           slug: slug,
-          // subdomain: `${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
           subdomain: subdomain,
           articleCount: knowledgebaseData.articleCount,
         },
@@ -191,43 +182,46 @@ export async function createKnowledgebase(formData: FormData) {
       const collections = knowledgebaseData.collections;
 
       for (const collection of collections) {
-        const knowledgebaseExists = await prisma.knowledgebase.findUnique({
-          where: { id: knowledgebase.id },
-        });
-
-        if (!knowledgebaseExists) {
-          throw new Error(`Knowledgebase with ID ${collection.id} not found`);
-        }
-
+        const { id, ...rest } = collection;
+        console.log("rest", collection.id);
         await prisma.collection.create({
           data: {
-            name: collection.name,
+            ...rest,
+            // name: collection.name,
             slug: slugify(collection.name),
-            pageIcon: collection.pageIcon,
+            // pageIcon: collection.pageIcon,
             userId: userId,
-            description: collection.description,
+            // description: collection.description,
             knowledgebaseId: knowledgebase.id,
-            type: collection.type,
-            articleCount: collection.articleCount,
-            properties: collection.properties,
+            // type: collection.type,
+            // articleCount: collection.articleCount,
+            // properties: collection.properties,
             subCollections: {
               create:
-                collection.subCollections?.map((subCollection) => ({
-                  ...subCollection,
-                  slug: slugify(subCollection.name), // Generate slug for subCollection
-                  userId: userId,
-                  articles: {
-                    create:
-                      subCollection.articles?.map((article) => ({
-                        ...article,
-                        slug: slugify(article.title), // Generate slug for article
-                        properties: article.properties,
-                        recordMap: article.recordMap,
-                        userId: userId,
-                        knowledgebaseId: knowledgebase.id,
-                      })) || [],
-                  },
-                })) || [],
+                collection.subCollections?.map((subCollection) => {
+                  // console.log("Processing subCollection ID:", subCollection.id);
+                  const { id, ...rest } = subCollection;
+                  return {
+                    ...rest,
+                    slug: slugify(subCollection.name), // Generate slug for subCollection
+                    userId: userId,
+                    articles: {
+                      create:
+                        subCollection.articles?.map((article) => {
+                          const { id, ...rest } = article;
+                          return {
+                            ...rest,
+                            notionId: id,
+                            slug: slugify(article.title), // Generate slug for article
+                            properties: article.properties,
+                            recordMap: article.recordMap,
+                            userId: userId,
+                            knowledgebaseId: knowledgebase.id,
+                          };
+                        }) || [],
+                    },
+                  };
+                }) || [],
             },
           },
         });
