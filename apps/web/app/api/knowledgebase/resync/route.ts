@@ -91,7 +91,9 @@ export async function POST(req: NextRequest) {
         // Process subcollections
         for (const subCollection of collection.subCollections || []) {
           const existingSubCollection = existingCollection?.subCollections.find(
-            (sc) => sc.name === subCollection.name,
+            (sc) =>
+              sc.name === subCollection.name &&
+              sc.collectionId === existingCollection.id,
           );
 
           if (existingSubCollection) {
@@ -108,6 +110,8 @@ export async function POST(req: NextRequest) {
             });
           } else {
             // Create new subcollection
+            console.log("Updating subcollection", existingCollection);
+
             await prisma.subCollection.create({
               data: {
                 name: subCollection.name,
@@ -126,8 +130,10 @@ export async function POST(req: NextRequest) {
           // Process articles
           for (const article of subCollection.articles || []) {
             const existingArticle = existingSubCollection?.articles.find(
-              (a) => a.id === article.id,
+              (a) => a.notionId === article.id,
             );
+
+            console.log("existingArticle", existingArticle);
 
             if (existingArticle) {
               // Update existing article
@@ -166,7 +172,7 @@ export async function POST(req: NextRequest) {
           if (existingSubCollection) {
             const notionArticleIds =
               subCollection.articles?.map((a) => a.id) || [];
-            console.log("notionArticleIds", notionArticleIds);
+
             await prisma.article.deleteMany({
               where: {
                 subCollectionId: existingSubCollection.id,
