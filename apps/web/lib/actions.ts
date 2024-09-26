@@ -256,7 +256,6 @@ export async function updateKnowledgebase(formData: FormData) {
     "name",
     "description",
     "subdomain",
-    "customDomain",
     "font",
     "message404",
   ];
@@ -266,6 +265,34 @@ export async function updateKnowledgebase(formData: FormData) {
     const value = formData.get(field);
     if (value !== null) {
       updateData[field] = value;
+    }
+  }
+
+  // Handle custom domain
+  const customDomain = formData.get("customDomain") as string;
+  if (customDomain !== undefined) {
+    if (customDomain.includes("vercel.pub")) {
+      return {
+        error: "Cannot use vercel.pub subdomain as your custom domain",
+      };
+    } else if (validDomainRegex.test(customDomain)) {
+      updateData.customDomain = customDomain;
+      const res = await addDomainToVercel(customDomain);
+      console.log("res", res);
+    } else if (customDomain === "") {
+      updateData.customDomain = null;
+    }
+
+    const existingKnowledgebase = await prisma.knowledgebase.findUnique({
+      where: { id },
+      select: { customDomain: true },
+    });
+
+    if (
+      existingKnowledgebase?.customDomain &&
+      existingKnowledgebase.customDomain !== customDomain
+    ) {
+      await removeDomainFromVercelProject(existingKnowledgebase.customDomain);
     }
   }
 

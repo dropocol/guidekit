@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
-import Form from "@/ui/form";
+// import Form from "@/ui/form";
+import Form from "@/ui/form/index";
+
 import { updateKnowledgebase } from "@/lib/actions";
 import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 
