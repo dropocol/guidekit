@@ -1,6 +1,6 @@
 import { NotionAPI } from "notion-client";
-import { NotionToMarkdown } from "notion-to-md";
-const { Client } = require("@notionhq/client");
+// import { NotionToMarkdown } from "notion-to-md";
+// const { Client } = require("@notionhq/client");
 
 import {
   // Block,
@@ -106,8 +106,6 @@ export async function getNotionData(
       articleCount: 0, // Initialize articleCount
     };
 
-    // console.log(JSON.stringify(knowledgebase.collections, null, 2));
-
     // Calculate total articleCount
     knowledgebase.articleCount = knowledgebase.collections.reduce(
       (total, collection) => total + collection.articleCount,
@@ -120,8 +118,6 @@ export async function getNotionData(
     );
 
     return knowledgebase;
-
-    // return {};
   } catch (error: any) {
     console.error("Error fetching Notion data:", error.message);
     return error;
