@@ -22,13 +22,16 @@ export async function POST(req: Request) {
     }
 
     const pageId = id.replace(/[^a-zA-Z0-9]/g, "");
-    const recordMap: ExtendedRecordMap = await notion.getPage(pageId);
 
     const article = await prisma.article.findUnique({
       where: {
         id: id,
       },
     });
+
+    const recordMap: ExtendedRecordMap = await notion.getPage(
+      article?.notionId!,
+    );
 
     // TODO : update article with recordMap
 

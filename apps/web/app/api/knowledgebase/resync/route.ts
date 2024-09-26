@@ -3,11 +3,6 @@ import prisma from "@/lib/prisma";
 import { getNotionData } from "@/lib/notion";
 import { getSession } from "@/auth";
 import { slugify } from "@/lib/utils";
-import {
-  CollectionWithSubCollections,
-  SubCollection,
-  SubCollectionArticle,
-} from "@/lib/types";
 import { Prisma } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
@@ -16,6 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const userId = session.user.id;
   const { id } = await req.json();
 
   try {
@@ -24,7 +20,7 @@ export async function POST(req: NextRequest) {
       select: { notionLink: true, userId: true },
     });
 
-    if (!knowledgebase || knowledgebase.userId !== session.user.id) {
+    if (!knowledgebase || knowledgebase.userId !== userId) {
       return NextResponse.json(
         { error: "Knowledgebase not found" },
         { status: 404 },
@@ -49,122 +45,102 @@ export async function POST(req: NextRequest) {
       });
 
       // Process collections
-      const existingCollections = await prisma.collection.findMany({
-        where: { knowledgebaseId: id },
-        include: { subCollections: { include: { articles: true } } },
-      });
-
       for (const collection of knowledgebaseData.collections) {
-        const existingCollection = existingCollections.find(
-          (c) => c.name === collection.name,
-        );
+        let existingCollection = await prisma.collection.findFirst({
+          where: { knowledgebaseId: id, name: collection.name },
+        });
 
+        const collectionData = {
+          name: collection.name,
+          slug: slugify(collection.name),
+          pageIcon: collection.pageIcon,
+          description: collection.description,
+          type: collection.type,
+          articleCount: collection.articleCount,
+          properties: collection.properties as Prisma.InputJsonValue,
+          userId, // Use the userId we defined earlier
+          knowledgebaseId: id,
+        };
+
+        let updatedCollection;
         if (existingCollection) {
           // Update existing collection
-          await prisma.collection.update({
+          updatedCollection = await prisma.collection.update({
             where: { id: existingCollection.id },
-            data: {
-              pageIcon: collection.pageIcon,
-              description: collection.description,
-              type: collection.type,
-              articleCount: collection.articleCount,
-              properties: collection.properties as Prisma.InputJsonValue,
-            },
+            data: collectionData,
           });
         } else {
           // Create new collection
-          await prisma.collection.create({
-            data: {
-              name: collection.name,
-              slug: slugify(collection.name),
-              pageIcon: collection.pageIcon,
-              description: collection.description,
-              type: collection.type,
-              articleCount: collection.articleCount,
-              properties: collection.properties as Prisma.InputJsonValue,
-              knowledgebase: { connect: { id } },
-              user: { connect: { id: session.user!.id } },
-            },
+          updatedCollection = await prisma.collection.create({
+            data: collectionData,
           });
         }
 
         // Process subcollections
         for (const subCollection of collection.subCollections || []) {
-          const existingSubCollection = existingCollection?.subCollections.find(
-            (sc) =>
-              sc.name === subCollection.name &&
-              sc.collectionId === existingCollection.id,
-          );
+          const existingSubCollection = await prisma.subCollection.findFirst({
+            where: {
+              collectionId: updatedCollection.id,
+              name: subCollection.name,
+            },
+          });
 
+          const subCollectionData = {
+            name: subCollection.name,
+            slug: slugify(subCollection.name),
+            description: subCollection.description || "",
+            type: subCollection.type,
+            articleCount: subCollection.articleCount,
+            view_ids: subCollection.view_ids,
+            collection_id: subCollection.collection_id,
+            userId: userId,
+            collectionId: updatedCollection.id,
+          };
+
+          let updatedSubCollection;
           if (existingSubCollection) {
             // Update existing subcollection
-            await prisma.subCollection.update({
+            updatedSubCollection = await prisma.subCollection.update({
               where: { id: existingSubCollection.id },
-              data: {
-                description: subCollection.description,
-                type: subCollection.type,
-                articleCount: subCollection.articleCount,
-                view_ids: subCollection.view_ids,
-                collection_id: subCollection.collection_id,
-              },
+              data: subCollectionData,
             });
           } else {
             // Create new subcollection
-            console.log("Updating subcollection", existingCollection);
-
-            await prisma.subCollection.create({
-              data: {
-                name: subCollection.name,
-                slug: slugify(subCollection.name),
-                description: subCollection.description || "",
-                type: subCollection.type,
-                articleCount: subCollection.articleCount,
-                view_ids: subCollection.view_ids,
-                collection_id: subCollection.collection_id,
-                collection: { connect: { id: existingCollection?.id } },
-                user: { connect: { id: session.user!.id } },
-              },
+            updatedSubCollection = await prisma.subCollection.create({
+              data: subCollectionData,
             });
           }
 
           // Process articles
           for (const article of subCollection.articles || []) {
-            const existingArticle = existingSubCollection?.articles.find(
-              (a) => a.notionId === article.id,
-            );
+            const existingArticle = await prisma.article.findFirst({
+              where: {
+                subCollectionId: updatedSubCollection.id,
+                notionId: article.id,
+              },
+            });
 
-            console.log("existingArticle", existingArticle);
+            const articleData = {
+              notionId: article.id,
+              title: article.title,
+              slug: slugify(article.title),
+              description: article.description || "",
+              properties: article.properties as Prisma.InputJsonValue,
+              recordMap: article.recordMap as Prisma.InputJsonValue,
+              userId: userId,
+              knowledgebaseId: id,
+              subCollectionId: updatedSubCollection.id,
+            };
 
             if (existingArticle) {
               // Update existing article
               await prisma.article.update({
                 where: { id: existingArticle.id },
-                data: {
-                  // id: article.id,
-                  notionId: article.id,
-                  title: article.title,
-                  slug: slugify(article.title),
-                  description: article.description || "",
-                  properties: article.properties as Prisma.InputJsonValue,
-                  recordMap: article.recordMap as Prisma.InputJsonValue,
-                },
+                data: articleData,
               });
             } else {
               // Create new article
-              await prisma.article.create({
-                data: {
-                  // id: article.id,
-                  notionId: article.id,
-                  title: article.title,
-                  slug: slugify(article.title),
-                  description: article.description || "",
-                  properties: article.properties as Prisma.InputJsonValue,
-                  recordMap: article.recordMap as Prisma.InputJsonValue,
-                  subCollection: { connect: { id: existingSubCollection?.id } },
-                  knowledgebase: { connect: { id } },
-                  user: { connect: { id: session.user!.id } },
-                },
-              });
+              await prisma.article.create({ data: articleData });
             }
           }
 
@@ -172,7 +148,6 @@ export async function POST(req: NextRequest) {
           if (existingSubCollection) {
             const notionArticleIds =
               subCollection.articles?.map((a) => a.id) || [];
-
             await prisma.article.deleteMany({
               where: {
                 subCollectionId: existingSubCollection.id,
@@ -183,16 +158,14 @@ export async function POST(req: NextRequest) {
         }
 
         // Delete subcollections that no longer exist in Notion
-        if (existingCollection) {
-          const notionSubCollectionNames =
-            collection.subCollections?.map((sc) => sc.name) || [];
-          await prisma.subCollection.deleteMany({
-            where: {
-              collectionId: existingCollection.id,
-              name: { notIn: notionSubCollectionNames },
-            },
-          });
-        }
+        const notionSubCollectionNames =
+          collection.subCollections?.map((sc) => sc.name) || [];
+        await prisma.subCollection.deleteMany({
+          where: {
+            collectionId: updatedCollection.id,
+            name: { notIn: notionSubCollectionNames },
+          },
+        });
       }
 
       // Delete collections that no longer exist in Notion

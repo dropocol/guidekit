@@ -49,29 +49,40 @@ export async function getNotionData(
       if (collection.subCollections) {
         collection.subCollections = await Promise.all(
           collection.subCollections.map(async (subCollection) => {
-            const subCollectionData = await notion.getCollectionData(
-              subCollection.collection_id,
-              subCollection.view_ids[0],
-              {},
-            );
+            try {
+              const subCollectionData = await notion.getCollectionData(
+                subCollection.collection_id,
+                subCollection.view_ids[0],
+                {},
+              );
 
-            const { name, description } = extractSubCollectionInfo(
-              subCollectionData,
-              subCollection.collection_id,
-            );
+              const { name, description } = extractSubCollectionInfo(
+                subCollectionData,
+                subCollection.collection_id,
+              );
 
-            const articles =
-              await processSubCollectionArticles(subCollectionData);
-            const articleCount = articles.length;
-            totalArticleCount += articleCount;
+              const articles =
+                await processSubCollectionArticles(subCollectionData);
+              const articleCount = articles.length;
+              totalArticleCount += articleCount;
 
-            return {
-              ...subCollection,
-              name,
-              description,
-              articles,
-              articleCount,
-            };
+              return {
+                ...subCollection,
+                name,
+                description,
+                articles,
+                articleCount,
+              };
+            } catch (error) {
+              console.error(`Error processing subcollection: ${error}`);
+              return {
+                ...subCollection,
+                name: subCollection.name || "Untitled",
+                description: "",
+                articles: [],
+                articleCount: 0,
+              };
+            }
           }),
         );
       }
@@ -246,12 +257,18 @@ async function processSubCollectionArticles(
     subCollection.result.reducerResults.collection_group_results.blockIds;
   const blocks = subCollection.recordMap.block;
 
+  // Check if blockIds is undefined or empty
+  if (!blockIds || blockIds.length === 0) {
+    console.warn("No blocks found in subcollection");
+    return processedCollection;
+  }
+
   const matchingBlocks = blockIds
     .map((blockId: string | number) => blocks[blockId])
     .filter(Boolean);
 
   for (const block of matchingBlocks) {
-    if (block.value.type === "page") {
+    if (block && block.value && block.value.type === "page") {
       const title = block.value.properties?.title?.[0]?.[0] || "Untitled";
       const slug = title.toLowerCase().replace(/ /g, "-");
       const pageInfo: Article = {
@@ -260,9 +277,8 @@ async function processSubCollectionArticles(
         slug: slug,
         description: (block.value.properties as any)?.["b<py"]?.[0]?.[0] || "",
         properties: block.value.properties || {},
-        // recordMap: subCollection.recordMap, // Add this line
-        recordMap: {}, // Add this line
-        subCollectionId: subCollection.result.collection_id, // Add this line
+        recordMap: {},
+        subCollectionId: subCollection.result.collection_id,
       };
       processedCollection.push(pageInfo);
     }
