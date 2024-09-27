@@ -270,7 +270,8 @@ export async function updateKnowledgebase(formData: FormData) {
 
   // Handle custom domain
   const customDomain = formData.get("customDomain") as string;
-  if (customDomain !== undefined) {
+  if (customDomain !== undefined && customDomain !== null) {
+    // TODO :  remove this check
     if (customDomain.includes("vercel.pub")) {
       return {
         error: "Cannot use vercel.pub subdomain as your custom domain",
@@ -299,8 +300,6 @@ export async function updateKnowledgebase(formData: FormData) {
   // Handle file uploads separately
   const image = formData.get("image") as File | null;
   const logo = formData.get("logo") as File | null;
-
-  console.log("Updating knowledgebase:", image);
 
   const knowledgebase = await prisma.knowledgebase.findUnique({
     where: { id },
