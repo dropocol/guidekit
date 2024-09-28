@@ -268,6 +268,8 @@ export async function updateKnowledgebase(formData: FormData) {
     }
   }
 
+  console.log(updateData);
+
   // Handle custom domain
   const customDomain = formData.get("customDomain") as string;
   if (customDomain !== undefined && customDomain !== null) {
@@ -337,6 +339,8 @@ export async function updateKnowledgebase(formData: FormData) {
       where: { id },
       data: updateData,
     });
+
+    console.log("response", response);
 
     revalidatePath(`/knowledgebase/${id}/settings`);
     return response;

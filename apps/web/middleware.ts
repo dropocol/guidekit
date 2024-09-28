@@ -24,6 +24,7 @@ export default async function middleware(req: NextRequest) {
 
   const url = req.nextUrl;
   var hostname = req.headers.get("host")!;
+  console.log("hostname", req.headers);
 
   // // Handle IPv6 localhost
   if (hostname.includes("[::1]")) {

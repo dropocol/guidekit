@@ -66,6 +66,7 @@ export interface DomainVerificationResponse {
 export type Knowledgebase = {
   id: string;
   name: string;
+  description: string;
   notionLink: string;
   userId: string;
   collections: Collection[];
