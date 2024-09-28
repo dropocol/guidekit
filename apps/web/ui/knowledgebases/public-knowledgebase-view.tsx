@@ -32,21 +32,24 @@ export default function PublicKnowledgebaseView({
         }}
       >
         <div className="mt-4 text-center sm:mt-8">
-          <div className="mb-8 flex justify-center">
-            <div className="flex h-[50px] items-center">
-              <Link
-                href="/"
-                className="helpkit-company-logo flex h-10 max-w-[105px] pl-1 pr-3 text-left sm:max-w-[175px]"
-              >
-                {/* Add logo here */}
+          <div className="mb-16 flex justify-center">
+            <div className="flex items-center justify-center">
+              <Link href="/" className="flex">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={knowledgebase.logo!}
+                  alt={knowledgebase.name}
+                  className="h-12 w-auto"
+                />
               </Link>
-              <div className="font-display flex justify-center self-center pb-0.5 pt-px text-center align-middle text-sm font-medium text-white sm:text-base">
+              <div className="mx-3 h-8 w-px bg-white"></div>
+              <div className="font-display flex justify-center self-center pb-0.5 pt-px text-center align-middle text-sm font-medium text-white sm:text-lg">
                 {knowledgebase.name}
               </div>
             </div>
           </div>
           <div className="mb-5 mt-[18px] sm:mb-5 sm:mt-10">
-            <span className="text-xl font-semibold tracking-wide text-white sm:text-3xl">
+            <span className="text-xl font-medium tracking-wide text-white sm:text-3xl">
               How can we help? 👋
             </span>
           </div>

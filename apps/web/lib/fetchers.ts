@@ -142,8 +142,6 @@ async function getMdxSource(postContents: string) {
 export async function getKnowledgebaseData(
   domain: string,
 ): Promise<KnowledgebaseWithCollections | null> {
-  console.log("domain", domain);
-
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : null;

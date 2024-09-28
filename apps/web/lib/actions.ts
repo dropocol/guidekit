@@ -340,8 +340,6 @@ export async function updateKnowledgebase(formData: FormData) {
       data: updateData,
     });
 
-    console.log("response", response);
-
     revalidatePath(`/knowledgebase/${id}/settings`);
     return response;
   } catch (error: any) {

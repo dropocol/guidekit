@@ -77,6 +77,7 @@ export type Knowledgebase = {
   subdomain?: string | null;
   customDomain?: string | null;
   image?: string | null;
+  logo?: string | null;
   imageBlurhash?: string | null;
 };
 

@@ -12,7 +12,6 @@ export function useDomainStatus({ domain }: { domain: string }) {
     keepPreviousData: true,
   });
 
-  console.log("data", data);
   return {
     status: data?.status,
     domainJson: data?.domainJson,

@@ -62,7 +62,7 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      images: [image],
+      images: [image ? image : "/og-image.png"],
       type: "website",
       siteName: knowledgebase.name,
     },
@@ -70,8 +70,10 @@ export async function generateMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [image ? image : "/og-image.png"],
     },
+    icons: [knowledgebase.logo ? knowledgebase.logo : "/favicon.png"],
+    metadataBase: new URL(domain),
   };
 }
 
@@ -80,8 +82,6 @@ export default async function DynamicPage({
 }: {
   params: { domain: string; slug: string[] };
 }) {
-  console.log("params", params);
-
   // Decode the domain parameter
   const domain = decodeURIComponent(params.domain);
   const { slug } = params;

@@ -13,8 +13,6 @@ export const config = {
 export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   var hostname = req.headers.get("host")!;
-  console.log("Original hostname:", hostname);
-  console.log("Original hostname:", req.headers);
 
   // Handle ngrok URLs
   const forwardedHost = req.headers.get("x-forwarded-host");

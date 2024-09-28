@@ -42,10 +42,10 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [image ? image : "/og-image.png"],
       creator: "@vercel",
     },
-    icons: [logo!],
+    ...(logo && { icons: [logo] }),
     metadataBase: new URL(`https://${domain}`),
     // Optional: Set canonical URL to custom domain if it exists
     // ...(params.domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
@@ -57,7 +57,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function SiteLayout({
+export default async function KnowledgebaseLayout({
   params,
   children,
 }: {
@@ -72,7 +72,7 @@ export default async function SiteLayout({
     notFound();
   }
 
-  // Optional: Redirect to custom domain if it exists
+  // TODO : Optional: Redirect to custom domain if it exists
   if (
     domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
     data.customDomain &&
@@ -91,7 +91,7 @@ export default async function SiteLayout({
               <Image
                 alt={data.name || ""}
                 height={40}
-                src={""} // TODO : Add a logo
+                src={""} 
                 width={40}
               />
             </div>

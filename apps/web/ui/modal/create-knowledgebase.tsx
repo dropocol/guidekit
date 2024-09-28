@@ -24,10 +24,6 @@ export default function CreateKnowledgebaseModal() {
     <form
       action={async (formData: any) => {
         const response = await createKnowledgebase(formData);
-        console.log("-----------------------------------");
-        console.log("-----------------------------------");
-        console.log("-----------------------------------");
-        console.log("response", response);
         if (response && "error" in response) {
           toast.error(response.error);
         } else {

@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 const title = "GuideKit – Notion based knowledgebase platform.";
 const description =
   "The GuideKit is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.";
-const image = "https://vercel.pub/thumbnail.png";
+const image = `${process.env.NEXT_PUBLIC_APP_DOMAIN}/og-image.png`;
 
 export const metadata: Metadata = {
   title,
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     title,
     description,
     images: [image],
-    creator: "@vercel",
+    creator: "@mrxeekhan",
   },
-  metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`),
+  metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_APP_DOMAIN}`),
 };
 
 export default function RootLayout({

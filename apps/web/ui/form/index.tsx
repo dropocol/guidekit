@@ -90,7 +90,7 @@ export default function FormV2({
 
     const res = await handleSubmit(formData, id, inputAttrs.name);
     setSaving(false);
-    console.log("res", res);
+
     if (res && res.error) {
       toast.error(res.error);
     } else {
