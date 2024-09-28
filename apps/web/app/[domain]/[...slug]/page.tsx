@@ -29,7 +29,7 @@ export async function generateMetadata(
   let title = knowledgebase.name;
   let description =
     knowledgebase.description || `Knowledgebase for ${knowledgebase.name}`;
-  let image = knowledgebase.image || "/default-og-image.jpg"; // Ensure you have a default OG image
+  let image = knowledgebase.image || "/og-image.jpg"; // Ensure you have a default OG image
 
   if (slug.length === 4) {
     const [collectionSlug, collectionId, articleSlug, articleId] = slug;

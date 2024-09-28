@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils";
 
 const title = "GuideKit – Notion based knowledgebase platform.";
 const description =
-  "The GuideKit is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your team and customers.";
+  "The GuideKit is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.";
 const image = "https://vercel.pub/thumbnail.png";
 
 export const metadata: Metadata = {
   title,
   description,
-  icons: ["https://vercel.pub/favicon.ico"],
+  icons: ["/favicon.png"],
   openGraph: {
     title,
     description,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     images: [image],
     creator: "@vercel",
   },
-  metadataBase: new URL("https://vercel.pub"),
+  metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`),
 };
 
 export default function RootLayout({

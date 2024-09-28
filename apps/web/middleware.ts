@@ -11,20 +11,17 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
-  // console.log("Environment Variables:", {
-  //   DATABASE_URL: process.env.DATABASE_URL,
-  //   POSTGRES_URL: process.env.POSTGRES_URL,
-  //   POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
-  //   POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
-  //   NEXT_PUBLIC_ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
-  //   NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
-  //   VERCEL_ENV: process.env.VERCEL_ENV,
-  //   // Add any other environment variables you want to check
-  // });
-
   const url = req.nextUrl;
   var hostname = req.headers.get("host")!;
-  console.log("hostname", req.headers);
+  console.log("Original hostname:", hostname);
+  console.log("Original hostname:", req.headers);
+
+  // Handle ngrok URLs
+  const forwardedHost = req.headers.get("x-forwarded-host");
+  if (forwardedHost && forwardedHost.includes("loca.lt")) {
+    console.log("Ngrok detected, using forwarded host:", forwardedHost);
+    hostname = forwardedHost;
+  }
 
   // // Handle IPv6 localhost
   if (hostname.includes("[::1]")) {
@@ -89,30 +86,27 @@ export default async function middleware(req: NextRequest) {
 
   if (
     hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
-    hostname === "app.localhost"
+    hostname === "app.localhost" ||
+    hostname.includes("ngrok-free.app") // Add this condition for ngrok
   ) {
     const session = await auth(req as any);
 
-    let hostname = req.headers.get("host")!;
-
-    console.log("hostname", hostname);
+    console.log("Processed hostname:", hostname);
 
     if (!session && path !== "/login" && path !== "/register") {
-      // console.log("No session, redirecting to login");
+      console.log("No session, redirecting to login");
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
     if (session && (path === "/login" || path === "/register")) {
-      // console.log("Session present, redirecting to home");
-      // return NextResponse.redirect(new URL("/", req.url));
       const newPath = `/app.guidekit.co${path}`;
-      // console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
+      console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
       return NextResponse.rewrite(new URL(newPath, req.url));
     }
 
     // Rewrite the URL to serve from app.guidekit.co while keeping the URL structure
     const newPath = `/app.guidekit.co${path}`;
-    // console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
+    console.log("Rewriting URL to serve from app.guidekit.co:", newPath);
     return NextResponse.rewrite(new URL(newPath, req.url));
   }
 
@@ -141,7 +135,6 @@ export default async function middleware(req: NextRequest) {
   console.log("Default rewrite for hostname:", hostname);
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }
-
 // export default async function middleware(req: NextRequest) {
 //   const url = req.nextUrl;
 //   let hostname = req.headers.get("host")!;
