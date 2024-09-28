@@ -97,6 +97,7 @@ export async function getNotionData(
     );
     const knowledgebase: Knowledgebase = {
       id: updatedId,
+      description: "",
       name: parentPage.block[updatedId].value.properties.title[0][0],
       notionLink,
       userId: "", //TODO : This should be set appropriately based on your application logic
