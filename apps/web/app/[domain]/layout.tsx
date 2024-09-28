@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: { domain: string };
 }): Promise<Metadata | null> {
   const domain = decodeURIComponent(params.domain);
-  const data = await getSiteData(domain);
+  const data = await getKnowledgebaseData(domain);
   if (!data) {
     return null;
   }
@@ -27,7 +27,7 @@ export async function generateMetadata({
     name: string;
     description: string;
     image: string;
-    logo: string;
+    logo?: string;
   };
 
   return {
@@ -45,7 +45,7 @@ export async function generateMetadata({
       images: [image],
       creator: "@vercel",
     },
-    icons: [logo],
+    icons: [logo!],
     metadataBase: new URL(`https://${domain}`),
     // Optional: Set canonical URL to custom domain if it exists
     // ...(params.domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
