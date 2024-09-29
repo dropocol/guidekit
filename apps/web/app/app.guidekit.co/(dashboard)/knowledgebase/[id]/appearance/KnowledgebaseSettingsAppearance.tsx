@@ -75,6 +75,11 @@ export default function KnowledgebaseSettingsAppearance({
         handleRemove={() => handleRemoveImage("thumbnail")}
         buttonText="Upload Image"
         currentImage={data.image}
+        submitButton={{
+          text: "Upload Image",
+          variant: "primary",
+          loading: false,
+        }}
       />
 
       <FormV2
@@ -90,21 +95,11 @@ export default function KnowledgebaseSettingsAppearance({
         handleRemove={() => handleRemoveImage("logo")}
         buttonText="Upload Logo"
         currentImage={data.logo}
-      />
-
-      <FormV2
-        title="Favicon"
-        description="The favicon for your knowledgebase. Accepted formats: .ico, .png"
-        helpText="Max file size 5MB. Recommended size 32x32 or 16x16."
-        inputAttrs={{
-          name: "favicon",
-          type: "file",
-          accept: "image/x-icon, image/png",
+        submitButton={{
+          text: "Upload Logo",
+          variant: "primary",
+          loading: false,
         }}
-        handleSubmit={handleSubmitWithId}
-        handleRemove={() => handleRemoveImage("favicon")}
-        buttonText="Upload Favicon"
-        currentImage={data.favicon}
       />
 
       <FormV2
@@ -119,6 +114,11 @@ export default function KnowledgebaseSettingsAppearance({
           maxLength: 240,
         }}
         handleSubmit={handleSubmitWithId}
+        submitButton={{
+          text: "Update Message",
+          variant: "primary",
+          loading: false,
+        }}
       />
     </div>
   );

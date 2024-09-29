@@ -6,6 +6,7 @@ import CreateKnowledgebaseButton from "@/ui/knowledgebases/create-knowledgebase-
 import { Suspense } from "react";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
 import KnowledgebaseCard from "@/ui/knowledgebases/knowledgebase-card";
+import CreateKnowledgebaseModal from "@/ui/modal/create-knowledgebase";
 
 export default async function KnowledgebasesPage() {
   const session = await getSession();
@@ -31,7 +32,9 @@ export default async function KnowledgebasesPage() {
           <h1 className="font-cal text-3xl font-bold dark:text-white">
             Knowledgebases
           </h1>
-          <CreateKnowledgebaseButton />
+          <CreateKnowledgebaseButton>
+            <CreateKnowledgebaseModal />
+          </CreateKnowledgebaseButton>
         </div>
         <Suspense
           fallback={

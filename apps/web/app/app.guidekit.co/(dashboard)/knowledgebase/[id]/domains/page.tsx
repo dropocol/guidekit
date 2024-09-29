@@ -46,6 +46,11 @@ export default async function KnowledgebaseSettingsDomains({
             maxLength: 32,
           }}
           handleSubmit={handleSubmitWithId}
+          submitButton={{
+            text: "Save Changes",
+            variant: "primary",
+            loading: false,
+          }}
         />
         <Form
           title="Custom Domain"
@@ -60,6 +65,11 @@ export default async function KnowledgebaseSettingsDomains({
             // pattern: "^[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}$",
           }}
           handleSubmit={handleSubmitWithId}
+          submitButton={{
+            text: "Save Changes",
+            variant: "primary",
+            loading: false,
+          }}
         />
       </div>
     </div>

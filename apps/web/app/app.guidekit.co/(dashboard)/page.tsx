@@ -5,6 +5,7 @@ import Articles from "@/ui/knowledgebases/articles";
 import Link from "next/link";
 import PlaceholderCard from "@/ui/cards/placeholder-card";
 import OverviewSitesCTA from "@/ui/sites/overview-sites-cta";
+import OverviewKnowledgebasesCTA from "@/ui/knowledgebases/overview-knowledgebases-cta";
 // import { getServerSession } from "next-auth";
 // import { authOptions } from "@/auth";
 
@@ -24,7 +25,7 @@ export default async function Overview() {
             Top Knowledgebases
           </h1>
           <Suspense fallback={null}>
-            <OverviewSitesCTA />
+            <OverviewKnowledgebasesCTA />
           </Suspense>
         </div>
         <Suspense

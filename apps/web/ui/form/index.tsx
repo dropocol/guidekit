@@ -37,6 +37,11 @@ interface FormProps {
   handleRemove?: () => Promise<void>;
   currentImage?: string | null;
   additionalContent?: React.ReactNode;
+  submitButton?: {
+    text: string;
+    variant?: "primary" | "danger";
+    loading?: boolean;
+  };
 }
 
 export default function FormV2({
@@ -49,6 +54,7 @@ export default function FormV2({
   handleRemove,
   currentImage,
   additionalContent,
+  submitButton,
 }: FormProps) {
   const [value, setValue] = useState(inputAttrs.defaultValue);
   const [saving, setSaving] = useState(false);
@@ -200,12 +206,15 @@ export default function FormV2({
               className="w-36"
             />
           )}
-          <Button
-            text={buttonText}
-            loading={saving}
-            // disabled={saveDisabled}
-            className="w-36"
-          />
+          {submitButton && (
+            <Button
+              type="submit"
+              text={submitButton.text}
+              variant={submitButton.variant || "primary"}
+              loading={saving}
+              className="w-auto"
+            />
+          )}
         </div>
       </div>
     </form>
