@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
+// TODO: Add proper details like image, url etc.
 export const metadata: Metadata = {
   title: "Login | GuideKit",
 };

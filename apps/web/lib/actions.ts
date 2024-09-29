@@ -302,6 +302,7 @@ export async function updateKnowledgebase(formData: FormData) {
   // Handle file uploads separately
   const image = formData.get("image") as File | null;
   const logo = formData.get("logo") as File | null;
+  const favicon = formData.get("favicon") as File | null;
 
   const knowledgebase = await prisma.knowledgebase.findUnique({
     where: { id },
@@ -332,6 +333,12 @@ export async function updateKnowledgebase(formData: FormData) {
     } catch (error) {
       return { error: "Failed to upload logo" };
     }
+  }
+
+  if (favicon) {
+    const faviconFile = formData.get("favicon") as File;
+    const faviconUrl = await uploadImage(faviconFile);
+    updateData.favicon = faviconUrl;
   }
 
   try {
@@ -422,48 +429,46 @@ export async function deleteArticle(formData: FormData) {
 }
 
 export async function removeKnowledgebaseImage(
-  knowledgebaseId: string,
-  type: "thumbnail" | "logo",
+  id: string,
+  type: "thumbnail" | "logo" | "favicon",
 ) {
-  const session = await getSession();
-  if (!session?.user!.id) {
-    return { error: "Not authenticated" };
-  }
-
   try {
     const knowledgebase = await prisma.knowledgebase.findUnique({
-      where: { id: knowledgebaseId },
-      select: { image: true, logo: true },
+      where: { id },
     });
 
-    const updateData =
-      type === "thumbnail"
-        ? { image: null, imageBlurhash: null }
-        : { logo: null };
-
-    if (type === "thumbnail") {
-      if (knowledgebase?.image) {
-        await deleteOldImage(knowledgebase.image);
-      }
-    } else {
-      if (knowledgebase?.logo) {
-        await deleteOldImage(knowledgebase.logo);
-      }
+    if (!knowledgebase) {
+      return { error: "Knowledgebase not found" };
     }
 
-    const response = await prisma.knowledgebase.update({
-      where: { id: knowledgebaseId },
-      data: updateData,
+    let fieldToUpdate: "image" | "logo" | "favicon";
+    switch (type) {
+      case "thumbnail":
+        fieldToUpdate = "image";
+        break;
+      case "logo":
+        fieldToUpdate = "logo";
+        break;
+      case "favicon":
+        fieldToUpdate = "favicon";
+        break;
+    }
+
+    const currentImageUrl = knowledgebase[fieldToUpdate];
+
+    if (currentImageUrl) {
+      await deleteOldImage(currentImageUrl);
+    }
+
+    await prisma.knowledgebase.update({
+      where: { id },
+      data: { [fieldToUpdate]: null },
     });
 
-    revalidatePath(`/knowledgebase/${knowledgebaseId}`);
-    revalidatePath(`/knowledgebases`);
-    return response;
-  } catch (error: any) {
-    console.error(`Error removing knowledgebase ${type}:`, error);
-    return {
-      error: error.message || `Error removing knowledgebase ${type}`,
-    };
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing image:", error);
+    return { error: "Failed to remove image" };
   }
 }
 

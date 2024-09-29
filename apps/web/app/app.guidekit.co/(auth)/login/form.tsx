@@ -114,14 +114,18 @@ export default function LoginForm() {
         /> */}
       </div>
       {/* add forgot password and signup link */}
-      <p className="text-center text-sm text-gray-500">
+      <div className="flex justify-between text-center text-sm font-medium text-gray-500">
         <Link
           href="/forgot-password"
-          className="font-semibold text-gray-500 transition-colors hover:text-black"
+          className="transition-colors hover:text-black"
         >
-          Forgot your password?
+          Forgot password?
         </Link>
-      </p>
+
+        <Link href="/signup" className="transition-colors hover:text-black">
+          Signup for an account
+        </Link>
+      </div>
     </>
   );
 }

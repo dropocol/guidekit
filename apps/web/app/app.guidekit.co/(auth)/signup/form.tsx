@@ -77,15 +77,14 @@ export default function RegisterForm() {
       </button> */}
       {/* </form> */}
       {/* add forgot password and signup link */}
-      <p className="text-center text-sm text-gray-500">
-        <Link
-          href="/forgot-password"
-          className="font-semibold text-gray-500 transition-colors hover:text-black"
-        >
-          Forgot your password?
+
+      <div className="flex justify-center text-center text-sm font-medium text-gray-500">
+        <Link href="/login" className="transition-colors hover:text-black">
+          Already have an account?
         </Link>
-      </p>
-      <div className="flex space-x-2">
+      </div>
+
+      {/* <div className="flex space-x-2">
         <Button
           variant="secondary"
           onClick={() => {
@@ -93,7 +92,7 @@ export default function RegisterForm() {
           }}
           icon={<Google className="h-5 w-5" />}
         />
-      </div>
+      </div> */}
     </>
   );
 }

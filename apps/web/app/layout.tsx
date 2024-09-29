@@ -22,7 +22,6 @@ const image = `${process.env.NEXT_PUBLIC_APP_DOMAIN}/og-image.png`;
 export const metadata: Metadata = {
   title,
   description,
-  icons: ["/favicon.png"],
   openGraph: {
     title,
     description,
@@ -35,6 +34,7 @@ export const metadata: Metadata = {
     images: [image],
     creator: "@mrxeekhan",
   },
+  icons: ["/favicon.png"],
   metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_APP_DOMAIN}`),
 };
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@dub/ui";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -33,26 +34,33 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-      <div>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="Email"
-          autoComplete="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+    <>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
+        <div>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          />
+        </div>
+        <Button
+          text={isLoading ? "Sending..." : "Reset Password"}
+          variant="primary"
+          loading={isLoading}
+          type="submit"
         />
+      </form>
+      <div className="flex justify-center text-center text-sm font-medium text-gray-500">
+        <Link href="/login" className="transition-colors hover:text-black">
+          Remember your password?
+        </Link>
       </div>
-      <Button
-        text={isLoading ? "Sending..." : "Reset Password"}
-        variant="primary"
-        loading={isLoading}
-        type="submit"
-      />
-    </form>
+    </>
   );
 }

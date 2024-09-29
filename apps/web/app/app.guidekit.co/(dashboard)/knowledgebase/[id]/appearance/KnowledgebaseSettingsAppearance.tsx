@@ -36,7 +36,7 @@ export default function KnowledgebaseSettingsAppearance({
     }
   };
 
-  const handleRemoveImage = async (type: "thumbnail" | "logo") => {
+  const handleRemoveImage = async (type: "thumbnail" | "logo" | "favicon") => {
     try {
       const res = await removeKnowledgebaseImage(id, type);
       if ("error" in res && res.error) {
@@ -45,7 +45,7 @@ export default function KnowledgebaseSettingsAppearance({
         toast.success(`Successfully removed ${type}!`);
         setData((prevData) => ({
           ...prevData,
-          [type === "thumbnail" ? "image" : "logo"]: null,
+          [type === "thumbnail" ? "image" : type]: null,
         }));
         router.refresh();
       }
@@ -104,6 +104,21 @@ export default function KnowledgebaseSettingsAppearance({
           maxLength: 240,
         }}
         handleSubmit={handleSubmitWithId}
+      />
+
+      <FormV2
+        title="Favicon"
+        description="The favicon for your knowledgebase. Accepted formats: .ico, .png"
+        helpText="Max file size 5MB. Recommended size 32x32 or 16x16."
+        inputAttrs={{
+          name: "favicon",
+          type: "file",
+          accept: "image/x-icon, image/png",
+        }}
+        handleSubmit={handleSubmitWithId}
+        handleRemove={() => handleRemoveImage("favicon")}
+        buttonText="Upload Favicon"
+        currentImage={data.favicon}
       />
     </div>
   );

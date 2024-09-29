@@ -62,9 +62,9 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      images: [image ? image : "/og-image.png"],
       type: "website",
       siteName: knowledgebase.name,
+      images: [image ? image : "/og-image.png"],
     },
     twitter: {
       card: "summary_large_image",
@@ -72,7 +72,7 @@ export async function generateMetadata(
       description,
       images: [image ? image : "/og-image.png"],
     },
-    icons: [knowledgebase.logo ? knowledgebase.logo : "/favicon.png"],
+    icons: [knowledgebase.favicon ? knowledgebase.favicon : "/favicon.png"],
     metadataBase: new URL(domain),
   };
 }

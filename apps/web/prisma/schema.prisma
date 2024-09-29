@@ -1,16 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-datasource db {
-  provider = "postgresql"
-  // url      = env("POSTGRES_PRISMA_NEON_URL") // uses connection pooling
-
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model User {
@@ -25,11 +20,11 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   accounts       Account[]
-  sessions       Session[]
-  knowledgebases Knowledgebase[]
-  collection     Collection[]
-  subCollection  SubCollection[]
   article        Article[]
+  collection     Collection[]
+  knowledgebases Knowledgebase[]
+  sessions       Session[]
+  subCollection  SubCollection[]
 
   @@index([email])
   @@index([username])
@@ -51,8 +46,7 @@ model Account {
   session_state            String?
   oauth_token_secret       String?
   oauth_token              String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -79,25 +73,26 @@ model VerificationToken {
 model Knowledgebase {
   id            String       @id @default(cuid())
   name          String
-  description   String?      @db.Text
-  logo          String?      @db.Text
+  description   String?
+  logo          String?
+  favicon       String?
   font          String       @default("font-cal")
   notionLink    String
-  collections   Collection[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   userId        String
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   articleCount  Int          @default(0)
   slug          String?      @unique
   subdomain     String?      @unique
   customDomain  String?      @unique
-  image         String?      @db.Text
-  imageBlurhash String?      @db.Text
-  message404    String?      @default("Blimey! You've found a page that doesn't exist.") @db.Text
+  image         String?
+  imageBlurhash String?
+  message404    String?      @default("Blimey! You've found a page that doesn't exist.")
   totalVisitors Int          @default(0)
   lastVisited   DateTime?
   articles      Article[]
+  collections   Collection[]
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -109,13 +104,13 @@ model Collection {
   pageIcon        String?
   description     String?
   userId          String
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   knowledgebaseId String
-  knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id], onDelete: Cascade)
   type            String
   properties      Json
+  articleCount    Int             @default(0)
+  knowledgebase   Knowledgebase   @relation(fields: [knowledgebaseId], references: [id], onDelete: Cascade)
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   subCollections  SubCollection[] @relation("SubCollection")
-  articleCount    Int             @default(0) // Total count of articles in the collection
 }
 
 model SubCollection {
@@ -125,41 +120,34 @@ model SubCollection {
   description   String
   type          String
   view_ids      String[]
-  articles      Article[]
   collection_id String
   collectionId  String
-  collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade, name: "SubCollection")
-  articleCount  Int        @default(0) // Total count of articles in the subcollection
+  articleCount  Int        @default(0)
   userId        String
-  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  articles      Article[]
+  collection    Collection @relation("SubCollection", fields: [collectionId], references: [id], onDelete: Cascade)
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([collectionId])
 }
 
 model Article {
-  id          String  @id @default(cuid())
-  notionId    String? @db.Text
-  title       String
-  slug        String
-  properties  Json
-  recordMap   Json?
-  description String
-  image       String? @db.Text
-
-  visits      Int       @default(0)
-  lastVisited DateTime?
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
+  id              String        @id @default(cuid())
+  title           String
+  slug            String
+  properties      Json
+  recordMap       Json?
+  description     String
+  image           String?
+  visits          Int           @default(0)
+  lastVisited     DateTime?
+  userId          String
   subCollectionId String
-  subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
   knowledgebaseId String
+  notionId        String?
   knowledgebase   Knowledgebase @relation(fields: [knowledgebaseId], references: [id], onDelete: Cascade)
+  subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade)
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // @@unique([slug, siteId])
-  // @@index([siteId])
-  // @@index([userId])
   @@index([subCollectionId])
 }

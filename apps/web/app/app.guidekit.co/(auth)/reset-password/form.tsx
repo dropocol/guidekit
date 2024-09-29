@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@dub/ui";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ResetPasswordForm({ token }: { token: string }) {
   const [password, setPassword] = useState("");
@@ -41,29 +42,36 @@ export default function ResetPasswordForm({ token }: { token: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md">
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="New Password"
-        required
-        className="mb-4 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        placeholder="Confirm New Password"
-        required
-        className="mb-4 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <Button
-        text={isLoading ? "Resetting..." : "Reset Password"}
-        loading={isLoading}
-        type="submit"
-        className="w-full"
-      />
-    </form>
+    <>
+      <form onSubmit={handleSubmit} className="w-full max-w-md">
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="New Password"
+          required
+          className="mb-4 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Confirm New Password"
+          required
+          className="mb-4 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <Button
+          text={isLoading ? "Resetting..." : "Reset Password"}
+          loading={isLoading}
+          type="submit"
+          className="w-full"
+        />
+      </form>
+      <div className="flex justify-center text-center text-sm font-medium text-gray-500">
+        <Link href="/login" className="transition-colors hover:text-black">
+          Already have an account?
+        </Link>
+      </div>
+    </>
   );
 }

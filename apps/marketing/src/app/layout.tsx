@@ -9,6 +9,7 @@ const title = "GuideKit – Notion based knowledgebase platform.";
 const description =
   "The GuideKit is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.";
 
+// TODO: Add proper details like image, url etc.
 export const metadata: Metadata = {
   title,
   description,

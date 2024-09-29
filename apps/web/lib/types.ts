@@ -79,6 +79,7 @@ export type Knowledgebase = {
   image?: string | null;
   logo?: string | null;
   imageBlurhash?: string | null;
+  favicon?: string | null;
 };
 
 export interface Collection {
