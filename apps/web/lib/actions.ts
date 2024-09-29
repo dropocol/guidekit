@@ -496,3 +496,23 @@ export async function updatePassword(formData: FormData) {
     return { error: error.message };
   }
 }
+
+// export async function deleteKnowledgebase(id: string) {
+//   try {
+//     console.log("Deleting knowledgebase:", id);
+//     const response = await fetch(`/api/knowledgebase/${id}`, {
+//       method: "DELETE",
+//     });
+
+//     console.log("Response:", response);
+
+//     if (!response.ok) {
+//       const error = await response.text();
+//       return { error };
+//     }
+
+//     return { success: true };
+//   } catch (error) {
+//     return { error: "An error occurred while deleting the knowledgebase" };
+//   }
+// }

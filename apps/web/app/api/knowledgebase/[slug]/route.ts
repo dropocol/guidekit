@@ -46,3 +46,43 @@ export async function GET(
     );
   }
 }
+
+// import { NextRequest, NextResponse } from "next/server";
+// import prisma from "@/lib/prisma";
+import { getSession } from "@/auth";
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { slug: string } },
+) {
+  console.log("Received DELETE request for knowledgebase:", params.slug);
+  const session = await getSession();
+  if (!session) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  const { slug } = params;
+
+  try {
+    await prisma.knowledgebase.delete({
+      where: { id: slug },
+    });
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error("Error deleting knowledgebase:", error);
+    return new NextResponse("Error deleting knowledgebase", { status: 500 });
+  }
+}
+
+// Add this to explicitly allow DELETE method
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      Allow: "DELETE, OPTIONS",
+      "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}

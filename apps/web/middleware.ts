@@ -15,11 +15,11 @@ export default async function middleware(req: NextRequest) {
   var hostname = req.headers.get("host")!;
 
   // Handle ngrok URLs
-  const forwardedHost = req.headers.get("x-forwarded-host");
-  if (forwardedHost && forwardedHost.includes("loca.lt")) {
-    console.log("Ngrok detected, using forwarded host:", forwardedHost);
-    hostname = forwardedHost;
-  }
+  // const forwardedHost = req.headers.get("x-forwarded-host");
+  // if (forwardedHost && forwardedHost.includes("loca.lt")) {
+  //   console.log("Ngrok detected, using forwarded host:", forwardedHost);
+  //   hostname = forwardedHost;
+  // }
 
   // // Handle IPv6 localhost
   if (hostname.includes("[::1]")) {
@@ -84,12 +84,9 @@ export default async function middleware(req: NextRequest) {
 
   if (
     hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
-    hostname === "app.localhost" ||
-    hostname.includes("ngrok-free.app") // Add this condition for ngrok
+    hostname === "app.localhost"
   ) {
     const session = await auth(req as any);
-
-    console.log("Processed hostname:", hostname);
 
     if (!session && path !== "/login" && path !== "/register") {
       console.log("No session, redirecting to login");
