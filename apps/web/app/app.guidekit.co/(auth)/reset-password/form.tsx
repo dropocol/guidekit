@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@dub/ui";
+import { Button } from "@/ui";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

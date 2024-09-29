@@ -1,6 +1,5 @@
 "use client";
 
-// import { Form } from "@dub/ui";
 import Form from "@/ui/form";
 import { updateKnowledgebase } from "@/lib/actions";
 import { toast } from "sonner";

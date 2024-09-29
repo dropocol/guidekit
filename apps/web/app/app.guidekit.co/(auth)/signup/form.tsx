@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Github, Google, InfoTooltip, useMediaQuery } from "@dub/ui";
+import { Button } from "@/ui";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

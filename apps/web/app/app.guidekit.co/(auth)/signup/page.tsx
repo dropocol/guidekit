@@ -1,4 +1,4 @@
-import { Button, Logo } from "@dub/ui";
+import { Button, Logo } from "@/ui";
 import { HOME_DOMAIN, constructMetadata } from "@/lib/utils";
 import { Suspense } from "react";
 import LoginForm from "./form";

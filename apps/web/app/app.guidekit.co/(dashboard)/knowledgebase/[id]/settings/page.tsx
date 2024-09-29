@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Form } from "@dub/ui";
+
 import { updateKnowledgebase } from "@/lib/actions";
 import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 import { getSession } from "@/auth";

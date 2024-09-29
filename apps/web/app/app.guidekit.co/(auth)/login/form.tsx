@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Github, Google, InfoTooltip, useMediaQuery } from "@dub/ui";
+import { Button } from "@/ui";
 import { AuthError } from "next-auth";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -22,7 +22,6 @@ export default function LoginForm() {
   const [clickedGithub, setClickedGithub] = useState(false);
 
   const [clickedEmail, setClickedEmail] = useState(false);
-  const { isMobile } = useMediaQuery();
 
   const handleCredentialsSubmit = async (e: any) => {
     e.preventDefault();
@@ -71,7 +70,6 @@ export default function LoginForm() {
           <input
             id="email"
             name="email"
-            autoFocus={!isMobile}
             type="email"
             placeholder="Email"
             autoComplete="email"

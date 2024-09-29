@@ -5,7 +5,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils";
-import LoadingDots from "@/ui/icons/loading-dots";
+import { LoadingDots } from "@/ui/icons/loading-dots";
+
 import { useModal } from "./provider";
 import va from "@vercel/analytics";
 import { useEffect, useState } from "react";

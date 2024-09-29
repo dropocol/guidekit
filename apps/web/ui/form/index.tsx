@@ -8,7 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Button } from "@dub/ui";
+import { Button } from "@/ui";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
