@@ -1,5 +1,5 @@
 import { Logo } from "@dub/ui";
-import { HOME_DOMAIN } from "@dub/utils";
+import { HOME_DOMAIN } from "@/lib/utils";
 import { Suspense } from "react";
 import ForgotPasswordForm from "./form";
 

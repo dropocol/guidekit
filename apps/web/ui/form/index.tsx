@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@dub/utils";
+import { cn } from "@/lib/utils";
 import {
   InputHTMLAttributes,
   TextareaHTMLAttributes,
