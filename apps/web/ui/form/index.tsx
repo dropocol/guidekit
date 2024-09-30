@@ -44,7 +44,7 @@ interface FormProps {
   };
 }
 
-export default function FormV2({
+export default function Form({
   title,
   description,
   inputAttrs,
@@ -63,6 +63,9 @@ export default function FormV2({
   const router = useRouter();
   const { update } = useSession();
 
+  // New state for isLoading (from old Form)
+  const [isLoading, setIsLoading] = useState(false);
+
   const isInputElement = (
     attrs: ExtendedInputAttributes | ExtendedTextareaAttributes,
   ): attrs is ExtendedInputAttributes => {
@@ -79,6 +82,7 @@ export default function FormV2({
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
+    setIsLoading(true); // New line
     const formData = new FormData(e.currentTarget);
     if (image) {
       formData.set(inputAttrs.name as string, image);
@@ -91,11 +95,13 @@ export default function FormV2({
       !confirm("Are you sure you want to change your custom domain?")
     ) {
       setSaving(false);
+      setIsLoading(false); // New line
       return;
     }
 
     const res = await handleSubmit(formData, id, inputAttrs.name);
     setSaving(false);
+    setIsLoading(false); // New line
 
     if (res && res.error) {
       toast.error(res.error);
@@ -206,7 +212,7 @@ export default function FormV2({
               className="w-36"
             />
           )}
-          {submitButton && (
+          {submitButton ? (
             <Button
               type="submit"
               text={submitButton.text}
@@ -214,6 +220,17 @@ export default function FormV2({
               loading={saving}
               className="w-auto"
             />
+          ) : (
+            <button
+              disabled={isLoading}
+              className={`${
+                isLoading
+                  ? "cursor-not-allowed border-stone-200 bg-stone-100 text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-500"
+                  : "border-black bg-black text-white hover:bg-white hover:text-black dark:border-stone-700 dark:bg-stone-700 dark:text-stone-200 dark:hover:bg-stone-800 dark:hover:text-stone-300"
+              } h-10 rounded-md border px-5 py-1.5 text-sm transition-all focus:outline-none`}
+            >
+              {isLoading ? "Saving..." : buttonText}
+            </button>
           )}
         </div>
       </div>

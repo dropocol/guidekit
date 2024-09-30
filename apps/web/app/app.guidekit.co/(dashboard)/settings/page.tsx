@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Form from "@/ui/form";
+import Form from "@/ui/form/index";
 import { editUser, updatePassword } from "@/lib/actions"; // Import updatePassword
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
@@ -77,6 +77,11 @@ export default function SettingsPage() {
             maxLength: 32,
           }}
           handleSubmit={handleEditUser}
+          submitButton={{
+            text: "Save Changes",
+            variant: "primary",
+            loading: false,
+          }}
         />
         <Form
           title="Email"
@@ -89,6 +94,11 @@ export default function SettingsPage() {
             placeholder: "your.email@example.com",
           }}
           handleSubmit={handleEditUser}
+          submitButton={{
+            text: "Save Changes",
+            variant: "primary",
+            loading: false,
+          }}
         />
         <Form
           title="Password"
@@ -101,6 +111,11 @@ export default function SettingsPage() {
             placeholder: "New Password",
           }}
           handleSubmit={handleUpdatePassword}
+          submitButton={{
+            text: "Save Changes",
+            variant: "primary",
+            loading: false,
+          }}
         />
       </div>
     </div>

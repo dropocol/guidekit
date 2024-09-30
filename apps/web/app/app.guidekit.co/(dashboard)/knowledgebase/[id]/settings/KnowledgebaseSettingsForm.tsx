@@ -42,6 +42,11 @@ export default function KnowledgebaseSettingsForm({
           maxLength: 32,
         }}
         handleSubmit={handleSubmit}
+        submitButton={{
+          text: "Save Changes",
+          variant: "primary",
+          loading: false,
+        }}
       />
 
       <Form

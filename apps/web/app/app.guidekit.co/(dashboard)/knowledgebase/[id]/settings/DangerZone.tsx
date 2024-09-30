@@ -69,7 +69,7 @@ export default function DangerZone({
               text="Delete Knowledgebase"
               variant="danger"
               onClick={() => setShowModal(true)}
-              className="w-48"
+              className="w-auto"
             />
           </div>
         </div>

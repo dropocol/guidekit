@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 // import Form from "@/ui/form";
-import FormV2 from "@/ui/form/index";
+import Form from "@/ui/form";
 import { updateKnowledgebase, removeKnowledgebaseImage } from "@/lib/actions";
 import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 import { toast } from "sonner";
@@ -62,7 +62,7 @@ export default function KnowledgebaseSettingsAppearance({
         page={"Appearance"}
       />
 
-      <FormV2
+      <Form
         title="Thumbnail image"
         description="The thumbnail image for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"
         helpText="Max file size 50MB. Recommended size 1200x630."
@@ -82,7 +82,7 @@ export default function KnowledgebaseSettingsAppearance({
         }}
       />
 
-      <FormV2
+      <Form
         title="Logo"
         description="The logo for your knowledgebase. Accepted formats: .png, .jpg, .jpeg"
         helpText="Max file size 50MB. Recommended size 400x400."
@@ -102,7 +102,27 @@ export default function KnowledgebaseSettingsAppearance({
         }}
       />
 
-      <FormV2
+      <Form
+        title="Favicon"
+        description="The favicon for your knowledgebase. Accepted formats: .ico, .png"
+        helpText="Max file size 50MB. Recommended size 32x32."
+        inputAttrs={{
+          name: "favicon",
+          type: "file",
+          accept: "image/x-icon, image/png",
+        }}
+        handleSubmit={handleSubmitWithId}
+        handleRemove={() => handleRemoveImage("favicon")}
+        buttonText="Upload Favicon"
+        currentImage={data.favicon}
+        submitButton={{
+          text: "Upload Favicon",
+          variant: "primary",
+          loading: false,
+        }}
+      />
+
+      <Form
         title="404 Page Message"
         description="Message to be displayed on the 404 page."
         helpText="Please use 240 characters maximum."
