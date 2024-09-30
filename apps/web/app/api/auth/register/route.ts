@@ -4,14 +4,19 @@ import { hash } from "bcryptjs";
 // import { hash } from "crypto";
 import { sql } from "@vercel/postgres";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 // /api/register
 export async function POST(request: Request) {
   try {
     const { email, password, name } = await request.json();
 
-    // TODO : add proper checks in this file for user creation
-    // YOU MAY WANT TO ADD SOME VALIDATION HERE
+    if (!email || !password || !name) {
+      return NextResponse.json({
+        error: "All fields are required",
+        status: 400,
+      });
+    }
 
     const hashedPassword = await hash(password, 10);
 
@@ -23,10 +28,24 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log({ user });
+    return NextResponse.json({
+      user: user,
+      message: "success",
+      status: 200,
+    });
   } catch (e) {
-    console.log({ e });
-  }
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        return NextResponse.json({
+          error: "New user cannot be created with this email",
+          status: 500,
+        });
+      }
 
-  return NextResponse.json({ message: "success" });
+      return NextResponse.json({
+        error: "An error occurred while creating the user",
+        status: 500,
+      });
+    }
+  }
 }

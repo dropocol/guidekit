@@ -38,10 +38,9 @@ export default function LoginForm() {
       });
 
       setClickedEmail(false);
-
+      console.log(res);
       if (res?.ok) {
         toast.success("Logged in successfully!");
-        // code for redirect to dashboard
         router.push("/");
       } else {
         toast.error("Invalid email or password.");
@@ -97,7 +96,7 @@ export default function LoginForm() {
           variant="primary"
           type="button"
           onClick={handleCredentialsSubmit}
-          // loading={clickedEmail}
+          loading={clickedEmail}
         />
         {/* <Button
           variant="secondary"

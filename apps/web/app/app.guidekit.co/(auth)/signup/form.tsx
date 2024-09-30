@@ -28,9 +28,12 @@ export default function RegisterForm() {
       body: JSON.stringify({ name, email, password }),
     });
 
-    if (res?.ok) {
+    const data = await res.json();
+    if (data?.success) {
       toast.success("Account created successfully!");
       router.push("/login");
+    } else {
+      toast.error(data?.error || "Something went wrong");
     }
     setClickedEmail(false);
   };
@@ -81,17 +84,8 @@ export default function RegisterForm() {
         variant="primary"
         type="button"
         onClick={handleCredentialsSubmit}
-        // loading={clickedEmail}
+        loading={clickedEmail}
       />
-      {/* <button
-        onClick={() => console.log("clicked")}
-        onSubmit={handleEmailSubmit}
-        className="w-full rounded-md p-2 hover:bg-gray-100 active:bg-gray-200"
-      >
-        Sign Up
-      </button> */}
-      {/* </form> */}
-      {/* add forgot password and signup link */}
 
       <div className="flex justify-center text-center text-sm font-medium text-gray-500">
         <Link href="/login" className="transition-colors hover:text-black">

@@ -81,6 +81,8 @@ export const META_TITLE = `${APP_NAME} - Notion based knowledgebase platform."`;
 
 export const META_DESCRIPTION = `${APP_NAME} is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.`;
 
+export const META_IMAGE = `/og-image.png`;
+
 // Replace with your own domain
 export function constructMetadata({
   title = META_TITLE,
