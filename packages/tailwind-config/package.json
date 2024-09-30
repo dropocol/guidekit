@@ -1,6 +1,6 @@
 {
-  "name": "@dub/tailwind-config",
-  "description": "Tailwindcss config for Dub.co",
+  "name": "@guidekit/tailwind-config",
+  "description": "Tailwindcss config for GuideKit",
   "version": "0.0.4",
   "main": "index.ts",
   "types": "index.ts",
@@ -13,18 +13,16 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-radix": "^2.8.0"
   },
-  "author": "Steven Tey <stevensteel97@gmail.com>",
-  "homepage": "https://dub.co",
+  "author": "Zeeshan Khan <mr.xee.khan@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steven-tey/dub.git"
+    "url": "git+https://github.com/dropocol/guidekit"
   },
   "bugs": {
-    "url": "https://github.com/steven-tey/dub/issues"
+    "url": "https://github.com/dropocol/guidekit/issues"
   },
   "keywords": [
-    "dub",
-    "dub.co",
+    "guidekit",
     "tailwind",
     "tailwindcss"
   ],

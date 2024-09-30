@@ -77,11 +77,15 @@ export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "GuideKit";
 
 export const HOME_DOMAIN = `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}`;
 
+export const META_TITLE = `${APP_NAME} - Notion based knowledgebase platform."`;
+
+export const META_DESCRIPTION = `${APP_NAME} is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.`;
+
 // Replace with your own domain
 export function constructMetadata({
-  title = `${process.env.NEXT_PUBLIC_APP_NAME} - Link Management for Modern Marketing Teams`,
-  description = `${process.env.NEXT_PUBLIC_APP_NAME} is the open-source link management platform for modern marketing teams to create marketing campaigns, link sharing features, and referral programs.`,
-  image = "https://assets.dub.co/thumbnail.jpg",
+  title = META_TITLE,
+  description = META_DESCRIPTION,
+  image = `/og-image.png`,
   icons = [
     {
       rel: "apple-touch-icon",
@@ -99,6 +103,11 @@ export function constructMetadata({
       type: "image/png",
       sizes: "16x16",
       url: "/favicon-16x16.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      url: "/favicon.png",
     },
   ],
   noIndex = false,
@@ -130,7 +139,7 @@ export function constructMetadata({
         card: "summary_large_image",
         images: [image],
       }),
-      creator: "@dubdotco",
+      creator: "@mrxeekhan",
     },
     icons,
     metadataBase: new URL(HOME_DOMAIN),

@@ -5,7 +5,8 @@ import { redirect, useRouter } from "next/navigation";
 import * as React from "react";
 import { NotionRenderer } from "react-notion-x";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { LoadingDots } from "@/ui/icons";
 // import ArticleSettingsSidebar from "@/components/ArticleSettingsSidebar";
 
 async function fetchArticle(id: string) {
@@ -44,16 +45,23 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     checkSessionAndFetchArticle();
   }, [params.id, router, session]);
 
-  if (!recordMap || !article) return <>Loading...</>;
+  if (!recordMap || !article)
+    return (
+      <div className="flex h-10 w-full items-center justify-center">
+        <LoadingDots />
+      </div>
+    );
 
   return (
     <div className="flex">
       <div className="w-full">
-        <NotionRenderer
-          recordMap={recordMap}
-          fullPage={true}
-          darkMode={false}
-        />
+        {recordMap && (
+          <NotionRenderer
+            recordMap={recordMap}
+            fullPage={true}
+            darkMode={false}
+          />
+        )}
       </div>
       {/* <ArticleSettingsSidebar article={article} /> */}
     </div>

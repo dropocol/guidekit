@@ -7,6 +7,7 @@ const notion = new NotionAPI();
 export async function POST(req: Request) {
   const { id } = await req.json();
 
+  // TODO : correct the response
   try {
     const article = await prisma.article.findUnique({
       where: { id },

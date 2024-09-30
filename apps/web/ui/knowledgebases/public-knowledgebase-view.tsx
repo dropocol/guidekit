@@ -34,15 +34,19 @@ export default function PublicKnowledgebaseView({
         <div className="mt-4 text-center sm:mt-8">
           <div className="mb-16 flex justify-center">
             <div className="flex items-center justify-center">
-              <Link href="/" className="flex">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={knowledgebase.logo!}
-                  alt={knowledgebase.name}
-                  className="h-12 w-auto"
-                />
-              </Link>
-              <div className="mx-3 h-8 w-px bg-white"></div>
+              {knowledgebase.logo && (
+                <>
+                  <Link href="/" className="flex">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={knowledgebase.logo!}
+                      alt={knowledgebase.name}
+                      className="h-12 w-auto"
+                    />
+                  </Link>
+                  <div className="mx-3 h-8 w-px bg-white"></div>
+                </>
+              )}
               <div className="font-display flex justify-center self-center pb-0.5 pt-px text-center align-middle text-sm font-medium text-white sm:text-lg">
                 {knowledgebase.name}
               </div>

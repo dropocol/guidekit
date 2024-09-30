@@ -25,6 +25,9 @@ export default async function KnowledgebasesPage() {
     },
   });
 
+  // Add a 5-second delay before rendering
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   return (
     <div className="flex max-w-screen-xl flex-col space-y-12 p-8">
       <div className="flex flex-col space-y-6">

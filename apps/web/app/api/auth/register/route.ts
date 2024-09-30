@@ -8,7 +8,7 @@ import prisma from "@/lib/prisma";
 // /api/register
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, name } = await request.json();
 
     // TODO : add proper checks in this file for user creation
     // YOU MAY WANT TO ADD SOME VALIDATION HERE
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.create({
       data: {
+        name,
         email,
         password: hashedPassword,
       },

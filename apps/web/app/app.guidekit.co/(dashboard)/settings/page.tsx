@@ -6,6 +6,8 @@ import Form from "@/ui/form/index";
 import { editUser, updatePassword } from "@/lib/actions"; // Import updatePassword
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { LoadingDots } from "@/ui/icons";
+import { set } from "js-cookie";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -19,7 +21,11 @@ export default function SettingsPage() {
   }, [status, router]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-10 w-full items-center justify-center">
+        <LoadingDots />
+      </div>
+    );
   }
 
   if (!session?.user) {

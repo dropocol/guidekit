@@ -12,12 +12,11 @@ import { cal, inter } from "@/styles/fonts";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import { Metadata } from "next";
-import { cn } from "@/lib/utils";
+import { cn, META_TITLE, META_DESCRIPTION, META_IMAGE } from "@/lib/utils";
 
-const title = "GuideKit – Notion based knowledgebase platform.";
-const description =
-  "The GuideKit is a knowledgebase platform built with Notion. It allows you to create, manage and share knowledgebases with your customers.";
-const image = `${process.env.NEXT_PUBLIC_APP_DOMAIN}/og-image.png`;
+const title = META_TITLE;
+const description = META_DESCRIPTION;
+const image = META_IMAGE;
 
 export const metadata: Metadata = {
   title,

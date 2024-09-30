@@ -10,7 +10,7 @@ interface DangerZoneProps {
   knowledgebaseId: string;
   knowledgebaseName: string;
 }
-
+// TODO : delete images from storage
 export default function DangerZone({
   knowledgebaseId,
   knowledgebaseName,

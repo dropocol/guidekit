@@ -34,7 +34,7 @@ export * from "./typescript";
 export * from "./unsplash";
 export * from "./youtube";
 
-// dub default domains logos
+// default domains logos
 export * from "./default-domains/amazon";
 export * from "./default-domains/chatgpt";
 export * from "./default-domains/github";

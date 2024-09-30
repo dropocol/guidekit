@@ -104,11 +104,11 @@ export default async function KnowledgebaseLayout({
 
       <div>{children}</div>
 
-      {domain == `demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ||
-      domain == `platformize.co` ? (
+      {domain == `demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` ? (
         <CTA />
       ) : (
-        <ReportAbuse />
+        // <ReportAbuse />
+        <></>
       )}
     </div>
   );
