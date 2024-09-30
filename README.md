@@ -1,3 +1,5 @@
+![GuideKit](https://app.contentbay.co/og-image.png)
+
 # GuideKit - Knowledge Base Platform
 
 GuideKit is a powerful knowledge base platform that allows users to create, manage, and share knowledge bases with ease. It's built using Next.js, Prisma, and integrates with Notion for content management.
