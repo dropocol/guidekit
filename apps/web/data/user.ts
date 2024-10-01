@@ -1,11 +1,24 @@
 import prisma from "@/lib/prisma";
+import { compare } from "bcryptjs";
 
 // import edge from "@/lib/edge";
+
+export const checkCredentials = async (email: string, password: string) => {
+  const user = await getUserByEmail(email);
+  if (!user) {
+    return null;
+  }
+  const isPasswordValid = await compare(password, user.password!);
+  if (!isPasswordValid) {
+    return null;
+  }
+  return user;
+};
 
 export const getUserByEmail = async (email: string) => {
   try {
     // console.log("FINDING USER----------------");
-    const user = await prisma.user.findFirst({ where: { email: email } });
+    const user = await prisma.user.findUnique({ where: { email: email } });
 
     // const userCheck = await prismaEdge.user.findFirst({
     //   where: { email: email },

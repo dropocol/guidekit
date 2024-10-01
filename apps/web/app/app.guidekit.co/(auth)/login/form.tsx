@@ -2,13 +2,14 @@
 
 import { Button } from "@/ui";
 import { AuthError } from "next-auth";
-import { signIn } from "next-auth/react";
+import { signIn } from "@/auth";
 import Link from "next/link";
 import { redirect, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { authenticate } from "@/lib/actionsv2";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -26,38 +27,34 @@ export default function LoginForm() {
   const handleCredentialsSubmit = async (e: any) => {
     e.preventDefault();
     setClickedEmail(true);
-
     try {
-      const res = await signIn("credentials", {
+      const res = await authenticate({
+        email: email,
+        password: password,
         redirect: false,
-        email,
-        password,
         callbackUrl: process.env.VERCEL_URL
-          ? `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}/register`
-          : "http://app.localhost:3000/register",
+          ? `https://${process.env.NEXT_PUBLIC_APP_DOMAIN}/login`
+          : "http://app.localhost:3000/login",
       });
 
       setClickedEmail(false);
-      console.log(res);
-      if (res?.ok) {
-        toast.success("Logged in successfully!");
+      const data = JSON.parse(res as string);
+      const { success, message, error } = data;
+      console.log("data", data);
+
+      if (success) {
+        toast.success(message);
+        // return;
         router.push("/");
+      }
+
+      if (error.message) {
+        toast.error(error.message);
       } else {
-        toast.error("Invalid email or password.");
+        toast.error("Failed to login. Please try again.");
       }
-    } catch (error) {
-      // this is what seems to be returning the error message "CallbackRouteError"
+    } catch (error: any) {
       console.log(error);
-      if (error instanceof AuthError) {
-        switch (error.type) {
-          case "CallbackRouteError":
-          case "CredentialsSignin":
-            return { error: "Invalid credentials!" };
-          default:
-            return { error: "Something went wrong!" };
-        }
-      }
-      throw error;
     }
   };
 
@@ -124,5 +121,19 @@ export default function LoginForm() {
         </Link>
       </div>
     </>
+    // <>
+    //   <form onSubmit={handleCredentialsSubmit} method="post">
+    //     <input type="email" id="email" name="email" />
+    //     <label htmlFor="email">Email address</label>
+    //     <input type="password" id="password" name="password" />
+    //     <label className="form-label" htmlFor="password">
+    //       Password
+    //     </label>
+    //     {error && <p className="text-bg-danger">{error}</p>}
+    //     <button type="submit" className="btn btn-primary btn-block mb-4">
+    //       Login
+    //     </button>
+    //   </form>
+    // </>
   );
 }

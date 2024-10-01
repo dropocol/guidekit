@@ -15,6 +15,7 @@ import { getNotionData } from "@/lib/notion";
 import { Prisma } from "@prisma/client";
 import { slugify } from "@/lib/utils"; // Add this import
 import { hash } from "bcryptjs"; // Import bcryptjs for hashing passwords
+import { signIn } from "next-auth/react";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -516,3 +517,19 @@ export async function updatePassword(formData: FormData) {
 //     return { error: "An error occurred while deleting the knowledgebase" };
 //   }
 // }
+
+export async function authenticate(formData: any) {
+  try {
+    const session = await signIn("credentials", formData);
+    console.log(session);
+    return { success: true, message: "login successful" };
+  } catch (err: any) {
+    console.log(err);
+    if (err.type === "AuthError") {
+      return {
+        error: { message: err.message },
+      };
+    }
+    return { error: { message: "Failed to login", error: err } };
+  }
+}

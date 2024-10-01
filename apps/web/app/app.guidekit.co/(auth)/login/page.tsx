@@ -1,3 +1,4 @@
+// "use client";
 import { Button, Logo } from "@/ui";
 import { HOME_DOMAIN, constructMetadata } from "@/lib/utils";
 import { Suspense } from "react";
@@ -5,14 +6,6 @@ import LoginForm from "./form";
 
 export const metadata = constructMetadata({
   title: `Sign in to ${process.env.NEXT_PUBLIC_APP_NAME}`,
-  icons: [
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "32x32",
-      url: "/favicon.png",
-    },
-  ],
 });
 
 //TODO : add a check for email verification
