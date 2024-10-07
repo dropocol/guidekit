@@ -11,71 +11,71 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const domain = decodeURIComponent(params.domain);
-  const { slug } = params;
+// export async function generateMetadata(
+//   { params }: Props,
+//   parent: ResolvingMetadata,
+// ): Promise<Metadata> {
+//   const domain = decodeURIComponent(params.domain);
+//   const { slug } = params;
 
-  const knowledgebase = await getKnowledgebaseData(domain);
-  if (!knowledgebase) {
-    return {
-      title: "Not Found",
-      description: "The requested knowledgebase could not be found.",
-    };
-  }
+//   const knowledgebase = await getKnowledgebaseData(domain);
+//   if (!knowledgebase) {
+//     return {
+//       title: "Not Found",
+//       description: "The requested knowledgebase could not be found.",
+//     };
+//   }
 
-  let title = knowledgebase.name;
-  let description =
-    knowledgebase.description || `Knowledgebase for ${knowledgebase.name}`;
-  let image = knowledgebase.image || "/og-image.jpg"; // Ensure you have a default OG image
+//   let title = knowledgebase.name;
+//   let description =
+//     knowledgebase.description || `Knowledgebase for ${knowledgebase.name}`;
+//   let image = knowledgebase.image || "/og-image.jpg"; // Ensure you have a default OG image
 
-  if (slug.length === 4) {
-    const [collectionSlug, collectionId, articleSlug, articleId] = slug;
-    const article = await prisma.article.findUnique({
-      where: { id: articleId },
-      include: { subCollection: { include: { collection: true } } },
-    });
+//   if (slug.length === 4) {
+//     const [collectionSlug, collectionId, articleSlug, articleId] = slug;
+//     const article = await prisma.article.findUnique({
+//       where: { id: articleId },
+//       include: { subCollection: { include: { collection: true } } },
+//     });
 
-    if (article) {
-      title = `${article.title} | ${knowledgebase.name}`;
-      description = article.description || `Article in ${knowledgebase.name}`;
-      // You can use article.image here if you have one, otherwise fallback to knowledgebase image
-    }
-  } else if (slug.length === 2) {
-    const [collectionSlug, collectionId] = slug;
-    const collection = await prisma.collection.findUnique({
-      where: { id: collectionId },
-    });
+//     if (article) {
+//       title = `${article.title} | ${knowledgebase.name}`;
+//       description = article.description || `Article in ${knowledgebase.name}`;
+//       // You can use article.image here if you have one, otherwise fallback to knowledgebase image
+//     }
+//   } else if (slug.length === 2) {
+//     const [collectionSlug, collectionId] = slug;
+//     const collection = await prisma.collection.findUnique({
+//       where: { id: collectionId },
+//     });
 
-    if (collection) {
-      title = `${collection.name} | ${knowledgebase.name}`;
-      description =
-        collection.description || `Collection in ${knowledgebase.name}`;
-    }
-  }
+//     if (collection) {
+//       title = `${collection.name} | ${knowledgebase.name}`;
+//       description =
+//         collection.description || `Collection in ${knowledgebase.name}`;
+//     }
+//   }
 
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      siteName: knowledgebase.name,
-      images: [image ? image : "/og-image.png"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image ? image : "/og-image.png"],
-    },
-    icons: [knowledgebase.favicon ? knowledgebase.favicon : "/favicon.png"],
-    metadataBase: new URL(domain),
-  };
-}
+//   return {
+//     title,
+//     description,
+//     openGraph: {
+//       title,
+//       description,
+//       type: "website",
+//       siteName: knowledgebase.name,
+//       images: [image ? image : "/og-image.png"],
+//     },
+//     twitter: {
+//       card: "summary_large_image",
+//       title,
+//       description,
+//       images: [image ? image : "/og-image.png"],
+//     },
+//     icons: [knowledgebase.favicon ? knowledgebase.favicon : "/favicon.png"],
+//     metadataBase: new URL(domain),
+//   };
+// }
 
 export default async function DynamicPage({
   params,
