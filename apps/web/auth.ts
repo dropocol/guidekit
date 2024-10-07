@@ -12,15 +12,6 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
 });
 
 export async function getSession() {
-  // return auth() as Promise<{
-  //   user: {
-  //     id: string;
-  //     name: string;
-  //     username: string;
-  //     email: string;
-  //     image: string;
-  //   };
-  // } | null>;
   const session = await auth();
   return {
     ...session,

@@ -7,7 +7,8 @@ import { editUser, updatePassword } from "@/lib/actions"; // Import updatePasswo
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { LoadingDots } from "@/ui/icons";
-import { set } from "js-cookie";
+// import { set } from "js-cookie";
+// import { getSession } from "@/auth";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function SettingsPage() {
       return;
     }
 
-    if (!session && status === "unauthenticated") {
+    if (!session) {
       router.push("/login");
     }
   }, [status, router, session]);

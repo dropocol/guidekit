@@ -101,60 +101,60 @@ export const authConfig: NextAuthConfig = {
     //   return token;
     // },
 
-    async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.user = user;
-      }
-      if (trigger === "update" && session?.name) {
-        token.name = session.name;
-      }
-      return token;
-    },
+    // async jwt({ token, user, trigger, session }) {
+    //   if (user) {
+    //     token.user = user;
+    //   }
+    //   if (trigger === "update" && session?.name) {
+    //     token.name = session.name;
+    //   }
+    //   return token;
+    // },
 
     // async session({ session, token }) {
     //   session.user = token.user as any;
     //   return session;
     // },
 
-    // jwt: async ({
-    //   token,
-    //   user,
-    //   trigger,
-    // }: {
-    //   token: JWT;
-    //   user: User | AdapterUser;
-    //   trigger?: "signIn" | "update" | "signUp";
-    // }) => {
-    //   // console.log("JWT Callback - Token:", token);
-    //   // console.log("JWT Callback - User:", user);
-    //   console.log("JWT Callback - Trigger:", trigger);
+    jwt: async ({
+      token,
+      user,
+      trigger,
+    }: {
+      token: JWT;
+      user: User | AdapterUser;
+      trigger?: "signIn" | "update" | "signUp";
+    }) => {
+      console.log("JWT Callback - Token:", token);
+      // console.log("JWT Callback - User:", user);
+      // console.log("JWT Callback - Trigger:", trigger);
 
-    //   if (user) {
-    //     token.user = user;
-    //   }
-    //   console.log("JWT TRIGGET : ", trigger);
-    //   // refresh the user's data if they update their name / email
-    //   if (trigger === "update") {
-    //     const refreshedUser = await getUserById(token.sub as string);
-    //     if (refreshedUser) {
-    //       const updateToken = {
-    //         ...token,
-    //         ...refreshedUser,
-    //         user: refreshedUser,
-    //       };
+      if (user) {
+        token.user = user;
+      }
 
-    //       token = updateToken;
-    //       console.log("REFRESHED USER : ", token);
-    //     } else {
-    //       return {};
-    //     }
-    //   }
-    //   return token;
-    // },
+      // refresh the user's data if they update their name / email
+      if (trigger === "update") {
+        const refreshedUser = await getUserById(token.sub as string);
+        if (refreshedUser) {
+          const updateToken = {
+            ...token,
+            ...refreshedUser,
+            user: refreshedUser,
+          };
+
+          token = updateToken;
+          console.log("REFRESHED USER : ", token);
+        } else {
+          return {};
+        }
+      }
+      return token;
+    },
     session: async ({ session, token, trigger }) => {
       // console.log("SESSION Callback - Session:", session);
       // console.log("SESSION Callback - Token:", token);
-      console.log("SESSION Callback - Trigger:", trigger);
+      // console.log("SESSION Callback - Trigger:", trigger);
 
       session.user = {
         id: token.sub,
