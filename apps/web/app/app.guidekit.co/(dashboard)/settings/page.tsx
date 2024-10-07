@@ -18,15 +18,8 @@ export default function SettingsPage() {
 
   useEffect(() => {
     // wait for session to load
-    console.log("status", status);
-    console.log("session", session);
-
     if (status === "loading") {
       return;
-    }
-
-    if (!session) {
-      router.push("/login");
     }
   }, [status, router, session]);
 
@@ -39,6 +32,7 @@ export default function SettingsPage() {
   }
 
   if (!session?.user) {
+    router.push("/login");
     return null;
   }
 

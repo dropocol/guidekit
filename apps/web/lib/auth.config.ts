@@ -125,9 +125,9 @@ export const authConfig: NextAuthConfig = {
       user: User | AdapterUser;
       trigger?: "signIn" | "update" | "signUp";
     }) => {
-      console.log("JWT Callback - Token:", token);
-      // console.log("JWT Callback - User:", user);
-      // console.log("JWT Callback - Trigger:", trigger);
+      // console.log("JWT Callback - Token        :", token);
+      //console.log("JWT Callback - User         :", user);
+      console.log("JWT Callback - Trigger      :", trigger);
 
       if (user) {
         token.user = user;
@@ -152,9 +152,9 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
     session: async ({ session, token, trigger }) => {
-      // console.log("SESSION Callback - Session:", session);
-      // console.log("SESSION Callback - Token:", token);
-      // console.log("SESSION Callback - Trigger:", trigger);
+      //console.log("SESSION Callback - Session  :", session);
+      // console.log("SESSION Callback - Token    :", token);
+      console.log("SESSION Callback - Trigger  :", trigger);
 
       session.user = {
         id: token.sub,

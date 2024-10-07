@@ -4,6 +4,11 @@ module.exports = {
   // output: "export",
   // output: "standalone",
   // distDir: "build",
+  logging: {
+    fetches: {
+      fullUrl: false,
+    },
+  },
   experimental: {
     serverActions: {
       allowedOrigins: [
