@@ -12,13 +12,22 @@ import { set } from "js-cookie";
 export default function SettingsPage() {
   const router = useRouter();
   const { data: session, update, status } = useSession();
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    // wait for session to load
+    console.log("status", status);
+    console.log("session", session);
+
+    if (status === "loading") {
+      return;
+    }
+
+    if (!session && status === "unauthenticated") {
       router.push("/login");
     }
-  }, [status, router]);
+  }, [status, router, session]);
 
   if (status === "loading") {
     return (

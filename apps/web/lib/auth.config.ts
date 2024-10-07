@@ -88,18 +88,34 @@ export const authConfig: NextAuthConfig = {
   },
 
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    // async jwt({ token, user, trigger }) {
+    //   if (user) {
+    //     token.user = user;
+    //   }
+    //   if (trigger === "update") {
+    //     const refreshedUser = await getUserById(token.sub as string);
+    //     if (refreshedUser) {
+    //       token = { ...token, ...refreshedUser, user: refreshedUser };
+    //     }
+    //   }
+    //   return token;
+    // },
+
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.user = user;
       }
-      if (trigger === "update") {
-        const refreshedUser = await getUserById(token.sub as string);
-        if (refreshedUser) {
-          token = { ...token, ...refreshedUser, user: refreshedUser };
-        }
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
       }
       return token;
     },
+
+    // async session({ session, token }) {
+    //   session.user = token.user as any;
+    //   return session;
+    // },
+
     // jwt: async ({
     //   token,
     //   user,
