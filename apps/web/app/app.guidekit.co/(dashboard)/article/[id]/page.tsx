@@ -33,7 +33,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const checkSessionAndFetchArticle = async () => {
-      if (session) {
+      if (!session) {
         router.push("/login");
       }
 
