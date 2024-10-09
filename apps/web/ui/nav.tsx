@@ -28,40 +28,25 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const externalLinks = [
-  {
-    name: "Read announcement",
-    href: "https://vercel.com/blog/platforms-starter-kit",
-    icon: <Megaphone width={18} />,
-  },
+  // {
+  //   name: "Read announcement",
+  //   href: "https://vercel.com/blog/platforms-starter-kit",
+  //   icon: <Megaphone width={18} />,
+  // },
   {
     name: "Star on GitHub",
-    href: "https://github.com/vercel/platforms",
+    href: "https://github.com/dropocol/guidekit",
     icon: <Github width={18} />,
   },
-  {
-    name: "Read the guide",
-    href: "https://vercel.com/guides/nextjs-multi-tenant-application",
-    icon: <FileCode width={18} />,
-  },
+  // {
+  //   name: "Read the guide",
+  //   href: "https://vercel.com/guides/nextjs-multi-tenant-application",
+  //   icon: <FileCode width={18} />,
+  // },
   {
     name: "View demo site",
-    href: "https://demo.vercel.pub",
+    href: `${process.env.production ? "https" : "http"}://demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
     icon: <Layout width={18} />,
-  },
-  {
-    name: "Deploy your own",
-    href: "https://vercel.com/templates/next.js/platforms-starter-kit",
-    icon: (
-      <svg
-        width={18}
-        viewBox="0 0 76 76"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="py-1 text-black dark:text-white"
-      >
-        <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor" />
-      </svg>
-    ),
   },
 ];
 
@@ -278,7 +263,7 @@ export default function Nav({ children }: { children: ReactNode }) {
           </div>
         </div>
         <div>
-          {/* <div className="grid gap-1">
+          <div className="grid gap-1">
             {externalLinks.map(({ name, href, icon }) => (
               <a
                 key={name}
@@ -294,7 +279,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <p>↗</p>
               </a>
             ))}
-          </div> */}
+          </div>
           <div className="my-2 border-t border-stone-200 dark:border-stone-700" />
           {children}
         </div>

@@ -30,14 +30,14 @@ export default async function Overview() {
         </div>
         <Suspense
           fallback={
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 4 }).map((_, i) => (
                 <PlaceholderCard key={i} />
               ))}
             </div>
           }
         >
-          <Knowledgebases limit={4} />
+          <Knowledgebases limit={3} />
         </Suspense>
       </div>
 

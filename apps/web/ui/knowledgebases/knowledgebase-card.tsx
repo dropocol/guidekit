@@ -30,8 +30,8 @@ export default function KnowledgebaseCard({ data }: { data: Knowledgebase }) {
             <BlurImage
               alt={data.name ?? "Knowledgebase thumbnail"}
               width={500}
-              height={400}
-              className="h-full object-cover"
+              height={500}
+              className="h-auto w-full object-cover"
               src={data.image}
               placeholder="blur"
               blurDataURL={data.imageBlurhash || placeholderBlurhash}

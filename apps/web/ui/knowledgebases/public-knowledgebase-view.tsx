@@ -28,7 +28,7 @@ export default function PublicKnowledgebaseView({
         className="helpkit-top-container flex h-[280px] flex-shrink-0 justify-center px-4 sm:h-[350px] xl:px-0"
         style={{
           background:
-            "radial-gradient(rgb(67, 30, 168) 1.28205%, rgb(28, 9, 45) 94.8718%)",
+            "radial-gradient(rgb(40, 40, 40) 1.28205%, rgb(0, 0, 0) 94.8718%)",
         }}
       >
         <div className="mt-4 text-center sm:mt-8">
