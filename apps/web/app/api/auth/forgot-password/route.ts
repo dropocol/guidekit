@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
     const resetUrl = `${protocol}://${process.env.NEXT_PUBLIC_APP_DOMAIN}/reset-password?token=${token}`;
 
-    const from = `${process.env.NEXT_PUBLIC_APP_NAME || "ContentBay"} <${process.env.NEXT_PUBLIC_APP_EMAIL || "noreply@contentbay.co"}>`;
+    const from = `${process.env.NEXT_PUBLIC_APP_NAME || "ContentBay"} <${process.env.NEXT_PUBLIC_APP_EMAIL || "noreply@guidekit.cc"}>`;
 
     const res = await resend.emails.send({
       from: from,

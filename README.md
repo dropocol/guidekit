@@ -1,4 +1,4 @@
-![GuideKit](https://app.contentbay.co/og-image.png)
+![GuideKit](https://app.guidekit.cc/og-image.png)
 
 # GuideKit - Knowledge Base Platform
 
