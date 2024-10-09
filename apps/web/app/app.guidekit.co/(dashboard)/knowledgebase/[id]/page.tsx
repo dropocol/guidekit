@@ -30,9 +30,9 @@ export default function KnowledgebasePage({
   const [isResyncing, setIsResyncing] = useState(false);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!session) {
       router.push("/login");
-    } else if (status === "authenticated") {
+    } else {
       fetchKnowledgebase();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +77,8 @@ export default function KnowledgebasePage({
       </div>
     );
 
-  new Promise((resolve) => setTimeout(resolve, 1000));
+  // For testing
+  // new Promise((resolve) => setTimeout(resolve, 1000));
 
   return (
     <Suspense>

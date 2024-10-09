@@ -1,21 +1,14 @@
 import type { NextAuthConfig } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
-import { compare } from "bcryptjs";
 import { AuthError, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
-import {
-  getUserByEmail,
-  getAllUsers,
-  getUserById,
-  checkCredentials,
-} from "@/data/user";
+import { getUserById, checkCredentials } from "@/data/user";
 import { CredentialsSignin } from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 
-class InvalidLoginError extends CredentialsSignin {
-  code = "Invalid Email or password";
-}
+// class InvalidLoginError extends CredentialsSignin {
+//   code = "Invalid Email or password";
+// }
 
 class CustomError extends AuthError {
   constructor(message: string) {
@@ -25,13 +18,13 @@ class CustomError extends AuthError {
   override stack = "";
 }
 
-class CredentialsError extends CredentialsSignin {
-  constructor(message: string) {
-    super(message);
-    this.message = message;
-  }
-  override stack = "";
-}
+// class CredentialsError extends CredentialsSignin {
+//   constructor(message: string) {
+//     super(message);
+//     this.message = message;
+//   }
+//   override stack = "";
+// }
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
@@ -88,34 +81,6 @@ export const authConfig: NextAuthConfig = {
   },
 
   callbacks: {
-    // async jwt({ token, user, trigger }) {
-    //   if (user) {
-    //     token.user = user;
-    //   }
-    //   if (trigger === "update") {
-    //     const refreshedUser = await getUserById(token.sub as string);
-    //     if (refreshedUser) {
-    //       token = { ...token, ...refreshedUser, user: refreshedUser };
-    //     }
-    //   }
-    //   return token;
-    // },
-
-    // async jwt({ token, user, trigger, session }) {
-    //   if (user) {
-    //     token.user = user;
-    //   }
-    //   if (trigger === "update" && session?.name) {
-    //     token.name = session.name;
-    //   }
-    //   return token;
-    // },
-
-    // async session({ session, token }) {
-    //   session.user = token.user as any;
-    //   return session;
-    // },
-
     jwt: async ({
       token,
       user,
@@ -126,8 +91,8 @@ export const authConfig: NextAuthConfig = {
       trigger?: "signIn" | "update" | "signUp";
     }) => {
       // console.log("JWT Callback - Token        :", token);
-      //console.log("JWT Callback - User         :", user);
-      console.log("JWT Callback - Trigger      :", trigger);
+      // console.log("JWT Callback - User         :", user);
+      // console.log("JWT Callback - Trigger      :", trigger);
 
       if (user) {
         token.user = user;
@@ -152,9 +117,9 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
     session: async ({ session, token, trigger }) => {
-      //console.log("SESSION Callback - Session  :", session);
+      // console.log("SESSION Callback - Session  :", session);
       // console.log("SESSION Callback - Token    :", token);
-      console.log("SESSION Callback - Trigger  :", trigger);
+      // console.log("SESSION Callback - Trigger  :", trigger);
 
       session.user = {
         id: token.sub,

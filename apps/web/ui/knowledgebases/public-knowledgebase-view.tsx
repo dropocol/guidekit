@@ -36,12 +36,12 @@ export default function PublicKnowledgebaseView({
             <div className="flex items-center justify-center">
               {knowledgebase.logo && (
                 <>
-                  <Link href="/" className="flex">
+                  <Link href="/" className="flex w-full max-w-32">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={knowledgebase.logo!}
                       alt={knowledgebase.name}
-                      className="h-12 w-auto"
+                      className="h-auto w-auto"
                     />
                   </Link>
                   <div className="mx-3 h-8 w-px bg-white"></div>
