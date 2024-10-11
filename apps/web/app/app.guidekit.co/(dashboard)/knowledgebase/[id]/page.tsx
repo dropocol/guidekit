@@ -98,7 +98,7 @@ export default function KnowledgebasePage({
               <RefreshCw
                 className={`mr-2 h-4 w-4 ${isResyncing ? "animate-spin" : ""}`}
               />
-              {isResyncing ? "Resyncing..." : "Sync Now"}
+              {isResyncing ? "Resyncing..." : "Resync"}
             </button>
           </div>
         </div>

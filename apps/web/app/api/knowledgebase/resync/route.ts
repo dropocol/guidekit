@@ -81,9 +81,10 @@ export async function POST(req: NextRequest) {
           const existingSubCollection = await prisma.subCollection.findFirst({
             where: {
               collectionId: updatedCollection.id,
-              name: subCollection.name,
             },
           });
+
+          console.log("existingSubCollection", existingSubCollection);
 
           const subCollectionData = {
             name: subCollection.name,
@@ -106,6 +107,7 @@ export async function POST(req: NextRequest) {
             });
           } else {
             // Create new subcollection
+
             updatedSubCollection = await prisma.subCollection.create({
               data: subCollectionData,
             });

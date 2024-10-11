@@ -38,6 +38,8 @@ export async function GET(
       );
     }
 
+    // console.log("knowledgebase", knowledgebase.collections);
+
     return NextResponse.json(knowledgebase);
   } catch (error) {
     return NextResponse.json(
