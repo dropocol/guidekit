@@ -9,18 +9,19 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  password       String?
-  email          String?         @unique
-  emailVerified  DateTime?
-  image          String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  article        Article[]
-  collection     Collection[]
-  knowledgebases Knowledgebase[]
-  subCollection  SubCollection[]
+  id              String          @id @default(cuid())
+  name            String?
+  password        String?
+  email           String?         @unique
+  isEmailVerified Boolean         @default(false)
+  emailVerifiedAt DateTime?
+  image           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  knowledgebase   Knowledgebase[]
+  article         Article[]
+  collection      Collection[]
+  subCollection   SubCollection[]
 
   @@index([email])
 }
@@ -38,12 +39,9 @@ model Knowledgebase {
   name          String
   description   String?
   logo          String?
-  font          String       @default("font-cal")
+  favicon       String?
   notionLink    String
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
   userId        String
-  articleCount  Int          @default(0)
   slug          String?      @unique
   subdomain     String?      @unique
   customDomain  String?      @unique
@@ -51,8 +49,10 @@ model Knowledgebase {
   imageBlurhash String?
   message404    String?      @default("Blimey! You've found a page that doesn't exist.")
   totalVisitors Int          @default(0)
+  articleCount  Int          @default(0)
   lastVisited   DateTime?
-  favicon       String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   articles      Article[]
   collections   Collection[]
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -82,11 +82,11 @@ model SubCollection {
   slug                 String
   description          String
   type                 String
+  userId               String
+  collectionId         String
   notion_view_ids      String[]
   notion_collection_id String
-  collectionId         String
   articleCount         Int        @default(0)
-  userId               String
   articles             Article[]
   collection           Collection @relation("SubCollection", fields: [collectionId], references: [id], onDelete: Cascade)
   user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
