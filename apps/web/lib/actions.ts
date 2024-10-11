@@ -213,7 +213,7 @@ export async function createKnowledgebase(formData: FormData) {
                           const { id, ...rest } = article;
                           return {
                             ...rest,
-                            notionId: id,
+                            notion_id: id,
                             slug: slugify(article.title), // Generate slug for article
                             properties: article.properties,
                             recordMap: article.recordMap,

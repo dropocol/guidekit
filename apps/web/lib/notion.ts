@@ -52,7 +52,7 @@ export async function getNotionData(
             try {
               const subCollectionData = await notion.getCollectionData(
                 subCollection.notion_collection_id,
-                subCollection.view_ids[0],
+                subCollection.notion_view_ids[0],
                 {},
               );
 
@@ -192,7 +192,7 @@ function processBlocks(collectionPage: any): Collection[] {
           name: "Untitled",
           slug: "",
           description: "",
-          view_ids: subBlock.value.view_ids,
+          notion_view_ids: subBlock.value.view_ids,
           notion_collection_id: subBlock.value.collection_id,
           articles: [],
           articleCount: 0,

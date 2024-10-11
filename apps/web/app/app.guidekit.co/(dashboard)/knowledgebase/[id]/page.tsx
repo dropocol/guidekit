@@ -29,15 +29,6 @@ export default function KnowledgebasePage({
     useState<CollectionWithSubCollections | null>(null);
   const [isResyncing, setIsResyncing] = useState(false);
 
-  useEffect(() => {
-    if (!session) {
-      router.push("/login");
-    } else {
-      fetchKnowledgebase();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, router, params.id]);
-
   const fetchKnowledgebase = async () => {
     const response = await fetch(`/api/knowledgebase/${params.id}`);
     const data = await response.json();
@@ -46,6 +37,15 @@ export default function KnowledgebasePage({
       setSelectedCollection(data.collections[0]);
     }
   };
+
+  useEffect(() => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      fetchKnowledgebase();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   const handleResync = async () => {
     setIsResyncing(true);

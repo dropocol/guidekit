@@ -11,55 +11,18 @@ datasource db {
 model User {
   id             String          @id @default(cuid())
   name           String?
-  username       String?
   password       String?
-  gh_username    String?
   email          String?         @unique
   emailVerified  DateTime?
   image          String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  accounts       Account[]
   article        Article[]
   collection     Collection[]
   knowledgebases Knowledgebase[]
-  sessions       Session[]
   subCollection  SubCollection[]
 
   @@index([email])
-  @@index([username])
-}
-
-model Account {
-  id                       String  @id @default(cuid())
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?
-  refresh_token_expires_in Int?
-  access_token             String?
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?
-  session_state            String?
-  oauth_token_secret       String?
-  oauth_token              String?
-  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@index([userId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }
 
 model VerificationToken {
@@ -119,7 +82,7 @@ model SubCollection {
   slug                 String
   description          String
   type                 String
-  view_ids             String[]
+  notion_view_ids      String[]
   notion_collection_id String
   collectionId         String
   articleCount         Int        @default(0)
@@ -144,7 +107,7 @@ model Article {
   userId          String
   subCollectionId String
   knowledgebaseId String
-  notionId        String?
+  notion_id       String?
   knowledgebase   Knowledgebase @relation(fields: [knowledgebaseId], references: [id], onDelete: Cascade)
   subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade)
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)

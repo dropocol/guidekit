@@ -102,7 +102,7 @@ export type SubCollection = {
   type: string;
   articles: Article[];
   articleCount: number;
-  view_ids: string[];
+  notion_view_ids: string[];
   notion_collection_id: string;
   slug: string;
 };

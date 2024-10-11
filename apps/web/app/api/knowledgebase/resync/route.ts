@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
             description: subCollection.description || "",
             type: subCollection.type,
             articleCount: subCollection.articleCount,
-            view_ids: subCollection.view_ids,
+            notion_view_ids: subCollection.notion_view_ids,
             notion_collection_id: subCollection.notion_collection_id,
             userId: userId,
             collectionId: updatedCollection.id,
@@ -120,12 +120,12 @@ export async function POST(req: NextRequest) {
             const existingArticle = await prisma.article.findFirst({
               where: {
                 subCollectionId: updatedSubCollection.id,
-                notionId: article.id,
+                notion_id: article.id,
               },
             });
 
             const articleData = {
-              notionId: article.id,
+              notion_id: article.id,
               title: article.title,
               slug: slugify(article.title),
               description: article.description || "",
@@ -155,7 +155,7 @@ export async function POST(req: NextRequest) {
             await prisma.article.deleteMany({
               where: {
                 subCollectionId: existingSubCollection.id,
-                notionId: { notIn: notionArticleIds },
+                notion_id: { notIn: notionArticleIds },
               },
             });
           }

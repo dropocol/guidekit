@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     });
 
     const recordMap: ExtendedRecordMap = await notion.getPage(
-      article?.notionId!,
+      article?.notion_id!,
     );
 
     // TODO : update article with recordMap
