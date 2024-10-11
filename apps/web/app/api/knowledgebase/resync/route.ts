@@ -4,7 +4,7 @@ import { getNotionData } from "@/lib/notion";
 import { getSession } from "@/auth";
 import { slugify } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
-
+import fs from "fs";
 export async function POST(req: NextRequest) {
   const session = await getSession();
   if (!session?.user?.id) {
@@ -81,6 +81,8 @@ export async function POST(req: NextRequest) {
           const existingSubCollection = await prisma.subCollection.findFirst({
             where: {
               collectionId: updatedCollection.id,
+              name: subCollection.name,
+              notion_collection_id: subCollection.notion_collection_id, // Add this line
             },
           });
 
@@ -93,7 +95,7 @@ export async function POST(req: NextRequest) {
             type: subCollection.type,
             articleCount: subCollection.articleCount,
             view_ids: subCollection.view_ids,
-            collection_id: subCollection.collection_id,
+            notion_collection_id: subCollection.notion_collection_id,
             userId: userId,
             collectionId: updatedCollection.id,
           };
@@ -190,4 +192,8 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
+}
+
+async function saveToFile(filePath: string, data: any) {
+  await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
 }

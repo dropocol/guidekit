@@ -100,7 +100,7 @@ CREATE TABLE "SubCollection" (
     "description" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "view_ids" TEXT[],
-    "collection_id" TEXT NOT NULL,
+    "notion_collection_id" TEXT NOT NULL,
     "collectionId" TEXT NOT NULL,
     "articleCount" INTEGER NOT NULL DEFAULT 0,
     "userId" TEXT NOT NULL,

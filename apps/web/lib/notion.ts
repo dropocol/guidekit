@@ -51,14 +51,14 @@ export async function getNotionData(
           collection.subCollections.map(async (subCollection) => {
             try {
               const subCollectionData = await notion.getCollectionData(
-                subCollection.collection_id,
+                subCollection.notion_collection_id,
                 subCollection.view_ids[0],
                 {},
               );
 
               const { name, description } = extractSubCollectionInfo(
                 subCollectionData,
-                subCollection.collection_id,
+                subCollection.notion_collection_id,
               );
 
               const articles =
@@ -193,7 +193,7 @@ function processBlocks(collectionPage: any): Collection[] {
           slug: "",
           description: "",
           view_ids: subBlock.value.view_ids,
-          collection_id: subBlock.value.collection_id, // Changed from collectionId
+          notion_collection_id: subBlock.value.collection_id,
           articles: [],
           articleCount: 0,
         }));
@@ -275,7 +275,7 @@ async function processSubCollectionArticles(
         description: (block.value.properties as any)?.["b<py"]?.[0]?.[0] || "",
         properties: block.value.properties || {},
         recordMap: {},
-        subCollectionId: subCollection.result.collection_id,
+        subCollectionId: subCollection.result.notion_collection_id,
       };
       processedCollection.push(pageInfo);
     }

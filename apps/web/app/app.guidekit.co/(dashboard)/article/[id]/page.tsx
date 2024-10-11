@@ -53,8 +53,8 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     );
 
   return (
-    <div className="flex">
-      <div className="w-full">
+    <div className="flex justify-center">
+      <div className="w-full max-w-4xl">
         {recordMap && (
           <NotionRenderer
             recordMap={recordMap}

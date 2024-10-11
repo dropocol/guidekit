@@ -75,7 +75,6 @@ model Knowledgebase {
   name          String
   description   String?
   logo          String?
-  favicon       String?
   font          String       @default("font-cal")
   notionLink    String
   createdAt     DateTime     @default(now())
@@ -90,6 +89,7 @@ model Knowledgebase {
   message404    String?      @default("Blimey! You've found a page that doesn't exist.")
   totalVisitors Int          @default(0)
   lastVisited   DateTime?
+  favicon       String?
   articles      Article[]
   collections   Collection[]
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -114,19 +114,19 @@ model Collection {
 }
 
 model SubCollection {
-  id            String     @id @default(cuid())
-  name          String
-  slug          String
-  description   String
-  type          String
-  view_ids      String[]
-  collection_id String
-  collectionId  String
-  articleCount  Int        @default(0)
-  userId        String
-  articles      Article[]
-  collection    Collection @relation("SubCollection", fields: [collectionId], references: [id], onDelete: Cascade)
-  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String     @id @default(cuid())
+  name                 String
+  slug                 String
+  description          String
+  type                 String
+  view_ids             String[]
+  notion_collection_id String
+  collectionId         String
+  articleCount         Int        @default(0)
+  userId               String
+  articles             Article[]
+  collection           Collection @relation("SubCollection", fields: [collectionId], references: [id], onDelete: Cascade)
+  user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([collectionId])
 }

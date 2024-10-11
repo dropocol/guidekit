@@ -201,11 +201,12 @@ export async function createKnowledgebase(formData: FormData) {
               create:
                 collection.subCollections?.map((subCollection) => {
                   // console.log("Processing subCollection ID:", subCollection.id);
-                  const { id, ...rest } = subCollection;
+                  const { id, notion_collection_id, ...rest } = subCollection;
                   return {
                     ...rest,
                     slug: slugify(subCollection.name), // Generate slug for subCollection
                     userId: userId,
+                    notion_collection_id: notion_collection_id,
                     articles: {
                       create:
                         subCollection.articles?.map((article) => {
