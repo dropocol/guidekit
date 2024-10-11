@@ -7,9 +7,9 @@
 
 */
 -- AlterTable
-ALTER TABLE "Article" DROP COLUMN "notionId",
-ADD COLUMN     "notion_id" TEXT;
+ALTER TABLE "Article"
+RENAME COLUMN "notionId" TO "notion_id";
 
 -- AlterTable
-ALTER TABLE "SubCollection" DROP COLUMN "collection_id",
-ADD COLUMN     "notion_collection_id" TEXT NOT NULL;
+ALTER TABLE "SubCollection"
+RENAME COLUMN "collection_id" TO "notion_collection_id";
