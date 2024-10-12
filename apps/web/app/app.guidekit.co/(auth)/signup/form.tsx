@@ -29,6 +29,7 @@ export default function RegisterForm() {
     });
 
     const data = await res.json();
+    console.log(data);
     if (data?.success) {
       toast.success("Account created successfully!");
       router.push("/login");

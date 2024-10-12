@@ -23,10 +23,13 @@ export default function KnowledgebasePage({
 }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+
   const [knowledgebase, setKnowledgebase] =
     useState<KnowledgebaseWithCollections | null>(null);
+
   const [selectedCollection, setSelectedCollection] =
     useState<CollectionWithSubCollections | null>(null);
+
   const [isResyncing, setIsResyncing] = useState(false);
 
   const fetchKnowledgebase = async () => {
@@ -39,13 +42,21 @@ export default function KnowledgebasePage({
   };
 
   useEffect(() => {
-    if (!session) {
+    if (status === "unauthenticated") {
       router.push("/login");
-    } else {
+    } else if (status === "authenticated") {
       fetchKnowledgebase();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingDots />
+      </div>
+    );
+  }
 
   const handleResync = async () => {
     setIsResyncing(true);

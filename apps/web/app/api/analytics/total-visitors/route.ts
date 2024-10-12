@@ -4,14 +4,6 @@ import { getSession } from "@/auth";
 
 export async function GET() {
   try {
-    // console.log("Fetching total visitors");
-    // console.log(process.env);
-    // const result = await prisma.knowledgebase.aggregate({
-    //   _sum: {
-    //     totalVisitors: true,
-    //   },
-    // });
-
     const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

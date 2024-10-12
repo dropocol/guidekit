@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
+      success: true,
       user: user,
       message: "success",
       status: 200,
