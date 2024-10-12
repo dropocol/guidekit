@@ -32,7 +32,7 @@ export default function RegisterForm() {
     console.log(data);
     if (data?.success) {
       toast.success("Account created successfully!");
-      router.push("/login");
+      // router.push("/login");
     } else {
       toast.error(data?.error || "Something went wrong");
     }
