@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
               slug: slugify(article.title),
               description: article.description || "",
               properties: article.properties as Prisma.InputJsonValue,
-              recordMap: article.recordMap as Prisma.InputJsonValue,
+              recordMap: JSON.stringify(article.recordMap),
               userId: userId,
               knowledgebaseId: id,
               subCollectionId: updatedSubCollection.id,

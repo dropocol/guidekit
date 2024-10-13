@@ -99,7 +99,7 @@ model Article {
   title           String
   slug            String
   properties      Json
-  recordMap       Json?
+  recordMap       String?
   description     String
   image           String?
   visits          Int           @default(0)

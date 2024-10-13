@@ -25,10 +25,11 @@ export default async function DashboardLayout({
           <Profile />
         </Suspense>
       </Nav>
-      {/* {session?.user && !session.user.emailVerified && ( */}
-      {/* )} */}
+
       <div className="min-h-screen sm:pl-60 dark:bg-black">
-        <UnverifiedEmailBanner />
+        {session?.user && !session.user.isEmailVerified && (
+          <UnverifiedEmailBanner />
+        )}
         {children}
       </div>
     </div>

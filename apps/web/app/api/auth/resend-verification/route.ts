@@ -36,7 +36,7 @@ export async function POST() {
     },
   });
 
-  await sendVerificationEmail(user.email!, verificationToken);
+  await sendVerificationEmail(user.email!);
 
   return NextResponse.json({ message: "Verification email sent" });
 }

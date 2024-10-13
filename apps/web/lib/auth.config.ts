@@ -6,6 +6,11 @@ import { AdapterUser } from "next-auth/adapters";
 import { getUserById, checkCredentials } from "@/data/user";
 import { CredentialsSignin } from "next-auth";
 
+declare module "next-auth" {
+  interface User {
+    isEmailVerified?: boolean;
+  }
+}
 // class InvalidLoginError extends CredentialsSignin {
 //   code = "Invalid Email or password";
 // }
@@ -104,7 +109,7 @@ export const authConfig: NextAuthConfig = {
         if (refreshedUser) {
           const updateToken = {
             ...token,
-            ...refreshedUser,
+            // ...refreshedUser,
             user: refreshedUser,
           };
 

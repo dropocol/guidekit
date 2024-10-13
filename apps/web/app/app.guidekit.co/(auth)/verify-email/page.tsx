@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle, XCircle } from "lucide-react";
-import Link from "next/link";
+import { Logo, Button } from "@/ui";
+import { HOME_DOMAIN } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 export default function VerifyEmailPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const { data: session, update, status } = useSession();
   useEffect(() => {
     const verifyEmail = async () => {
       if (!token) {
@@ -33,6 +36,16 @@ export default function VerifyEmailPage() {
 
         if (response.ok) {
           setVerificationStatus("success");
+          console.log("SESSION: ", session);
+          if (session) {
+            await update({
+              ...session,
+              user: {
+                ...session?.user,
+                isEmailVerified: true,
+              },
+            });
+          }
         } else {
           setVerificationStatus("error");
           setErrorMessage(data.error || "Failed to verify email");
@@ -43,12 +56,27 @@ export default function VerifyEmailPage() {
       }
     };
 
-    verifyEmail();
-  }, [token]);
+    if (status !== "loading") {
+      verifyEmail();
+    }
+  }, [status, session, token, update]);
+
+  const handleLoginClick = () => {
+    router.push("/login");
+  };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+    <div className="relative z-10 mt-[calc(10%)] h-fit w-full max-w-md overflow-hidden border-y border-gray-200 sm:rounded-2xl sm:border sm:shadow-xl">
+      <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16">
+        <a href={HOME_DOMAIN}>
+          <Logo className="h-10 w-10" />
+        </a>
+        <h3 className="text-xl font-semibold">Verify Your Email</h3>
+        {/* <p className="text-sm text-gray-500">
+          We&apos;re confirming your email address
+        </p> */}
+      </div>
+      <div className="flex flex-col space-y-3 bg-gray-50 px-4 py-8 sm:px-16">
         {verificationStatus === "loading" && (
           <div className="text-center">
             <p className="text-lg font-semibold">Verifying your email...</p>
@@ -59,18 +87,18 @@ export default function VerifyEmailPage() {
           <div className="text-center">
             <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
             <h1 className="mt-4 text-2xl font-bold text-green-600">
-              Email Verified Successfully
+              Email Verified
             </h1>
-            <p className="mt-2 text-gray-600">
-              Your email has been verified. You can now use all features of your
-              account.
+            <p className="mb-8 mt-2 text-sm text-gray-500">
+              Your email has been verified successfully.
             </p>
-            <Link
-              href="/login"
-              className="mt-4 inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-            >
-              Go to Login
-            </Link>
+            <Button
+              text="Go to Login"
+              variant="primary"
+              type="button"
+              onClick={handleLoginClick}
+              className="mt-4"
+            />
           </div>
         )}
 
@@ -80,13 +108,14 @@ export default function VerifyEmailPage() {
             <h1 className="mt-4 text-2xl font-bold text-red-600">
               Verification Failed
             </h1>
-            <p className="mt-2 text-gray-600">{errorMessage}</p>
-            <Link
-              href="/login"
-              className="mt-4 inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-            >
-              Go to Login
-            </Link>
+            <p className="mb-8 mt-2 text-sm text-gray-500">{errorMessage}</p>
+            <Button
+              text="Go to Login"
+              variant="primary"
+              type="button"
+              onClick={handleLoginClick}
+              className="mt-4"
+            />
           </div>
         )}
       </div>

@@ -16,6 +16,7 @@ import { Prisma } from "@prisma/client";
 import { slugify } from "@/lib/utils"; // Add this import
 import { hash } from "bcryptjs"; // Import bcryptjs for hashing passwords
 import { signIn } from "next-auth/react";
+import { sendVerificationEmail } from "./email";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -37,9 +38,13 @@ export async function editUser(formData: FormData) {
       data: {
         name: name || undefined,
         email: email || undefined,
+        ...(email && { isEmailVerified: email === session.user.email }),
       },
     });
 
+    if (session.user.email !== updatedUser.email) {
+      await sendVerificationEmail(updatedUser.email!);
+    }
     // Trigger the JWT update
     await unstable_update({
       user: {
@@ -188,15 +193,9 @@ export async function createKnowledgebase(formData: FormData) {
         await prisma.collection.create({
           data: {
             ...rest,
-            // name: collection.name,
             slug: slugify(collection.name),
-            // pageIcon: collection.pageIcon,
             userId: userId,
-            // description: collection.description,
             knowledgebaseId: knowledgebase.id,
-            // type: collection.type,
-            // articleCount: collection.articleCount,
-            // properties: collection.properties,
             subCollections: {
               create:
                 collection.subCollections?.map((subCollection) => {
@@ -216,7 +215,7 @@ export async function createKnowledgebase(formData: FormData) {
                             notion_id: id,
                             slug: slugify(article.title), // Generate slug for article
                             properties: article.properties,
-                            recordMap: article.recordMap,
+                            recordMap: JSON.stringify(article.recordMap),
                             userId: userId,
                             knowledgebaseId: knowledgebase.id,
                           };

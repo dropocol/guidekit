@@ -21,8 +21,6 @@ export async function POST(request: Request) {
     }
 
     const hashedPassword = await hash(password, 10);
-    const verificationToken = nanoid();
-
     const user = await prisma.user.create({
       data: {
         name,
@@ -31,15 +29,7 @@ export async function POST(request: Request) {
       },
     });
 
-    await prisma.verificationToken.create({
-      data: {
-        identifier: email,
-        token: verificationToken,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
-      },
-    });
-
-    await sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email);
 
     return NextResponse.json({
       success: true,
