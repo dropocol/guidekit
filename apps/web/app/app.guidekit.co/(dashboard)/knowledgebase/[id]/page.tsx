@@ -42,6 +42,8 @@ export default function KnowledgebasePage({
   };
 
   useEffect(() => {
+    console.log("status", status);
+    console.log("session", session);
     if (status === "unauthenticated") {
       router.push("/login");
     } else if (status === "authenticated") {

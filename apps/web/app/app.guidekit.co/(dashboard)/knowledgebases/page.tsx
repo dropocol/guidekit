@@ -10,6 +10,7 @@ import CreateKnowledgebaseModal from "@/ui/modal/create-knowledgebase";
 
 export default async function KnowledgebasesPage() {
   const session = await getSession();
+
   if (!session) {
     redirect("/login");
   }

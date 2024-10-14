@@ -4,6 +4,9 @@ module.exports = {
   // output: "export",
   // output: "standalone",
   // distDir: "build",
+  experimental: {
+    serverComponentsExternalPackages: ["keyv", "cacheable-request", "got"],
+  },
   logging: {
     fetches: {
       fullUrl: false,

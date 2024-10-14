@@ -81,12 +81,13 @@ export async function POST(req: NextRequest) {
           const existingSubCollection = await prisma.subCollection.findFirst({
             where: {
               collectionId: updatedCollection.id,
-              name: subCollection.name,
+              // name: subCollection.name,
               notion_collection_id: subCollection.notion_collection_id, // Add this line
             },
           });
 
-          console.log("existingSubCollection", existingSubCollection);
+          console.log("\nSubCollection Name   :", subCollection.name);
+          console.log("Existing SubCollection :", existingSubCollection);
 
           const subCollectionData = {
             name: subCollection.name,
@@ -109,7 +110,6 @@ export async function POST(req: NextRequest) {
             });
           } else {
             // Create new subcollection
-
             updatedSubCollection = await prisma.subCollection.create({
               data: subCollectionData,
             });
@@ -161,15 +161,35 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        // Delete subcollections that no longer exist in Notion
-        const notionSubCollectionNames =
-          collection.subCollections?.map((sc) => sc.name) || [];
-        await prisma.subCollection.deleteMany({
-          where: {
-            collectionId: updatedCollection.id,
-            name: { notIn: notionSubCollectionNames },
-          },
+        // Handle subcollections deletion
+        const notionSubCollections = collection.subCollections || [];
+        const notionSubCollectionMap = new Map(
+          notionSubCollections.map((sc) => [sc.notion_collection_id, sc.name]),
+        );
+
+        const existingSubCollections = await prisma.subCollection.findMany({
+          where: { collectionId: updatedCollection.id },
+          select: { id: true, name: true, notion_collection_id: true },
         });
+
+        for (const subCollection of existingSubCollections) {
+          const notionName = notionSubCollectionMap.get(
+            subCollection.notion_collection_id!,
+          );
+
+          if (!notionName) {
+            // Delete subcollection if it no longer exists in Notion
+            await prisma.subCollection.delete({
+              where: { id: subCollection.id },
+            });
+          } else if (notionName !== subCollection.name) {
+            // Update subcollection name if it has changed in Notion
+            await prisma.subCollection.update({
+              where: { id: subCollection.id },
+              data: { name: notionName },
+            });
+          }
+        }
       }
 
       // Delete collections that no longer exist in Notion

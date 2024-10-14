@@ -85,7 +85,7 @@ model SubCollection {
   userId               String
   collectionId         String
   notion_view_ids      String[]
-  notion_collection_id String
+  notion_collection_id String?
   articleCount         Int        @default(0)
   articles             Article[]
   collection           Collection @relation("SubCollection", fields: [collectionId], references: [id], onDelete: Cascade)
