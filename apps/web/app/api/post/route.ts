@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { NotionAPI } from "notion-client";
-import { Prisma } from "@prisma/client";
-import { JsonValue, JsonObject } from "next-auth/adapters";
 import { ExtendedRecordMap, RecordMap } from "notion-types";
-import fs, { writeFile } from "fs";
+import { saveToFile } from "@/lib/serverUtils";
 
 const notion = new NotionAPI();
 
@@ -29,7 +27,7 @@ export async function POST(req: Request) {
       Object.keys(convertedRecordMap).length > 0
     ) {
       // Parse the stored JSON before returning
-      saveToFile("json/article-json.txt", article.recordMap);
+      saveToFile("json/article-json.json", article.recordMap);
       return NextResponse.json({
         recordMap: convertedRecordMap,
       });
@@ -37,7 +35,7 @@ export async function POST(req: Request) {
 
     // If recordMap doesn't exist or is empty, fetch it from Notion
     const recordMap = await notion.getPage(article.notion_id!);
-    saveToFile("json/article-web.txt", recordMap);
+    saveToFile("json/article-web.json", recordMap);
 
     const savedRecordMap = JSON.stringify(recordMap);
 
@@ -57,9 +55,13 @@ export async function POST(req: Request) {
     );
   }
 }
-async function saveToFile(filePath: string, data: any) {
-  await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
-}
+
+// async function saveToFile(filePath: string, data: any) {
+//   if (process.env.NODE_ENV === "development") {
+//     await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
+//   }
+//   return;
+// }
 
 function ensureConsistentStructure(
   recordMap: ExtendedRecordMap,

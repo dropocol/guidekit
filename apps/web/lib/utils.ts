@@ -1,6 +1,17 @@
+// import fs from "fs";
+// import { promises } from "fs";
+// const fs = require("fs/promises"); // LOOK HERE
+
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Metadata } from "next";
+
+// export async function saveToFile(filePath: string, data: any) {
+//   if (process.env.NODE_ENV === "development") {
+//     await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
+//   }
+//   return;
+// }
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

@@ -32,7 +32,7 @@ export default function PublicKnowledgebaseView({
         }}
       >
         <div className="mt-4 text-center sm:mt-8">
-          <div className="mb-16 flex justify-center">
+          <div className="mb-8 flex justify-center">
             <div className="flex items-center justify-center">
               {knowledgebase.logo && (
                 <>
