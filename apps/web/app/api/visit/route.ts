@@ -35,13 +35,13 @@ export async function POST(req: NextRequest) {
       const knowledgebaseAnalytics = await tx.knowledgebaseAnalytics.upsert({
         where: { knowledgebaseId },
         update: {
-          totalVisitors: { increment: 1 },
+          totalVisits: { increment: 1 },
           lastVisited: now,
         },
         create: {
           knowledgebaseId,
           userId,
-          totalVisitors: 1,
+          totalVisits: 1,
           lastVisited: now,
         },
       });
@@ -66,8 +66,8 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // Create or update DailyVisit for knowledgebase
-      await tx.dailyVisit.upsert({
+      // Create or update DailyAnalytics for knowledgebase
+      await tx.dailyAnalytics.upsert({
         where: {
           date_knowledgebaseAnalyticsId: {
             date: today,
@@ -75,12 +75,12 @@ export async function POST(req: NextRequest) {
           },
         },
         update: {
-          visits: { increment: 1 },
+          totalVisits: { increment: 1 },
         },
         create: {
           userId,
           date: today,
-          visits: 1,
+          totalVisits: 1,
           knowledgebaseAnalyticsId: knowledgebaseAnalytics.id,
         },
       });
@@ -101,8 +101,8 @@ export async function POST(req: NextRequest) {
           },
         });
 
-        // Create or update DailyVisit for article
-        await tx.dailyVisit.upsert({
+        // Create or update DailyAnalytics for article
+        await tx.dailyAnalytics.upsert({
           where: {
             date_articleAnalyticsId: {
               date: today,
@@ -110,12 +110,12 @@ export async function POST(req: NextRequest) {
             },
           },
           update: {
-            visits: { increment: 1 },
+            totalVisits: { increment: 1 },
           },
           create: {
             userId,
             date: today,
-            visits: 1,
+            totalVisits: 1,
             articleAnalyticsId: articleAnalytics.id,
           },
         });

@@ -25,7 +25,7 @@ model User {
   knowledgebaseAnalytics KnowledgebaseAnalytics[]
   articleAnalytics       ArticleAnalytics[]
   monthlyAnalytics       UserMonthlyAnalytics[]
-  dailyVisits            DailyVisit[] // Add this line
+  dailyAnalytics         DailyAnalytics[]
 
   @@index([email])
 }
@@ -117,38 +117,38 @@ model Article {
 
 // Analytics
 model KnowledgebaseAnalytics {
-  id              String       @id @default(cuid())
-  knowledgebaseId String       @unique
-  userId          String // Add this line
-  totalVisitors   Int          @default(0)
+  id              String           @id @default(cuid())
+  knowledgebaseId String           @unique
+  userId          String
+  totalVisits     Int              @default(0) // Changed from totalVisitors
   lastVisited     DateTime?
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  dailyVisits     DailyVisit[]
-  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  dailyAnalytics  DailyAnalytics[] // Changed from dailyVisits
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId]) // Add this line for better query performance
+  @@index([userId])
 }
 
 model ArticleAnalytics {
-  id          String       @id @default(cuid())
-  articleId   String       @unique
-  userId      String // Add this line
-  totalVisits Int          @default(0)
-  lastVisited DateTime?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  dailyVisits DailyVisit[]
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+  id             String           @id @default(cuid())
+  articleId      String           @unique
+  userId         String
+  totalVisits    Int              @default(0)
+  lastVisited    DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  dailyAnalytics DailyAnalytics[] // Changed from dailyVisits
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId]) // Add this line for better query performance
+  @@index([userId])
 }
 
-model DailyVisit {
+model DailyAnalytics {
   id                       String                  @id @default(cuid())
   userId                   String
   date                     DateTime
-  visits                   Int                     @default(0)
+  totalVisits              Int                     @default(0)
   knowledgebaseAnalytics   KnowledgebaseAnalytics? @relation(fields: [knowledgebaseAnalyticsId], references: [id])
   knowledgebaseAnalyticsId String?
   articleAnalytics         ArticleAnalytics?       @relation(fields: [articleAnalyticsId], references: [id])
@@ -158,6 +158,7 @@ model DailyVisit {
   @@unique([date, knowledgebaseAnalyticsId])
   @@unique([date, articleAnalyticsId])
   @@index([userId])
+  @@index([date])
 }
 
 model UserMonthlyAnalytics {
