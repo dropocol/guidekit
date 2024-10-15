@@ -159,7 +159,6 @@ export async function getKnowledgebaseData(
               },
             },
           },
-          // user: true,
         },
       });
     },

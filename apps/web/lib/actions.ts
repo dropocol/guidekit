@@ -168,7 +168,6 @@ export async function createKnowledgebase(formData: FormData) {
   }
 
   try {
-    const pageId = notionLink.split("-").pop();
     const knowledgebaseData = await getNotionData(notionLink!);
 
     if (knowledgebaseData && !(knowledgebaseData instanceof Error)) {
@@ -188,44 +187,54 @@ export async function createKnowledgebase(formData: FormData) {
       const collections = knowledgebaseData.collections;
 
       for (const collection of collections) {
-        const { id, ...rest } = collection;
-        console.log("rest", collection.id);
-        await prisma.collection.create({
+        const { id, subCollections, ...rest } = collection;
+        const collectionSlug = slugify(collection.name);
+        const createdCollection = await prisma.collection.create({
           data: {
             ...rest,
-            slug: slugify(collection.name),
+            slug: collectionSlug,
             userId: userId,
             knowledgebaseId: knowledgebase.id,
-            subCollections: {
-              create:
-                collection.subCollections?.map((subCollection) => {
-                  // console.log("Processing subCollection ID:", subCollection.id);
-                  const { id, notion_collection_id, ...rest } = subCollection;
-                  return {
-                    ...rest,
-                    slug: slugify(subCollection.name), // Generate slug for subCollection
-                    userId: userId,
-                    notion_collection_id: notion_collection_id,
-                    articles: {
-                      create:
-                        subCollection.articles?.map((article) => {
-                          const { id, ...rest } = article;
-                          return {
-                            ...rest,
-                            notion_id: id,
-                            slug: slugify(article.title), // Generate slug for article
-                            properties: article.properties,
-                            recordMap: JSON.stringify(article.recordMap),
-                            userId: userId,
-                            knowledgebaseId: knowledgebase.id,
-                          };
-                        }) || [],
-                    },
-                  };
-                }) || [],
-            },
           },
         });
+
+        for (const subCollection of subCollections || []) {
+          const { id, notion_collection_id, articles, ...rest } = subCollection;
+          const subCollectionSlug = slugify(subCollection.name);
+          const createdSubCollection = await prisma.subCollection.create({
+            data: {
+              ...rest,
+              slug: subCollectionSlug,
+              userId: userId,
+              notion_collection_id: notion_collection_id,
+              collectionId: createdCollection.id,
+            },
+          });
+
+          for (const article of articles || []) {
+            const { id, ...rest } = article;
+            const articleSlug = slugify(article.title);
+            const createdArticle = await prisma.article.create({
+              data: {
+                ...rest,
+                notion_id: id,
+                slug: articleSlug, // Temporary slug
+                properties: article.properties,
+                recordMap: JSON.stringify(article.recordMap),
+                userId: userId,
+                knowledgebaseId: knowledgebase.id,
+                subCollectionId: createdSubCollection.id,
+              },
+            });
+
+            // Update the article with the full slug
+            const fullSlug = `${collectionSlug}/${createdCollection.id}/${articleSlug}/${createdArticle.id}`;
+            await prisma.article.update({
+              where: { id: createdArticle.id },
+              data: { slug: fullSlug },
+            });
+          }
+        }
       }
 
       return { success: true };
@@ -268,8 +277,6 @@ export async function updateKnowledgebase(formData: FormData) {
       updateData[field] = value;
     }
   }
-
-  console.log(updateData);
 
   // Handle custom domain
   const customDomain = formData.get("customDomain") as string;

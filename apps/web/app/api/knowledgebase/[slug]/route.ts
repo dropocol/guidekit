@@ -23,7 +23,12 @@ export async function GET(
           include: {
             subCollections: {
               include: {
-                articles: true,
+                articles: {
+                  select: {
+                    id: true,
+                    title: true,
+                  },
+                },
               },
             },
           },

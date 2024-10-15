@@ -10,30 +10,35 @@ import {
 import GradientCard from "@/ui/knowledgebases/gradient-card";
 import { ExternalLink } from "lucide-react";
 
+// type PostCardProps = {
+//   data: Article & {
+//     subCollection: SubCollection & {
+//       collection: Collection & {
+//         knowledgebase: Knowledgebase;
+//       };
+//     };
+//   };
+// };
+
 type PostCardProps = {
   data: Article & {
-    subCollection: SubCollection & {
-      collection: Collection & {
-        knowledgebase: Knowledgebase;
-      };
-    };
+    knowledgebase: Knowledgebase;
   };
 };
 
 export default function PostCard({ data }: PostCardProps) {
-  const { subCollection, knowledgebaseId } = data;
-  const { collection } = subCollection;
-  const { knowledgebase } = collection;
+  const { knowledgebase } = data;
 
   const domain =
     knowledgebase.customDomain ||
     `${knowledgebase.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
-  const url = `/${collection.slug}/${collection.id}/${data.slug}/${data.id}`;
+  const url = `/${data.slug}`;
+  const editUrl = `/article/${data.id}`;
 
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
-      <Link href={url} className="flex flex-col overflow-hidden rounded-lg">
+      <Link href={editUrl} className="flex flex-col overflow-hidden rounded-lg">
         {/* <div className="relative h-44 overflow-hidden">
           <BlurImage
             alt={data.title || "Card thumbnail"}

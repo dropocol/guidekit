@@ -23,15 +23,7 @@ export default async function Articles({
       visits: "desc",
     },
     include: {
-      subCollection: {
-        include: {
-          collection: {
-            include: {
-              knowledgebase: true,
-            },
-          },
-        },
-      },
+      knowledgebase: true,
     },
     ...(limit ? { take: limit } : {}),
   });

@@ -31,28 +31,19 @@ export async function generateMetadata(
     knowledgebase.description || `Knowledgebase for ${knowledgebase.name}`;
   let image = knowledgebase.image || "/og-image.jpg";
 
-  if (slug.length === 2) {
-    const [collectionSlug, collectionId] = slug;
-    const collection = await prisma.collection.findUnique({
-      where: { id: collectionId },
-    });
-
-    if (collection) {
-      title = `${collection.name} | ${knowledgebase.name}`;
-      description =
-        collection.description || `Collection in ${knowledgebase.name}`;
-    }
-  } else if (slug.length === 4) {
+  if (slug.length === 4) {
     const [collectionSlug, collectionId, articleSlug, articleId] = slug;
-    const article = await prisma.article.findUnique({
-      where: { id: articleId },
-      include: { subCollection: { include: { collection: true } } },
-    });
+    const collection = knowledgebase.collections.find(
+      (c) => c.id === collectionId,
+    );
+    const article = collection?.subCollections
+      .flatMap((sc) => sc.articles)
+      .find((a) => a.id === articleId);
 
     if (article) {
       title = `${article.title} | ${knowledgebase.name}`;
       description = article.description || `Article in ${knowledgebase.name}`;
-      // You can use article.image here if you have one, otherwise fallback to knowledgebase image
+      image = image; // Use article image if available
     }
   }
 
@@ -82,7 +73,6 @@ export default async function DynamicPage({
 }: {
   params: { domain: string; slug: string[] };
 }) {
-  // Decode the domain parameter
   const domain = decodeURIComponent(params.domain);
   const { slug } = params;
 
@@ -98,16 +88,10 @@ export default async function DynamicPage({
 
   const [collectionSlug, collectionId, articleSlug, articleId] = slug;
 
-  const collection = await prisma.collection.findUnique({
-    where: { id: collectionId },
-    include: {
-      subCollections: {
-        include: {
-          articles: true,
-        },
-      },
-    },
-  });
+  // Find the collection from the knowledgebase data
+  const collection = knowledgebase.collections.find(
+    (c) => c.id === collectionId,
+  );
 
   if (!collection) {
     notFound();
@@ -129,7 +113,7 @@ export default async function DynamicPage({
         breadcrumbs={breadcrumbs}
       >
         <div className="mx-auto mt-3 w-full">
-          {collection.subCollections.map((subCollection: any) => (
+          {collection.subCollections.map((subCollection) => (
             <div key={subCollection.id}>
               <span className="contents">
                 <h1 className="sr-only">{subCollection.name}</h1>
@@ -140,10 +124,10 @@ export default async function DynamicPage({
                   <h2 className="mb-2.5 text-lg font-medium opacity-70 sm:mb-4 sm:text-xl sm:font-bold dark:text-white">
                     {subCollection.name}
                   </h2>
-                  {subCollection.articles.map((article: any) => (
+                  {subCollection.articles.map((article) => (
                     <Link
                       key={article.id}
-                      href={`/${collectionSlug}/${collectionId}/${article.slug}/${article.id}`}
+                      href={`/${article.slug}`}
                       className="helpkit-article-card mb-5 flex w-full transform flex-col items-start justify-center rounded-md border-l-[3px] border-t-[1px] border-t-gray-200 bg-white px-5 py-4 shadow-md hover:scale-[1.01] sm:h-[85px] dark:border-t-gray-800 dark:bg-[#18233B] dark:text-white"
                       style={{ borderLeftColor: "rgb(76, 29, 149)" }}
                     >
@@ -165,9 +149,22 @@ export default async function DynamicPage({
   }
 
   if (slug.length === 4) {
-    const article = collection.subCollections
-      .flatMap((sc: any) => sc.articles)
-      .find((a: any) => a.slug === articleSlug && a.id === articleId);
+    // Find the article from the collection data
+    // const article = collection.subCollections
+    //   .flatMap((sc) => sc.articles)
+    //   .find((a) => a.id === articleId);
+
+    // console.log(articleSlug);
+
+    // const articleFullSlug = slug.join("/");
+
+    const article = await prisma.article.findUnique({
+      where: { id: articleId },
+    });
+
+    // const article = collection.subCollections
+    //   .flatMap((sc: any) => sc.articles)
+    //   .find((a: any) => a.slug === articleSlug && a.id === articleId);
 
     if (!article) {
       console.log("Article not found");
