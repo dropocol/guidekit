@@ -23,9 +23,9 @@ export default function PublicKnowledgebaseView({
   // }, [knowledgebase.id]);
 
   return (
-    <div className="helpkit-bottom-container flex min-h-screen flex-col bg-[#eaeef6]">
+    <div className="flex min-h-screen flex-col bg-[#eaeef6]">
       <div
-        className="helpkit-top-container flex h-[280px] flex-shrink-0 justify-center px-4 sm:h-[350px] xl:px-0"
+        className="flex h-[280px] flex-shrink-0 justify-center px-4 sm:h-[350px] xl:px-0"
         style={{
           background:
             "radial-gradient(rgb(40, 40, 40) 1.28205%, rgb(0, 0, 0) 94.8718%)",
@@ -84,7 +84,7 @@ export default function PublicKnowledgebaseView({
               )}
               <Link
                 href={crumb.href}
-                className="helpkit-breadcrumb-link font-medium text-white hover:text-white hover:underline"
+                className="font-medium text-white hover:text-white hover:underline"
               >
                 {crumb.name}
               </Link>

@@ -61,7 +61,7 @@ export default function ArticleContent({
   }
 
   const className =
-    "helpkit-article-wrapper glass-bg mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]";
+    "mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]";
 
   if (!recordMap) {
     return (
@@ -74,7 +74,7 @@ export default function ArticleContent({
   }
 
   return (
-    <div className="helpkit-article-wrapper glass-bg mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]">
+    <div className="mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]">
       <div className="p-8">
         <h1 className="mb-4 text-2xl font-bold dark:text-white">{title}</h1>
         <div className="mx-auto w-full">

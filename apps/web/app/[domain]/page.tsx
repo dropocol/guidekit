@@ -55,7 +55,7 @@ export default async function KnowledgebasePage({
               <div className="flex h-full w-full flex-grow flex-col items-center justify-center px-8">
                 <div className="mb-1 block">
                   <div className="mb-2">
-                    <span className="helpkit-category-icon-emoji text-4xl">
+                    <span className="text-4xl">
                       {collection.pageIcon || "📄"}
                     </span>
                   </div>
@@ -66,7 +66,7 @@ export default async function KnowledgebasePage({
                 <p className="mb-2 line-clamp-2 leading-snug text-gray-700 dark:text-gray-50">
                   {collection.description}
                 </p>
-                <p className="helpkit-category-article-count mt-2 text-xs font-medium text-gray-600">
+                <p className="mt-2 text-xs font-medium text-gray-600">
                   {collection.articleCount}{" "}
                   {collection.articleCount === 1 ? "Article" : "Articles"}
                 </p>

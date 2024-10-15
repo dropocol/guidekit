@@ -119,7 +119,7 @@ export default async function DynamicPage({
                 <h1 className="sr-only">{subCollection.name}</h1>
                 <div
                   id={`subcollection-${subCollection.id}`}
-                  className="helpkit-subcollection-wrapper glass-bg mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]"
+                  className="mb-7 transform rounded-md bg-white px-4 pb-2 pt-4 shadow-lg sm:px-6 sm:py-5 dark:bg-[#111828]"
                 >
                   <h2 className="mb-2.5 text-lg font-medium opacity-70 sm:mb-4 sm:text-xl sm:font-bold dark:text-white">
                     {subCollection.name}
@@ -128,7 +128,7 @@ export default async function DynamicPage({
                     <Link
                       key={article.id}
                       href={`/${article.slug}`}
-                      className="helpkit-article-card mb-5 flex w-full transform flex-col items-start justify-center rounded-md border-l-[3px] border-t-[1px] border-t-gray-200 bg-white px-5 py-4 shadow-md hover:scale-[1.01] sm:h-[85px] dark:border-t-gray-800 dark:bg-[#18233B] dark:text-white"
+                      className="mb-5 flex w-full transform flex-col items-start justify-center rounded-md border-l-[3px] border-t-[1px] border-t-gray-200 bg-white px-5 py-4 shadow-md hover:scale-[1.01] sm:h-[85px] dark:border-t-gray-800 dark:bg-[#18233B] dark:text-white"
                       style={{ borderLeftColor: "rgb(76, 29, 149)" }}
                     >
                       <h3 className="font-medium leading-tight sm:text-xl sm:leading-normal">

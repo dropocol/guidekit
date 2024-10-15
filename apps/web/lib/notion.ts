@@ -1,21 +1,9 @@
 import { NotionAPI } from "notion-client";
-// import { NotionToMarkdown } from "notion-to-md";
-// const { Client } = require("@notionhq/client");
 
-import {
-  // Block,
-  CollectionInstance,
-  ExtendedRecordMap,
-  Role,
-} from "notion-types";
+import { ExtendedRecordMap } from "notion-types";
 
 import { Knowledgebase, Collection, SubCollection, Article } from "./types";
 import { saveToFile } from "./serverUtils";
-// const notionForMarkdown = new Client({
-//   auth: process.env.NOTION_API_KEY,
-// });
-
-// const n2m = new NotionToMarkdown({ notionClient: notionForMarkdown });
 const notion = new NotionAPI();
 
 // ------------------------------------------------------------
