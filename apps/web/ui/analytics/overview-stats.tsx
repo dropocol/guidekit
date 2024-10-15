@@ -24,7 +24,7 @@ export default function OverviewStats() {
           justifyContent="start"
           alignItems="baseline"
         >
-          <Metric className="font-cal">{totalVisitors.toLocaleString()}</Metric>
+          <Metric className="font-cal">{totalVisitors | 0}</Metric>
           {/* ... rest of the component */}
         </Flex>
         {/* ... AreaChart component */}

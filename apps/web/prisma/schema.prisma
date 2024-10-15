@@ -9,19 +9,23 @@ datasource db {
 }
 
 model User {
-  id              String          @id @default(cuid())
-  name            String?
-  password        String?
-  email           String?         @unique
-  isEmailVerified Boolean         @default(false)
-  emailVerifiedAt DateTime?
-  image           String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  knowledgebase   Knowledgebase[]
-  article         Article[]
-  collection      Collection[]
-  subCollection   SubCollection[]
+  id                     String                   @id @default(cuid())
+  name                   String?
+  password               String?
+  email                  String?                  @unique
+  isEmailVerified        Boolean                  @default(false)
+  emailVerifiedAt        DateTime?
+  image                  String?
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  knowledgebase          Knowledgebase[]
+  article                Article[]
+  collection             Collection[]
+  subCollection          SubCollection[]
+  knowledgebaseAnalytics KnowledgebaseAnalytics[]
+  articleAnalytics       ArticleAnalytics[]
+  monthlyAnalytics       UserMonthlyAnalytics[]
+  dailyVisits            DailyVisit[] // Add this line
 
   @@index([email])
 }
@@ -48,9 +52,7 @@ model Knowledgebase {
   image         String?
   imageBlurhash String?
   message404    String?      @default("Blimey! You've found a page that doesn't exist.")
-  totalVisitors Int          @default(0)
   articleCount  Int          @default(0)
-  lastVisited   DateTime?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   articles      Article[]
@@ -102,8 +104,6 @@ model Article {
   recordMap       String?
   description     String
   image           String?
-  visits          Int           @default(0)
-  lastVisited     DateTime?
   userId          String
   subCollectionId String
   knowledgebaseId String
@@ -113,4 +113,63 @@ model Article {
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([subCollectionId])
+}
+
+// Analytics
+model KnowledgebaseAnalytics {
+  id              String       @id @default(cuid())
+  knowledgebaseId String       @unique
+  userId          String // Add this line
+  totalVisitors   Int          @default(0)
+  lastVisited     DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  dailyVisits     DailyVisit[]
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+
+  @@index([userId]) // Add this line for better query performance
+}
+
+model ArticleAnalytics {
+  id          String       @id @default(cuid())
+  articleId   String       @unique
+  userId      String // Add this line
+  totalVisits Int          @default(0)
+  lastVisited DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  dailyVisits DailyVisit[]
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+
+  @@index([userId]) // Add this line for better query performance
+}
+
+model DailyVisit {
+  id                       String                  @id @default(cuid())
+  userId                   String
+  date                     DateTime
+  visits                   Int                     @default(0)
+  knowledgebaseAnalytics   KnowledgebaseAnalytics? @relation(fields: [knowledgebaseAnalyticsId], references: [id])
+  knowledgebaseAnalyticsId String?
+  articleAnalytics         ArticleAnalytics?       @relation(fields: [articleAnalyticsId], references: [id])
+  articleAnalyticsId       String?
+  user                     User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([date, knowledgebaseAnalyticsId])
+  @@unique([date, articleAnalyticsId])
+  @@index([userId])
+}
+
+model UserMonthlyAnalytics {
+  id          String   @id @default(cuid())
+  userId      String
+  year        Int
+  month       Int
+  totalVisits Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year, month])
+  @@index([userId])
 }

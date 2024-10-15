@@ -115,7 +115,7 @@ export default function KnowledgebasePage({
             </button>
           </div>
         </div>
-        <div className="flex flex-1">
+        <div className="flex flex-1 bg-white">
           <div className="w-1/4 overflow-y-auto border-r border-stone-200 p-4 dark:border-stone-700">
             <h1 className="mb-4 font-cal text-2xl font-bold dark:text-white">
               Collections
@@ -130,7 +130,7 @@ export default function KnowledgebasePage({
               selectedCollectionId={selectedCollection?.id || null}
             />
           </div>
-          <div className="w-3/4 overflow-y-auto bg-slate-100 p-8">
+          <div className="w-3/4 overflow-y-auto bg-stone-50 p-8">
             {selectedCollection && (
               <SubCollectionView collection={selectedCollection} />
             )}

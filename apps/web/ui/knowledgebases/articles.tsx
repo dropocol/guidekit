@@ -20,7 +20,7 @@ export default async function Articles({
       userId: session.user.id as string,
     },
     orderBy: {
-      visits: "desc",
+      // visits: "desc",
     },
     include: {
       knowledgebase: true,

@@ -1,27 +1,31 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/auth";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const knowledgebaseId = searchParams.get("knowledgebaseId");
+
+  if (!knowledgebaseId) {
+    return NextResponse.json(
+      { error: "Knowledgebase ID is required" },
+      { status: 400 },
+    );
+  }
+
   try {
-    const session = await getSession();
-    if (!session || !session.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    //TODO: Improve this query to only count visitors for the current user and in last 30 days
-    const result = await prisma.knowledgebase.aggregate({
-      where: {
-        userId: session.user.id,
-      },
-      _sum: {
-        totalVisitors: true,
-      },
+    const analytics = await prisma.knowledgebaseAnalytics.findUnique({
+      where: { knowledgebaseId },
+      select: { totalVisitors: true, userId: true },
     });
 
-    console.log("result", result);
+    if (!analytics) {
+      return NextResponse.json({ totalVisitors: 0, userId: null });
+    }
 
-    return NextResponse.json({ totalVisitors: result._sum.totalVisitors || 0 });
+    return NextResponse.json({
+      totalVisitors: analytics.totalVisitors,
+      userId: analytics.userId,
+    });
   } catch (error) {
     console.error("Error fetching total visitors:", error);
     return NextResponse.json(

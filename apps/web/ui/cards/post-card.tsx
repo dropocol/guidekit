@@ -39,17 +39,6 @@ export default function PostCard({ data }: PostCardProps) {
   return (
     <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link href={editUrl} className="flex flex-col overflow-hidden rounded-lg">
-        {/* <div className="relative h-44 overflow-hidden">
-          <BlurImage
-            alt={data.title || "Card thumbnail"}
-            width={500}
-            height={400}
-            className="h-full object-cover"
-            src={data.image || "/placeholder.png"}
-            placeholder="blur"
-            blurDataURL={placeholderBlurhash}
-          />
-        </div> */}
         <div className="relative h-20 w-full">
           <GradientCard className="rounded-t-lg" />
         </div>
@@ -63,19 +52,6 @@ export default function PostCard({ data }: PostCardProps) {
         </div>
       </Link>
       <div className="absolute bottom-4 flex w-full px-4">
-        {/* <a
-          href={
-            process.env.NEXT_PUBLIC_VERCEL_ENV
-              ? `https://${domain}${url}`
-              : `http://${knowledgebase.subdomain}.localhost:3000${url}`
-          }
-          target="_blank"
-          rel="noreferrer"
-          className="truncate rounded-md bg-stone-100 px-2 py-1 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
-        >
-          {domain} ↗
-        </a> */}
-
         <a
           href={
             process.env.NODE_ENV === "production"

@@ -4,24 +4,119 @@ import prisma from "@/lib/prisma";
 export async function POST(req: NextRequest) {
   const { knowledgebaseId, articleId } = await req.json();
 
+  if (!knowledgebaseId) {
+    return NextResponse.json(
+      { error: "Knowledgebase ID is required" },
+      { status: 400 },
+    );
+  }
+
   try {
+    const knowledgebase = await prisma.knowledgebase.findUnique({
+      where: { id: knowledgebaseId },
+      select: { userId: true },
+    });
+
+    if (!knowledgebase) {
+      return NextResponse.json(
+        { error: "Knowledgebase not found" },
+        { status: 404 },
+      );
+    }
+
+    const userId = knowledgebase.userId;
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // JavaScript months are 0-indexed
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
     await prisma.$transaction(async (tx) => {
-      // Update Knowledgebase visits
-      await tx.knowledgebase.update({
-        where: { id: knowledgebaseId },
-        data: {
+      // Create or update KnowledgebaseAnalytics
+      const knowledgebaseAnalytics = await tx.knowledgebaseAnalytics.upsert({
+        where: { knowledgebaseId },
+        update: {
           totalVisitors: { increment: 1 },
-          lastVisited: new Date(),
+          lastVisited: now,
+        },
+        create: {
+          knowledgebaseId,
+          userId,
+          totalVisitors: 1,
+          lastVisited: now,
         },
       });
 
-      // Update Article visits if articleId is provided
+      // Create or update UserMonthlyAnalytics
+      await tx.userMonthlyAnalytics.upsert({
+        where: {
+          userId_year_month: {
+            userId,
+            year,
+            month,
+          },
+        },
+        update: {
+          totalVisits: { increment: 1 },
+        },
+        create: {
+          userId,
+          year,
+          month,
+          totalVisits: 1,
+        },
+      });
+
+      // Create or update DailyVisit for knowledgebase
+      await tx.dailyVisit.upsert({
+        where: {
+          date_knowledgebaseAnalyticsId: {
+            date: today,
+            knowledgebaseAnalyticsId: knowledgebaseAnalytics.id,
+          },
+        },
+        update: {
+          visits: { increment: 1 },
+        },
+        create: {
+          userId,
+          date: today,
+          visits: 1,
+          knowledgebaseAnalyticsId: knowledgebaseAnalytics.id,
+        },
+      });
+
       if (articleId) {
-        await tx.article.update({
-          where: { id: articleId },
-          data: {
+        // Create or update ArticleAnalytics
+        const articleAnalytics = await tx.articleAnalytics.upsert({
+          where: { articleId },
+          update: {
+            totalVisits: { increment: 1 },
+            lastVisited: now,
+          },
+          create: {
+            articleId,
+            userId,
+            totalVisits: 1,
+            lastVisited: now,
+          },
+        });
+
+        // Create or update DailyVisit for article
+        await tx.dailyVisit.upsert({
+          where: {
+            date_articleAnalyticsId: {
+              date: today,
+              articleAnalyticsId: articleAnalytics.id,
+            },
+          },
+          update: {
             visits: { increment: 1 },
-            lastVisited: new Date(),
+          },
+          create: {
+            userId,
+            date: today,
+            visits: 1,
+            articleAnalyticsId: articleAnalytics.id,
           },
         });
       }
