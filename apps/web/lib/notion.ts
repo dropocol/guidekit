@@ -10,9 +10,7 @@ import {
 } from "notion-types";
 
 import { Knowledgebase, Collection, SubCollection, Article } from "./types";
-
-import fs, { writeFile } from "fs";
-
+import { saveToFile } from "./serverUtils";
 // const notionForMarkdown = new Client({
 //   auth: process.env.NOTION_API_KEY,
 // });
@@ -282,10 +280,6 @@ async function processSubCollectionArticles(
   }
 
   return processedCollection;
-}
-
-async function saveToFile(filePath: string, data: any) {
-  await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
 }
 
 async function fetchPage(pageId: string): Promise<ExtendedRecordMap> {

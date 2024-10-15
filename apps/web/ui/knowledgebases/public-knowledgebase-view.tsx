@@ -31,17 +31,20 @@ export default function PublicKnowledgebaseView({
             "radial-gradient(rgb(40, 40, 40) 1.28205%, rgb(0, 0, 0) 94.8718%)",
         }}
       >
-        <div className="mt-4 text-center sm:mt-8">
-          <div className="mb-8 flex justify-center">
-            <div className="flex items-center justify-center">
+        <div className="flex h-full flex-col text-center">
+          <div className="mt-8 flex justify-center">
+            <div className="flex items-center justify-center overflow-hidden">
               {knowledgebase.logo && (
                 <>
-                  <Link href="/" className="flex w-full max-w-32">
+                  <Link
+                    href="/"
+                    className="flex h-auto max-h-16 w-full max-w-32 items-center justify-center"
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={knowledgebase.logo!}
                       alt={knowledgebase.name}
-                      className="h-auto w-auto"
+                      className="h-full w-auto"
                     />
                   </Link>
                   <div className="mx-3 h-8 w-px bg-white"></div>
@@ -52,8 +55,9 @@ export default function PublicKnowledgebaseView({
               </div>
             </div>
           </div>
-          <div className="mb-5 mt-[18px] sm:mb-5 sm:mt-10">
-            <span className="text-xl font-medium tracking-wide text-white sm:text-3xl">
+
+          <div className="flex h-[75%] flex-col justify-center pb-12">
+            <span className="text-xl font-normal tracking-wide text-white sm:text-3xl">
               How can we help? 👋
             </span>
           </div>

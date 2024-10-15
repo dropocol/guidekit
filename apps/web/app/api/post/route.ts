@@ -20,14 +20,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
-    const convertedRecordMap = JSON.parse(article.recordMap as string);
+    const convertedRecordMap = JSON.parse(article.recordMap!);
     if (
       convertedRecordMap &&
       typeof convertedRecordMap === "object" &&
       Object.keys(convertedRecordMap).length > 0
     ) {
       // Parse the stored JSON before returning
-      saveToFile("json/article-json.json", article.recordMap);
+      // saveToFile("json/article-json.json", article.recordMap);
       return NextResponse.json({
         recordMap: convertedRecordMap,
       });
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
     // If recordMap doesn't exist or is empty, fetch it from Notion
     const recordMap = await notion.getPage(article.notion_id!);
-    saveToFile("json/article-web.json", recordMap);
+    // saveToFile("json/article-web.json", recordMap);
 
     const savedRecordMap = JSON.stringify(recordMap);
 
@@ -55,13 +55,6 @@ export async function POST(req: Request) {
     );
   }
 }
-
-// async function saveToFile(filePath: string, data: any) {
-//   if (process.env.NODE_ENV === "development") {
-//     await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
-//   }
-//   return;
-// }
 
 function ensureConsistentStructure(
   recordMap: ExtendedRecordMap,

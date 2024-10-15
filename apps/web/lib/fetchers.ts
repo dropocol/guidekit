@@ -18,13 +18,12 @@ export async function getSiteData(domain: string) {
     },
     [`${domain}-metadata`],
     {
-      revalidate: 900,
+      // revalidate: 900, 15 minutes
+      revalidate: 60, // 1 minute
       tags: [`${domain}-metadata`],
     },
   )();
 }
-
-//
 
 // export async function getPostsForSite(domain: string) {
 //   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -166,7 +165,8 @@ export async function getKnowledgebaseData(
     },
     [`${domain}-knowledgebase`],
     {
-      revalidate: 900, // TODO : change it according to the production
+      // revalidate: 900, 15 minutes
+      revalidate: 60, // 1 minute
       tags: [`${domain}-knowledgebase`],
     },
   )();

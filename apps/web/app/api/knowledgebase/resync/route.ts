@@ -4,7 +4,7 @@ import { getNotionData } from "@/lib/notion";
 import { getSession } from "@/auth";
 import { slugify } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
-import fs from "fs";
+
 export async function POST(req: NextRequest) {
   const session = await getSession();
   if (!session?.user?.id) {
@@ -212,8 +212,4 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
-
-async function saveToFile(filePath: string, data: any) {
-  await fs.promises.writeFile(filePath, JSON.stringify(data, null, 2));
 }
