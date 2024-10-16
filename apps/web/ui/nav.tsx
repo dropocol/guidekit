@@ -16,6 +16,7 @@ import {
   Github,
   Book,
   Paintbrush,
+  LucideBookOpenText,
 } from "lucide-react";
 import {
   useParams,
@@ -34,15 +35,16 @@ const externalLinks = [
   //   icon: <Megaphone width={18} />,
   // },
   {
+    name: "Free Notion Template",
+    href: "https://vercel.com/guides/nextjs-multi-tenant-application",
+    icon: <LucideBookOpenText width={18} />,
+  },
+  {
     name: "Star on GitHub",
     href: "https://github.com/dropocol/guidekit",
     icon: <Github width={18} />,
   },
-  // {
-  //   name: "Read the guide",
-  //   href: "https://vercel.com/guides/nextjs-multi-tenant-application",
-  //   icon: <FileCode width={18} />,
-  // },
+
   {
     name: "View demo site",
     href: `${process.env.production ? "https" : "http"}://demo.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
