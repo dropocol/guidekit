@@ -112,6 +112,8 @@ model Article {
   subCollection   SubCollection @relation(fields: [subCollectionId], references: [id], onDelete: Cascade)
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  articleAnalytics ArticleAnalytics[]
+
   @@index([subCollectionId])
 }
 
@@ -140,6 +142,7 @@ model ArticleAnalytics {
   updatedAt      DateTime         @updatedAt
   dailyAnalytics DailyAnalytics[] // Changed from dailyVisits
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article        Article          @relation(fields: [articleId], references: [id])
 
   @@index([userId])
 }

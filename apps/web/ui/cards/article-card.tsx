@@ -37,7 +37,7 @@ export default function PostCard({ data }: PostCardProps) {
   const editUrl = `/article/${data.id}`;
 
   return (
-    <div className="relative rounded-lg border border-stone-200 pb-10 shadow-md transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
+    <div className="relative rounded-lg border border-stone-200 pb-10 transition-all hover:shadow-xl dark:border-stone-700 dark:hover:border-white">
       <Link href={editUrl} className="flex flex-col overflow-hidden rounded-lg">
         <div className="relative h-20 w-full">
           <GradientCard className="rounded-t-lg" />

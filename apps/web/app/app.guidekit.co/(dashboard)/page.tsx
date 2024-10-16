@@ -7,6 +7,7 @@ import PlaceholderCard from "@/ui/cards/placeholder-card";
 import OverviewSitesCTA from "@/ui/sites/overview-sites-cta";
 import OverviewKnowledgebasesCTA from "@/ui/knowledgebases/overview-knowledgebases-cta";
 import DailyVisitsChart from "@/components/analytics/daily-visits-chart";
+import TotalVisitors from "@/components/analytics/total-visitors";
 // import { getServerSession } from "next-auth";
 // import { authOptions } from "@/auth";
 
@@ -28,11 +29,7 @@ export default async function Overview() {
                   {new Date().toLocaleString("default", { month: "long" })}
                 </p>
               </div>
-
-              <div>
-                <p className="text-5xl font-bold">47,568</p>
-                <p className="text-sm font-medium text-stone-500">Visitors</p>
-              </div>
+              <TotalVisitors />
             </div>
 
             <div className="col-span-4 rounded-xl bg-stone-50 p-8">

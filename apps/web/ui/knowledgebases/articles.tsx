@@ -1,7 +1,7 @@
 import { getSession } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import PostCard from "../cards/post-card";
+import ArticleCard from "../cards/article-card";
 import Image from "next/image";
 
 export default async function Articles({
@@ -15,24 +15,33 @@ export default async function Articles({
   if (!session?.user) {
     redirect("/login");
   }
-  const posts = await prisma.article.findMany({
+
+  const topArticles = await prisma.articleAnalytics.findMany({
     where: {
       userId: session.user.id as string,
     },
     orderBy: {
-      // visits: "desc",
+      totalVisits: "desc",
     },
+    take: limit,
     include: {
-      knowledgebase: true,
+      article: {
+        include: {
+          knowledgebase: true,
+        },
+      },
     },
-    ...(limit ? { take: limit } : {}),
   });
 
-  return posts.length > 0 ? (
+  const articles = topArticles.map((analytics) => analytics.article);
+
+  return articles.length > 0 ? (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {posts.map((post) => (
-        <PostCard key={post.id} data={post} />
-      ))}
+      {articles.map((article) => {
+        console.log(article);
+        // return <ArticleCard key={article.id} data={article} />;
+        return <ArticleCard key={article.id} data={{ ...article }} />;
+      })}
     </div>
   ) : (
     <div className="flex flex-col items-center space-x-4">
