@@ -1,6 +1,4 @@
-![GuideKit](https://app.guidekit.cc/og-image.png)
-
-<a href="https://dub.co">
+<a href="https://guidekit.cc">
   <img alt="GuideKit is the open-source link management infrastructure for modern marketing teams." src="https://app.guidekit.cc/og-image.png">
 </a>
 
@@ -23,7 +21,7 @@
   <a href="https://twitter.com/mrxeekhan">
     <img src="https://img.shields.io/twitter/follow/mrxeekhan?style=flat&label=%40mrxeekhan&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
   </a>
-  <a href="https://github.com/dropocol/dub/blob/main/LICENSE">
+  <a href="https://github.com/dropocol/guidekit/blob/main/LICENSE.md">
     <img src="https://img.shields.io/github/license/dubinc/dub?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
   </a>
 </p>
@@ -32,7 +30,7 @@
 
 ## Introduction
 
-GuideKit is a powerful knowledge base platform that allows users to create, manage, and share knowledge bases with ease.
+GuideKit is a powerful knowledge base platform built with notion that allows users to create, manage, and share knowledge bases with ease.
 
 ## Features
 
@@ -54,19 +52,15 @@ GuideKit is a powerful knowledge base platform that allows users to create, mana
 
 ## Self-Hosting
 
-You can self-host Dub.co for greater control over your data and design. [Read this guide](https://dub.co/docs/self-hosting/guide) to learn more.
+You can self-host GuideKit for greater control over your data. [Read this guide](https://github.com/dropocol/guidekit/blob/main/apps/web/README.md) to learn more.
 
 ## Contributing
 
 We love our contributors! Here's how you can contribute:
 
 - [Open an issue](https://github.com/dropocol/guidekit/issues) if you believe you've encountered a bug.
-- Follow the [local development guide](https://dub.co/docs/local-development) to get your local dev environment set up.
+- Follow the [local development guide](https://github.com/dropocol/guidekit/blob/main/apps/web/README.md) to get your local dev environment set up.
 - Make a [pull request](https://github.com/dropocol/guidekit/pull) to add new features/make quality-of-life improvements/fix bugs.
-
-<a href="https://github.com/dropocol/guidekit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=dropocol/guidekit" />
-</a>
 
 ## License
 
