@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/auth";
 import { NotionAPI } from "notion-client";
 import { ExtendedRecordMap } from "notion-types";
-import fs, { writeFile } from "fs";
 import prisma from "@/lib/prisma";
 
 const notion = new NotionAPI();
@@ -29,13 +28,21 @@ export async function POST(req: Request) {
       },
     });
 
+    if (!article) {
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    }
+
     const recordMap: ExtendedRecordMap = await notion.getPage(
-      article?.notion_id!,
+      article.notion_id!,
     );
 
-    // TODO : update article with recordMap
+    // Update article with the fetched recordMap
+    await prisma.article.update({
+      where: { id: article.id },
+      data: { recordMap: JSON.stringify(recordMap) },
+    });
 
-    // save to file
+    // Optionally save to file (commented out)
     // await fs.promises.writeFile(
     //   "json/page.json",
     //   JSON.stringify(recordMap, null, 2),

@@ -36,7 +36,7 @@ const externalLinks = [
   // },
   {
     name: "Free Notion Template",
-    href: "https://vercel.com/guides/nextjs-multi-tenant-application",
+    href: "https://zeeshankhan.notion.site/GuideKit-Knowledge-Base-Template-a1fd1e3b4f4c4643ade0ffa7fbcb8e3e",
     icon: <LucideBookOpenText width={18} />,
   },
   {

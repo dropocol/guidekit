@@ -24,15 +24,15 @@ export default function CollectionList({
               onClick={() => onSelectCollection(collection)}
               className={`inline-flex w-full items-center justify-between rounded-lg p-2 text-left text-sm transition-colors ${
                 selectedCollectionId === collection.id
-                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                  : "hover:bg-slate-100 dark:hover:bg-stone-800"
+                  ? "bg-stone-100 font-medium text-stone-800 dark:bg-blue-900 dark:text-blue-200"
+                  : "hover:bg-stone-100 dark:hover:bg-stone-800"
               }`}
             >
               <span className="flex items-center gap-2">
                 <span className="text-lg">{collection.pageIcon}</span>
                 <span>{collection.name}</span>
               </span>
-              <div className="flex items-center rounded-md bg-slate-100 px-1 py-0.5 pl-2 align-middle text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100">
+              <div className="flex items-center rounded-md bg-stone-100 px-1 py-0.5 pl-2 align-middle text-xs font-medium text-slate-500 transition-colors hover:bg-stone-100">
                 {collection.articleCount}
                 <BookOpenIcon height={12} />
               </div>

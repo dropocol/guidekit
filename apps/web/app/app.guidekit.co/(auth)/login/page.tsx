@@ -8,8 +8,6 @@ export const metadata = constructMetadata({
   title: `Sign in to ${process.env.NEXT_PUBLIC_APP_NAME}`,
 });
 
-//TODO : add a check for email verification
-
 export default function LoginPage() {
   return (
     <div className="relative z-10 mt-[calc(10%)] h-fit w-full max-w-md overflow-hidden border-y border-gray-200 sm:rounded-2xl sm:border sm:shadow-xl">

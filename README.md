@@ -1,113 +1,73 @@
 ![GuideKit](https://app.guidekit.cc/og-image.png)
 
-# GuideKit - Knowledge Base Platform
+<a href="https://dub.co">
+  <img alt="GuideKit is the open-source link management infrastructure for modern marketing teams." src="https://app.guidekit.cc/og-image.png">
+</a>
 
-GuideKit is a powerful knowledge base platform that allows users to create, manage, and share knowledge bases with ease. It's built using Next.js, Prisma, and integrates with Notion for content management.
+<h3 align="center">GuideKit</h3>
+
+<p align="center">
+    The open-source knowledgebaase platform.
+    <br />
+    <a href="https://guidekit.cc"><strong>Learn more »</strong></a>
+    <br />
+    <br />
+    <a href="#introduction"><strong>Introduction</strong></a> ·
+    <a href="#features"><strong>Features</strong></a> ·
+    <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
+    <a href="#self-hosting"><strong>Self-hosting</strong></a> ·
+    <a href="#contributing"><strong>Contributing</strong></a>
+</p>
+
+<p align="center">
+  <a href="https://twitter.com/mrxeekhan">
+    <img src="https://img.shields.io/twitter/follow/mrxeekhan?style=flat&label=%40mrxeekhan&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
+  </a>
+  <a href="https://github.com/dropocol/dub/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/dubinc/dub?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
+  </a>
+</p>
+
+<br/>
+
+## Introduction
+
+GuideKit is a powerful knowledge base platform that allows users to create, manage, and share knowledge bases with ease.
 
 ## Features
 
-- Multi-tenant architecture
-- Notion integration for content management
+- Analytics.
+- Notion template for content management
 - Custom domain support
-- User authentication and authorization
-- Responsive design for various devices
 - Article management with nested collections and subcollections
-- Rich text editor for content creation
-- File upload functionality
-- API routes for data fetching and manipulation
 
-## Prerequisites
+## Tech Stack
 
-Before you begin, ensure you have the following installed:
+- [Next.js](https://nextjs.org/) – framework
+- [TypeScript](https://www.typescriptlang.org/) – language
+- [Tailwind](https://tailwindcss.com/) – CSS
+- [PlanetScale](https://planetscale.com/) – database
+- [NextAuth.js](https://next-auth.js.org/) – auth
+- [Turborepo](https://turbo.build/repo) – monorepo
+- [Resend](https://resend.com/) – emails
+- [Vercel](https://vercel.com/) – deployments
 
-- Node.js (v14 or later)
-- Yarn package manager
-- PostgreSQL database
+## Self-Hosting
 
-## Getting Started
-
-1. Clone the repository:
-
-   ```
-   git clone https://github.com/your-username/guidekit.git
-   cd guidekit
-   ```
-
-2. Install dependencies:
-
-   ```
-   yarn install
-   ```
-
-3. Set up environment variables: Create a `.env` file in the root directory and add the following variables:
-
-   ```
-   DATABASE_URL=postgresql://username:password@localhost:5432/guidekit
-   NEXTAUTH_SECRET=your-nextauth-secret
-   NEXT_PUBLIC_ROOT_DOMAIN=your-root-domain.com
-   NOTION_API_KEY=your-notion-api-key
-   ```
-
-4. Set up the database:
-
-   ```
-   npx prisma migrate dev
-   ```
-
-5. Run the development server:
-
-   ```
-   yarn dev
-   ```
-
-6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Project Structure
-
-The project follows a monorepo structure using Yarn workspaces:
-
-- `apps/web`: Main Next.js application
-- `apps/marketing`: Marketing website (if applicable)
-- `packages/ui`: Shared UI components
-
-## Key Components
-
-1. Authentication:
-
-   - Implemented using NextAuth.js
-   - See `apps/web/auth/index.ts` for configuration
-
-2. API Routes:
-
-   - Located in `apps/web/app/api`
-   - Handles data fetching and manipulation
-
-3. Database:
-
-   - Uses Prisma ORM
-   - Schema defined in `apps/web/prisma/schema.prisma`
-
-4. UI Components:
-
-   - Shared components in `packages/ui/src`
-   - App-specific components in `apps/web/ui`
-
-5. Notion Integration:
-   - Implemented in `apps/web/lib/notion.ts`
-
-## Deployment
-
-The project is designed to be deployed on Vercel. Follow these steps:
-
-1. Create a new project on Vercel
-2. Connect your GitHub repository
-3. Set up the environment variables in the Vercel dashboard
-4. Deploy the project
+You can self-host Dub.co for greater control over your data and design. [Read this guide](https://dub.co/docs/self-hosting/guide) to learn more.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We love our contributors! Here's how you can contribute:
+
+- [Open an issue](https://github.com/dropocol/guidekit/issues) if you believe you've encountered a bug.
+- Follow the [local development guide](https://dub.co/docs/local-development) to get your local dev environment set up.
+- Make a [pull request](https://github.com/dropocol/guidekit/pull) to add new features/make quality-of-life improvements/fix bugs.
+
+<a href="https://github.com/dropocol/guidekit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dropocol/guidekit" />
+</a>
 
 ## License
 
-This project is licensed under the MIT License.
+GuideKit is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version. You can [find it here](https://github.com/dropocol/guidekit/blob/main/LICENSE.md).
