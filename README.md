@@ -1,11 +1,11 @@
 <a href="https://guidekit.cc">
-  <img alt="GuideKit is the open-source link management infrastructure for modern marketing teams." src="https://app.guidekit.cc/og-image.png">
+  <img alt="GuideKit is a powerful notion based knowledge base platform." src="https://app.guidekit.cc/og-image.png">
 </a>
 
 <h3 align="center">GuideKit</h3>
 
 <p align="center">
-    The open-source knowledgebaase platform.
+    The open-source knowledge base platform bult with notion.
     <br />
     <a href="https://guidekit.cc"><strong>Learn more »</strong></a>
     <br />
@@ -22,7 +22,7 @@
     <img src="https://img.shields.io/twitter/follow/mrxeekhan?style=flat&label=%40mrxeekhan&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
   </a>
   <a href="https://github.com/dropocol/guidekit/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/github/license/dubinc/dub?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
+    <img src="https://img.shields.io/github/license/dropocol/guidekit?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
   </a>
 </p>
 
@@ -30,13 +30,13 @@
 
 ## Introduction
 
-GuideKit is a powerful knowledge base platform built with notion that allows users to create, manage, and share knowledge bases with ease.
+GuideKit is a powerful knowledge base platform built with notion that allows users to create, manage, and share knowledge bases with your customers.
 
 ## Features
 
 - Analytics.
-- Notion template for content management
 - Custom domain support
+- Notion template for content management
 - Article management with nested collections and subcollections
 
 ## Tech Stack
@@ -44,8 +44,8 @@ GuideKit is a powerful knowledge base platform built with notion that allows use
 - [Next.js](https://nextjs.org/) – framework
 - [TypeScript](https://www.typescriptlang.org/) – language
 - [Tailwind](https://tailwindcss.com/) – CSS
-- [PlanetScale](https://planetscale.com/) – database
-- [NextAuth.js](https://next-auth.js.org/) – auth
+- [Vercel Postgres](https://vercel.com/storage/postgres) – database
+- [Auth.js](https://authjs.dev) – auth
 - [Turborepo](https://turbo.build/repo) – monorepo
 - [Resend](https://resend.com/) – emails
 - [Vercel](https://vercel.com/) – deployments
@@ -59,7 +59,7 @@ You can self-host GuideKit for greater control over your data. [Read this guide]
 We love our contributors! Here's how you can contribute:
 
 - [Open an issue](https://github.com/dropocol/guidekit/issues) if you believe you've encountered a bug.
-- Follow the [local development guide](https://github.com/dropocol/guidekit/blob/main/apps/web/README.md) to get your local dev environment set up.
+- Follow the [local development guide](https://github.com/dropocol/guidekit/blob/main/apps/web/README.md) to get your local dev environment set up. **[In Progress]**
 - Make a [pull request](https://github.com/dropocol/guidekit/pull) to add new features/make quality-of-life improvements/fix bugs.
 
 ## License
