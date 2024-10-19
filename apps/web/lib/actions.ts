@@ -17,6 +17,7 @@ import { slugify } from "@/lib/utils"; // Add this import
 import { hash } from "bcryptjs"; // Import bcryptjs for hashing passwords
 import { signIn } from "next-auth/react";
 import { sendVerificationEmail } from "./email";
+import { checkDemoMode, REQUEST_SENDER } from "@/lib/serverUtils";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -24,6 +25,9 @@ const nanoid = customAlphabet(
 ); // 7-character random string
 
 export async function editUser(formData: FormData) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session?.user?.id) {
     return { error: "Not authenticated" };
@@ -147,6 +151,9 @@ export async function updateSite(
 }
 
 export async function createKnowledgebase(formData: FormData) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session?.user?.id) {
     return { error: "Not authenticated" };
@@ -481,6 +488,9 @@ export async function removeKnowledgebaseImage(
 }
 
 export async function updatePassword(formData: FormData) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session?.user?.id) {
     return { error: "Not authenticated" };

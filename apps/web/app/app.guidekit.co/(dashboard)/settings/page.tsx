@@ -39,7 +39,7 @@ export default function SettingsPage() {
   async function handleEditUser(formData: FormData) {
     const result = await editUser(formData);
     if ("error" in result) {
-      setError(result.error);
+      // setError(result.error);
     } else {
       // Update the session
       await update({
@@ -51,19 +51,16 @@ export default function SettingsPage() {
         },
       });
 
-      toast.success("Profile updated successfully!");
+      // toast.success("Profile updated successfully!");
       router.refresh();
     }
+
+    return result;
   }
 
   async function handleUpdatePassword(formData: FormData) {
     const result = await updatePassword(formData);
-
-    if ("error" in result) {
-      setError(result.error);
-    } else {
-      toast.success("Password updated successfully!");
-    }
+    return result;
   }
 
   return (

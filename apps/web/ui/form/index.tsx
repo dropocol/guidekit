@@ -102,11 +102,10 @@ export default function Form({
     const res = await handleSubmit(formData, id, inputAttrs.name);
     setSaving(false);
     setIsLoading(false); // New line
-
     if (res && res.error) {
       toast.error(res.error);
     } else {
-      va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
+      // va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
       if (id) {
         router.refresh();
       } else {
