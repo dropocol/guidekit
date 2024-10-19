@@ -33,7 +33,8 @@ export default function DangerZone({
         toast.success("Knowledgebase deleted successfully!");
         router.push("/"); // Redirect to dashboard
       } else {
-        const error = await response.text();
+        const errorData = await response.json();
+        const error = errorData.error || response.statusText;
         toast.error(
           error || "An error occurred while deleting the knowledgebase",
         );

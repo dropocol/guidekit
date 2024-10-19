@@ -42,6 +42,8 @@ interface FormProps {
     variant?: "primary" | "danger";
     loading?: boolean;
   };
+  customSuccessMessage?: string;
+  customErrorMessage?: string;
 }
 
 export default function Form({
@@ -55,6 +57,8 @@ export default function Form({
   currentImage,
   additionalContent,
   submitButton,
+  customSuccessMessage,
+  customErrorMessage,
 }: FormProps) {
   const [value, setValue] = useState(inputAttrs.defaultValue);
   const [saving, setSaving] = useState(false);
@@ -82,7 +86,7 @@ export default function Form({
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
-    setIsLoading(true); // New line
+    setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     if (image) {
       formData.set(inputAttrs.name as string, image);
@@ -95,24 +99,33 @@ export default function Form({
       !confirm("Are you sure you want to change your custom domain?")
     ) {
       setSaving(false);
-      setIsLoading(false); // New line
+      setIsLoading(false);
       return;
     }
 
-    const res = await handleSubmit(formData, id, inputAttrs.name);
-    setSaving(false);
-    setIsLoading(false); // New line
-    if (res && res.error) {
-      toast.error(res.error);
-    } else {
-      // va.track(`Updated ${inputAttrs.name}`, id ? { id } : {});
-      if (id) {
-        router.refresh();
+    try {
+      const res = await handleSubmit(formData, id, inputAttrs.name);
+      if (res && "error" in res) {
+        toast.error(customErrorMessage || res.error);
       } else {
-        await update();
-        router.refresh();
+        if (id) {
+          router.refresh();
+        } else {
+          await update();
+          router.refresh();
+        }
+        toast.success(
+          customSuccessMessage || `Successfully updated ${inputAttrs.name}!`,
+        );
       }
-      toast.success(`Successfully updated ${inputAttrs.name}!`);
+    } catch (error) {
+      toast.error(
+        customErrorMessage ||
+          `Failed to update ${inputAttrs.name}. Please try again.`,
+      );
+    } finally {
+      setSaving(false);
+      setIsLoading(false);
     }
   };
 

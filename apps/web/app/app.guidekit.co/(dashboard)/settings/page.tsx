@@ -14,8 +14,6 @@ export default function SettingsPage() {
   const router = useRouter();
   const { data: session, update, status } = useSession();
 
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     // wait for session to load
     if (status === "loading") {
@@ -38,10 +36,7 @@ export default function SettingsPage() {
 
   async function handleEditUser(formData: FormData) {
     const result = await editUser(formData);
-    if ("error" in result) {
-      // setError(result.error);
-    } else {
-      // Update the session
+    if (!("error" in result)) {
       await update({
         ...session,
         user: {
@@ -50,17 +45,13 @@ export default function SettingsPage() {
           email: formData.get("email") as string,
         },
       });
-
-      // toast.success("Profile updated successfully!");
       router.refresh();
     }
-
     return result;
   }
 
   async function handleUpdatePassword(formData: FormData) {
-    const result = await updatePassword(formData);
-    return result;
+    return await updatePassword(formData);
   }
 
   return (
@@ -69,8 +60,6 @@ export default function SettingsPage() {
         <h1 className="font-cal text-3xl font-bold dark:text-white">
           Settings
         </h1>
-
-        {error && <p className="text-red-500">{error}</p>}
 
         <Form
           title="Name"
@@ -87,8 +76,9 @@ export default function SettingsPage() {
           submitButton={{
             text: "Save Changes",
             variant: "primary",
-            loading: false,
           }}
+          customSuccessMessage="Name updated successfully!"
+          customErrorMessage="Failed to update name. Please try again."
         />
         <Form
           title="Email"
@@ -104,8 +94,9 @@ export default function SettingsPage() {
           submitButton={{
             text: "Save Changes",
             variant: "primary",
-            loading: false,
           }}
+          customSuccessMessage="Email updated successfully!"
+          customErrorMessage="Failed to update email. Please try again."
         />
         <Form
           title="Password"
@@ -114,15 +105,16 @@ export default function SettingsPage() {
           inputAttrs={{
             name: "password",
             type: "password",
-            defaultValue: "", // Add this line to resolve the error
+            defaultValue: "",
             placeholder: "New Password",
           }}
           handleSubmit={handleUpdatePassword}
           submitButton={{
             text: "Save Changes",
             variant: "primary",
-            loading: false,
           }}
+          customSuccessMessage="Password updated successfully!"
+          customErrorMessage="Failed to update password. Please try again."
         />
       </div>
     </div>

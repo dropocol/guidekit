@@ -4,8 +4,13 @@ import { getNotionData } from "@/lib/notion";
 import { getSession } from "@/auth";
 import { slugify } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
+import { REQUEST_SENDER } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/serverUtils";
 
 export async function POST(req: NextRequest) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

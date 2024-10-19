@@ -255,6 +255,9 @@ export async function createKnowledgebase(formData: FormData) {
 }
 
 export async function updateKnowledgebase(formData: FormData) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session?.user!.id) {
     return { error: "Not authenticated" };
@@ -447,6 +450,9 @@ export async function removeKnowledgebaseImage(
   id: string,
   type: "thumbnail" | "logo" | "favicon",
 ) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  if (demoResponse) return demoResponse;
+
   try {
     const knowledgebase = await prisma.knowledgebase.findUnique({
       where: { id },

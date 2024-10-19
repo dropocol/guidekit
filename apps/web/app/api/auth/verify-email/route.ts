@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
 
 export async function POST(req: Request) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
+  if (demoResponse) return demoResponse;
+
   try {
     console.log("Verifying email");
     const { token } = await req.json();

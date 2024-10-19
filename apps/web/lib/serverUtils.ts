@@ -14,7 +14,7 @@ export enum REQUEST_SENDER {
   CLIENT = "client",
 }
 
-const MESSAGE = "All actions are disabled in demo mode.";
+const MESSAGE = `All actions are disabled in demo mode.`;
 
 export function checkDemoMode(
   sender: REQUEST_SENDER | null = REQUEST_SENDER.CLIENT,

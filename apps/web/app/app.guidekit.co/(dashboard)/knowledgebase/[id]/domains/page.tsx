@@ -22,7 +22,8 @@ export default async function KnowledgebaseSettingsDomains({
   const handleSubmitWithId = async (formData: FormData) => {
     "use server";
     formData.append("id", id);
-    await updateKnowledgebase(formData);
+    const response = await updateKnowledgebase(formData);
+    return response;
   };
 
   return (

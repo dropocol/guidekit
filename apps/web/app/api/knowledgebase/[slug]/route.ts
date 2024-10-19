@@ -57,12 +57,17 @@ export async function GET(
 // import { NextRequest, NextResponse } from "next/server";
 // import prisma from "@/lib/prisma";
 import { getSession } from "@/auth";
+import { checkDemoMode, REQUEST_SENDER } from "@/lib/serverUtils";
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
   console.log("Received DELETE request for knowledgebase:", params.slug);
+
+  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
+  if (demoResponse) return demoResponse;
+
   const session = await getSession();
   if (!session) {
     return new NextResponse("Unauthorized", { status: 401 });

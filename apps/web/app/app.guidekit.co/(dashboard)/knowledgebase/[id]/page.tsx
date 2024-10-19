@@ -14,7 +14,7 @@ import KnowledgebaseHeader from "@/components/KnowledgebaseHeader";
 import { RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { LoadingDots } from "@/ui/icons";
-import { time } from "console";
+import { error, time } from "console";
 
 export default function KnowledgebasePage({
   params,
@@ -70,11 +70,18 @@ export default function KnowledgebasePage({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to resync knowledgebase");
-      }
+        // throw new Error("Failed to resync knowledgebase");
+        const errorData = await response.json();
+        console.log(errorData);
+        const error = errorData.error || response.statusText;
 
-      await fetchKnowledgebase();
-      toast.success("Knowledgebase resynced successfully");
+        toast.error(
+          error || "An error occurred while resyncing the knowledgebase",
+        );
+      } else {
+        await fetchKnowledgebase();
+        toast.success("Knowledgebase resynced successfully");
+      }
     } catch (error) {
       console.error("Error resyncing knowledgebase:", error);
       toast.error("Failed to resync knowledgebase");

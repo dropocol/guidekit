@@ -3,13 +3,13 @@ import { hash } from "bcryptjs";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { sendVerificationEmail } from "@/lib/email";
-import { nanoid } from "nanoid";
-
-// import { hash } from "crypto";
-import { sql } from "@vercel/postgres";
+import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
 
 // /api/register
 export async function POST(request: Request) {
+  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
+  if (demoResponse) return demoResponse;
+
   try {
     const { email, password, name } = await request.json();
 

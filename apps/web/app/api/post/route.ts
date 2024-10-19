@@ -3,13 +3,15 @@ import prisma from "@/lib/prisma";
 import { NotionAPI } from "notion-client";
 import { ExtendedRecordMap, RecordMap } from "notion-types";
 import { saveToFile } from "@/lib/serverUtils";
+import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
 
 const notion = new NotionAPI();
 
 export async function POST(req: Request) {
-  const { id } = await req.json();
+  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
+  if (demoResponse) return demoResponse;
 
-  console.log("id", id);
+  const { id } = await req.json();
 
   try {
     const article = await prisma.article.findUnique({

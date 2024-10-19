@@ -16,16 +16,8 @@ export default function KnowledgebaseSettingsForm({
 
   const handleSubmit = async (formData: FormData) => {
     formData.append("id", initialData.id);
-    try {
-      const result = await updateKnowledgebase(formData);
-      if ("error" in result) {
-        toast.error(result.error);
-      } else {
-        toast.success("Knowledgebase updated successfully!");
-      }
-    } catch (error) {
-      toast.error("An error occurred while updating the knowledgebase");
-    }
+    const result = await updateKnowledgebase(formData);
+    return result;
   };
 
   return (

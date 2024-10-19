@@ -19,6 +19,12 @@ export default async function Articles({
   const topArticles = await prisma.articleAnalytics.findMany({
     where: {
       userId: session.user.id as string,
+      article: {
+        isNot: undefined,
+        knowledgebase: {
+          isNot: undefined,
+        },
+      },
     },
     orderBy: {
       totalVisits: "desc",
@@ -32,6 +38,11 @@ export default async function Articles({
       },
     },
   });
+
+  // Filter out any null articles (in case of inconsistencies)
+  const validTopArticles = topArticles.filter(
+    (analytics) => analytics.article !== null,
+  );
 
   const articles = topArticles.map((analytics) => analytics.article);
 

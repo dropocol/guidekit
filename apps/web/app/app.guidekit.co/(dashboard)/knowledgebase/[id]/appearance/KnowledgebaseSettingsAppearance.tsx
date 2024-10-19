@@ -23,17 +23,17 @@ export default function KnowledgebaseSettingsAppearance({
   const handleSubmitWithId = async (formData: FormData) => {
     formData.append("id", id);
     const result = await updateKnowledgebase(formData);
-
-    if (!("error" in result)) {
-      setData((prevData) => ({
-        ...prevData,
-        ...result,
-      }));
-      toast.success("Successfully updated!");
-      router.refresh();
-    } else {
-      toast.error(result.error);
-    }
+    return result;
+    // if (!("error" in result)) {
+    //   setData((prevData) => ({
+    //     ...prevData,
+    //     ...result,
+    //   }));
+    //   toast.success("Successfully updated!");
+    //   router.refresh();
+    // } else {
+    //   toast.error(result.error);
+    // }
   };
 
   const handleRemoveImage = async (type: "thumbnail" | "logo" | "favicon") => {
