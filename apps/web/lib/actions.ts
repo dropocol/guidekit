@@ -298,8 +298,7 @@ export async function updateKnowledgebase(formData: FormData) {
       };
     } else if (validDomainRegex.test(customDomain)) {
       updateData.customDomain = customDomain;
-      const res = await addDomainToVercel(customDomain);
-      console.log("res", res);
+      await addDomainToVercel(customDomain);
     } else if (customDomain === "") {
       updateData.customDomain = null;
     }

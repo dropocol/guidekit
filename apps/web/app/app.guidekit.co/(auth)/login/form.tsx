@@ -10,8 +10,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { authenticate } from "@/lib/actionsv2";
+import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
+  const { update } = useSession();
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -43,6 +45,7 @@ export default function LoginForm() {
       console.log("data", data);
 
       if (success) {
+        update();
         toast.success(message);
         // return;
         router.push("/");

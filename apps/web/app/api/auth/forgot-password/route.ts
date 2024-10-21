@@ -29,7 +29,10 @@ export async function POST(req: Request) {
 
     await sendPasswordResetEmail(email, token);
 
-    return NextResponse.json({ message: "Password reset email sent" });
+    return NextResponse.json(
+      { message: "Password reset email sent" },
+      { status: 200 },
+    );
   } catch (error) {
     console.error("Password reset error:", error);
     return NextResponse.json(
