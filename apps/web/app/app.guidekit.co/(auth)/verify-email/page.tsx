@@ -16,6 +16,8 @@ function VerifyEmailContent() {
   >("loading");
   const [errorMessage, setErrorMessage] = useState("");
   const { data: session, update, status } = useSession();
+  const [hasVerified, setHasVerified] = useState(false); // Track if verification has been attempted
+
   useEffect(() => {
     const verifyEmail = async () => {
       if (!token) {
@@ -56,10 +58,12 @@ function VerifyEmailContent() {
       }
     };
 
-    if (status !== "loading") {
+    if (status !== "loading" && !hasVerified) {
+      // Check if verification has already been attempted
       verifyEmail();
+      setHasVerified(true); // Mark verification as attempted
     }
-  }, [status, session, token, update]);
+  }, [status, session, token, update, hasVerified]); // Add hasVerified to dependencies
 
   const handleLoginClick = () => {
     router.push("/login");
@@ -72,9 +76,6 @@ function VerifyEmailContent() {
           <Logo className="h-10 w-10" />
         </a>
         <h3 className="text-xl font-semibold">Verify Your Email</h3>
-        {/* <p className="text-sm text-gray-500">
-          We&apos;re confirming your email address
-        </p> */}
       </div>
       <div className="flex flex-col space-y-3 bg-gray-50 px-4 py-8 sm:px-16">
         {verificationStatus === "loading" && (

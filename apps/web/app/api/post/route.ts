@@ -3,13 +3,13 @@ import prisma from "@/lib/prisma";
 import { NotionAPI } from "notion-client";
 import { ExtendedRecordMap, RecordMap } from "notion-types";
 import { saveToFile } from "@/lib/serverUtils";
-import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 
 const notion = new NotionAPI();
 
 export async function POST(req: Request) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
-  if (demoResponse) return demoResponse;
+  const demoResponse = checkDemoMode();
+  if (demoResponse) return NextResponse.json(demoResponse);
 
   const { id } = await req.json();
 

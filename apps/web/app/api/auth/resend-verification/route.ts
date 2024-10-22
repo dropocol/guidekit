@@ -3,11 +3,11 @@ import prisma from "@/lib/prisma";
 import { getSession } from "@/auth";
 import { sendVerificationEmail } from "@/lib/email";
 import { nanoid } from "nanoid";
-import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 
 export async function POST() {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
-  if (demoResponse) return demoResponse;
+  const demoResponse = checkDemoMode();
+  if (demoResponse) return NextResponse.json(demoResponse);
 
   const session = await getSession();
 

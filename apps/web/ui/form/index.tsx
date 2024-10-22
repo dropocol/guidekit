@@ -16,6 +16,7 @@ import Uploader from "./uploader";
 import DomainStatus from "./domain-status";
 import DomainConfiguration from "./domain-configuration";
 import va from "@vercel/analytics";
+import { checkDemoMode } from "@/lib/utils";
 
 interface ExtendedInputAttributes
   extends InputHTMLAttributes<HTMLInputElement> {
@@ -105,8 +106,14 @@ export default function Form({
 
     try {
       const res = await handleSubmit(formData, id, inputAttrs.name);
+      const demoCheck = checkDemoMode();
+
       if (res && "error" in res) {
-        toast.error(customErrorMessage || res.error);
+        if (demoCheck) {
+          toast.error(demoCheck.error);
+        } else {
+          toast.error(customErrorMessage || res.error);
+        }
       } else {
         if (id) {
           router.refresh();

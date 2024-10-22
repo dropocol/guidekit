@@ -5,13 +5,13 @@ import {
 } from "@/lib/domains";
 import { DomainVerificationStatusProps } from "@/lib/types";
 import { NextResponse } from "next/server";
-import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 export async function GET(
   _req: Request,
   { params }: { params: { slug: string } },
 ) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
-  if (demoResponse) return demoResponse;
+  // const demoResponse = checkDemoMode();
+  // if (demoResponse) return NextResponse.json(demoResponse);
 
   const domain = decodeURIComponent(params.slug);
   let status: DomainVerificationStatusProps = "Valid Configuration";

@@ -3,12 +3,12 @@ import { hash } from "bcryptjs";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { sendVerificationEmail } from "@/lib/email";
-import { REQUEST_SENDER, checkDemoMode } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 
 // /api/register
 export async function POST(request: Request) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
-  if (demoResponse) return demoResponse;
+  const demoResponse = checkDemoMode();
+  if (demoResponse) return NextResponse.json(demoResponse);
 
   try {
     const { email, password, name } = await request.json();

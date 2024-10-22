@@ -6,7 +6,6 @@ export async function GET(
   { params }: { params: { slug: string } },
 ) {
   const slug = params.slug;
-  console.log("slug", slug);
 
   try {
     const knowledgebase = await prisma.knowledgebase.findFirst({
@@ -57,16 +56,15 @@ export async function GET(
 // import { NextRequest, NextResponse } from "next/server";
 // import prisma from "@/lib/prisma";
 import { getSession } from "@/auth";
-import { checkDemoMode, REQUEST_SENDER } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
-  console.log("Received DELETE request for knowledgebase:", params.slug);
-
-  const demoResponse = checkDemoMode(REQUEST_SENDER.CLIENT);
-  if (demoResponse) return demoResponse;
+  const demoResponse = checkDemoMode();
+  if (demoResponse)
+    return NextResponse.json({ ...demoResponse }, { status: 403 });
 
   const session = await getSession();
   if (!session) {

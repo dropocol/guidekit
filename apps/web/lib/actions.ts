@@ -17,7 +17,7 @@ import { slugify } from "@/lib/utils"; // Add this import
 import { hash } from "bcryptjs"; // Import bcryptjs for hashing passwords
 import { signIn } from "next-auth/react";
 import { sendVerificationEmail } from "./email";
-import { checkDemoMode, REQUEST_SENDER } from "@/lib/serverUtils";
+import { checkDemoMode } from "@/lib/utils";
 
 const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -25,7 +25,7 @@ const nanoid = customAlphabet(
 ); // 7-character random string
 
 export async function editUser(formData: FormData) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  const demoResponse = checkDemoMode();
   if (demoResponse) return demoResponse;
 
   const session = await getSession();
@@ -151,7 +151,7 @@ export async function updateSite(
 }
 
 export async function createKnowledgebase(formData: FormData) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  const demoResponse = checkDemoMode();
   if (demoResponse) return demoResponse;
 
   const session = await getSession();
@@ -255,7 +255,7 @@ export async function createKnowledgebase(formData: FormData) {
 }
 
 export async function updateKnowledgebase(formData: FormData) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  const demoResponse = checkDemoMode();
   if (demoResponse) return demoResponse;
 
   const session = await getSession();
@@ -449,7 +449,7 @@ export async function removeKnowledgebaseImage(
   id: string,
   type: "thumbnail" | "logo" | "favicon",
 ) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  const demoResponse = checkDemoMode();
   if (demoResponse) return demoResponse;
 
   try {
@@ -493,7 +493,7 @@ export async function removeKnowledgebaseImage(
 }
 
 export async function updatePassword(formData: FormData) {
-  const demoResponse = checkDemoMode(REQUEST_SENDER.SERVER);
+  const demoResponse = checkDemoMode();
   if (demoResponse) return demoResponse;
 
   const session = await getSession();

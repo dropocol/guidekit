@@ -9,24 +9,18 @@ export async function saveToFile(filePath: string, data: any) {
   return;
 }
 
-export enum REQUEST_SENDER {
-  SERVER = "server",
-  CLIENT = "client",
-}
+// export enum REQUEST_SENDER {
+//   SERVER = "server",
+//   CLIENT = "client",
+// }
 
-const MESSAGE = `All actions are disabled in demo mode.`;
+// const MESSAGE = `All actions are disabled in demo mode.`;
 
-export function checkDemoMode(
-  sender: REQUEST_SENDER | null = REQUEST_SENDER.CLIENT,
-) {
-  if (process.env.DEMO_MODE === "true" && sender == REQUEST_SENDER.CLIENT) {
-    return NextResponse.json({ error: MESSAGE }, { status: 403 });
-  }
-
-  if (process.env.DEMO_MODE === "true" && sender == REQUEST_SENDER.SERVER) {
-    return {
-      error: MESSAGE,
-      status: 403,
-    };
-  }
-}
+// export function checkDemoMode() {
+//   if (process.env.DEMO_MODE === "true") {
+//     return {
+//       error: MESSAGE,
+//       status: 403,
+//     };
+//   }
+// }

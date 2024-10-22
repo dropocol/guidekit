@@ -217,3 +217,20 @@ export function nFormatter(
     ? (num / item.value).toFixed(opts.digits).replace(rx, "$1") + item.symbol
     : "0";
 }
+
+const MESSAGE = `All actions are disabled in demo mode.`;
+export function checkDemoMode() {
+  if (process.env.DEMO_MODE === "true") {
+    return {
+      error: MESSAGE,
+      status: 403,
+    };
+  }
+
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    return {
+      error: MESSAGE,
+      status: 403,
+    };
+  }
+}
