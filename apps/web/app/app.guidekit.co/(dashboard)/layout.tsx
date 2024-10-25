@@ -1,5 +1,6 @@
 import { ReactNode, Suspense } from "react";
 import Profile from "@/ui/account/profile";
+import EnvironmentBanner from "@/ui/env";
 import Nav from "@/ui/nav";
 import Loading from "@/ui/loading";
 import { getSession } from "@/auth";
@@ -27,9 +28,12 @@ export default async function DashboardLayout({
       </Nav>
 
       <div className="min-h-screen items-center sm:pl-60 dark:bg-black">
+        <EnvironmentBanner />
+
         {session?.user && !session.user.isEmailVerified && (
           <UnverifiedEmailBanner />
         )}
+
         {children}
       </div>
     </div>

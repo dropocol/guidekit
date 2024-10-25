@@ -49,8 +49,6 @@ export default async function Articles({
   return articles.length > 0 ? (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {articles.map((article) => {
-        console.log(article);
-        // return <ArticleCard key={article.id} data={article} />;
         return <ArticleCard key={article.id} data={{ ...article }} />;
       })}
     </div>

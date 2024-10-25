@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { NotionAPI } from "notion-client";
-import { ExtendedRecordMap, RecordMap } from "notion-types";
 import { saveToFile } from "@/lib/serverUtils";
-import { checkDemoMode } from "@/lib/utils";
 
 const notion = new NotionAPI();
 
 export async function POST(req: Request) {
-  const demoResponse = checkDemoMode();
-  if (demoResponse) return NextResponse.json(demoResponse);
-
   const { id } = await req.json();
 
   try {
@@ -56,20 +51,4 @@ export async function POST(req: Request) {
       { status: 500 },
     );
   }
-}
-
-function ensureConsistentStructure(
-  recordMap: ExtendedRecordMap,
-): ExtendedRecordMap {
-  // Ensure the order of top-level keys is consistent
-  const orderedRecordMap: ExtendedRecordMap = {
-    block: recordMap.block || {},
-    collection: recordMap.collection || {},
-    collection_view: recordMap.collection_view || {},
-    notion_user: recordMap.notion_user || {},
-    collection_query: recordMap.collection_query || {},
-    signed_urls: recordMap.signed_urls || {},
-  };
-
-  return orderedRecordMap;
 }

@@ -28,8 +28,10 @@ export async function authenticate(
   formData: Record<string, unknown>,
 ): Promise<string | undefined> {
   try {
-    await signIn("credentials", formData);
-    return stringifyJSON({ success: true, message: "Login Successful" });
+    const session = await signIn("credentials", formData);
+
+    // TODO :  Check the return type for correct message
+    return stringifyJSON({ success: true, message: "Login Successfull" });
     // console.log("session", session);
     // if (session) {
 

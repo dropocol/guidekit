@@ -88,9 +88,6 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log("\nSubCollection Name   :", subCollection.name);
-          console.log("Existing SubCollection :", existingSubCollection);
-
           const subCollectionData = {
             name: subCollection.name,
             slug: slugify(subCollection.name),
