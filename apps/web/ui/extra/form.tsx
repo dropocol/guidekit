@@ -1,5 +1,4 @@
 "use client";
-// echo 'Environment Variables:' && env | sort && echo 'Building...'
 import { useState } from "react";
 
 interface FormProps {

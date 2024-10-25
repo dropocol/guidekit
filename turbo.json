@@ -6,6 +6,7 @@
     "**/.env*"
   ],
   "globalEnv": [
+    "ENV_USER",
     "NEXT_PUBLIC_*",
     "POSTGRES_URL",
     "POSTGRES_PRISMA_URL",
@@ -58,6 +59,7 @@
         "apps/web/.next/**"
       ],
       "env": [
+        "ENV_USER",
         "NEXT_PUBLIC_*",
         "POSTGRES_URL",
         "POSTGRES_PRISMA_URL",
@@ -99,7 +101,7 @@
         "$TURBO_DEFAULT$"
       ]
     },
-    "prod:local": {},
+    "dev:prod:local": {},
     "clean": {
       "cache": false
     },

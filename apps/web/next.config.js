@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 
+const path = require("path");
+const { existsSync } = require("fs");
+const dotenv = require("dotenv");
+
+const envFile = process.env.APP_ENV ? `.env.${process.env.APP_ENV}` : ".env";
+const envPath = path.join(__dirname, "env", envFile);
+console.log(envPath);
+
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+} else {
+  console.error(`Env file not found: ${envPath}`);
+}
+
 module.exports = {
   // output: "export",
   // output: "standalone",

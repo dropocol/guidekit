@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "turbo dev",
-    "prod:local": "turbo run prod:local",
+    "dev:prod:local": "turbo run dev:prod:local",
     "build": "turbo build --summarize",
     "lint": "turbo lint",
     "type-check": "turbo type-check",

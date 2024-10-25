@@ -1,17 +1,17 @@
 {
   "private": true,
   "scripts": {
-    "start": "dotenv -e env/.env -- next start",
-    "dev": "pnpm run db:generate && dotenv -e env/.env.development -- next dev",
-    "dev:prod:local": "pnpm run db:generate && dotenv -e env/.env -- next dev",
-    "build": "prisma generate && dotenv -e env/.env -- next build",
+    "start": "pnpm run build && next start",
+    "dev": "pnpm run db:generate && APP_ENV=development next dev",
+    "dev:prod:local": "pnpm run db:generate && next dev",
+    "build": "prisma generate && next build",
     "db:generate": "npx prisma generate",
     "db:migrate:dev": "dotenv -e env/.env.development -- npx prisma migrate dev",
     "db:migrate:dev-deploy": "dotenv -e env/.env.development -- npx prisma migrate deploy",
     "db:migrate:deploy": "dotenv -e env/.env -- npx prisma migrate deploy",
-    "db:push": "dotenv -e env/.env.development -- npx prisma db push",
+    "db:push:dev": "dotenv -e env/.env.development -- npx prisma db push",
     "db:pull:dev": "dotenv -e env/.env.development -- npx prisma db pull",
-    "postbuild": "dotenv -e env/.env -- prisma migrate deploy && dotenv -e env/.env -- prisma db push",
+    "postbuild": "dotenv -e env/.env -- npx prisma migrate deploy && dotenv -e env/.env -- npx prisma db push",
     "lint": "next lint",
     "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\""
