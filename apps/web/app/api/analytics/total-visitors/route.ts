@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+const IS_MOCK = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+
 export async function GET(req: NextRequest) {
+  if (IS_MOCK) {
+    return NextResponse.json({
+      totalVisitors: Math.floor(Math.random() * 100000) + 1,
+    });
+  }
+
   try {
     const now = new Date();
     const currentYear = now.getFullYear();

@@ -9,6 +9,7 @@ export const metadata = constructMetadata({
 });
 
 export default function LoginPage() {
+  const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
   return (
     <div className="relative z-10 mt-[calc(10%)] h-fit w-full max-w-md overflow-hidden border-y border-gray-200 sm:rounded-2xl sm:border sm:shadow-xl">
       <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16">
@@ -34,6 +35,18 @@ export default function LoginPage() {
           }
         >
           <LoginForm />
+          {isDemoMode === true && (
+            <div className="mb-4 flex flex-col gap-2 rounded-md border border-gray-300 bg-white p-3 text-sm text-gray-600">
+              <span className="flex justify-between">
+                <span className="font-semibold">Email:</span>{" "}
+                <span>demo@guidekit.cc</span>
+              </span>
+              <span className="flex justify-between">
+                <span className="font-semibold">Password:</span>{" "}
+                <span>demo12345</span>
+              </span>
+            </div>
+          )}
         </Suspense>
       </div>
     </div>

@@ -6,12 +6,20 @@ const dotenv = require("dotenv");
 
 const envFile = process.env.APP_ENV ? `.env.${process.env.APP_ENV}` : ".env";
 const envPath = path.join(__dirname, "env", envFile);
-console.log(envPath);
+const defaultEnvPath = path.join(__dirname, "env", ".env");
+
+console.log("Checking for env file:", envPath);
 
 if (existsSync(envPath)) {
+  console.log("Loading env file:", envPath);
   dotenv.config({ path: envPath });
+} else if (existsSync(defaultEnvPath)) {
+  console.log("Loading default .env file:", defaultEnvPath);
+  dotenv.config({ path: defaultEnvPath });
 } else {
-  console.error(`Env file not found: ${envPath}`);
+  console.error(
+    `No env file found. Checked:\n- ${envPath}\n- ${defaultEnvPath}`,
+  );
 }
 
 module.exports = {

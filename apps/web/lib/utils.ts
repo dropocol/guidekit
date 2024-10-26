@@ -220,13 +220,6 @@ export function nFormatter(
 
 const MESSAGE = `All actions are disabled in demo mode.`;
 export function checkDemoMode() {
-  if (process.env.DEMO_MODE === "true") {
-    return {
-      error: MESSAGE,
-      status: 403,
-    };
-  }
-
   if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
     return {
       error: MESSAGE,

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/auth";
 
-const IS_MOCK = false; // Set this to false to use real data
+const IS_MOCK = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 interface DailyVisit {
   date: string;
@@ -58,7 +58,7 @@ function generateMockData(days: number): DailyVisit[] {
 
     mockData.push({
       date: date.toISOString().split("T")[0],
-      visits: Math.floor(Math.random() * 50000) + 1, // Random number between 1 and 100
+      visits: Math.floor(Math.random() * 5000) + 1, // Random number between 1 and 100
     });
   }
 
